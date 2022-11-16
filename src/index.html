@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en" class="min-h-full">
+
+<head>
+	<meta charset="UTF-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<!-- Favicon -->
+	<link rel="shortcut icon" href="../assets/img/logo_picspace_nuevo_icono_blanco_relleno.png" type="image/x-icon">
+	<!-- FontAwesome -->
+	<link rel="stylesheet" href="../assets/fontawesome/css/all.css">
+	<!-- TailwindCSS -->
+	<link rel="stylesheet" href="./output.css">
+	<!-- jQuery -->
+	<script src="./js/jquery-3.6.1.min.js"></script>
+	<script defer src="./js/landing.js"></script>
+	<title>picSpace</title>
+</head>
+
+<body class="min-h-screen overflow-hidden">
+	<div class="grid lg:grid-cols-2 auto-rows-min">
+		<!-- TODO Hacer el LOGO y ponerlo en la landing page y como favicon -->
+		<!-- Izquierda Logo/descripcion -->
+		<div class="grid auto-rows-min h-80 lg:h-full place-content-center ">
+			<img src="../assets/img/logo_picspace_nuevo.png" alt="picSpace logo" class="h-28 lg:h-36 rounded-lg shadow-gray-400 shadow-md">
+			<div class="text-center">
+				<p>descriptionplaceholder</p>
+			</div>
+		</div>
+		<!-- Fin Izquierda -->
+		<!-- Derecha Login/Registrarse -->
+		<!-- el auto-rows-min hace que las rows no se separen tanto -->
+		<div class="bg-indigo-800 h-screen text-white grid auto-rows-min bg-image-login-show justify-center lg:content-center">
+			<div class="justify-self-center mt-10 lg:mt-0">
+				<img src="../assets/img/logo_picspace_nuevo_icono_blanco_relleno.png" class="h-16 lg:h-20" alt="icono de picSpace">
+			</div>
+			<div class="mt-4 justify-self-center">
+				<label class="block" for="usuarioLogin">Usuario</label>
+				<input class="rounded-full text-black px-1 shadow-inner shadow-indigo-800 focus:outline-none focus:ring-2 focus:ring-indigo-500" type="text" id="usuarioLogin">
+			</div>
+			<div class="justify-self-center">
+				<label class="block" for="contrasenyaLogin">Contraseña</label>
+				<input class="rounded-full text-black px-1 shadow-inner shadow-indigo-800 focus:outline-none focus:ring-2 focus:ring-indigo-500" type="password" id="contrasenyaLogin">
+			</div>
+			<div class="grid grid-cols-2 mt-1 mb-20 text-gray-200">
+				<!-- TODO método para recuperar contraseña -->
+				<div class="text-xs mt-1 ml-1">
+					<p class=>restorePassword</p>
+				</div>
+				<div class="mt-2">
+					<button class="border w-full bg-indigo-700 hover:bg-indigo-400 rounded-full py-1 px-2"
+						id="botonLogin">Iniciar sesión</button>
+				</div>
+				<div class="col-span-2 mt-2">
+					<button class="border float-right w-1/2 bg-indigo-700 hover:bg-indigo-400 rounded-full py-1 px-2"
+						id="botonRegistrarLogin">Registrarse</button>
+				</div>
+			</div>		
+		</div>
+		<!-- Fin Derecha -->
+	</div>
+</body>
+
+</html>

@@ -1,0 +1,21 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* TAILWIND CLASE
+.nombre-clase{
+    @apply param1 param2 (!important¿?);
+}
+*/
+
+
+/* landing */
+/* lg */
+@media (min-width: 1024px) {
+    .bg-image-login-show {
+        background-image: url(../assets/img/polaroid_frame.png);
+        background-repeat: no-repeat;
+        background-position: center;
+        background-size: 800px;
+    }
+}
