@@ -1,17 +1,31 @@
 function comprobarUsuario() {
 	let user = $("#usuarioLogin").val().trim();
 	let passw = $("#contrasenyaLogin").val().trim();
-	// TODO usar notificación de alguna librería
 	if (user == "" || passw == ""){
-		alert("Usuario y/o contraseña no puede estar vacío");
+		iziToast.show({
+			title:"Error",
+			message: 'Usuario y/o contraseña están vacíos',
+			timeout: 5000,
+			color:'red',
+			icon:"fa-solid fa-xmark",
+			position:'topRight',
+		});
 		return;
 	} 
 
 	$.ajax({
-		url: "http://127.0.0.1/picSpace/src/server/usuario.php", async: true, type: "post", dataType: "json", data: {funcion:"login",usuario:user,contrasenya:passw},
+		url: "http://192.168.1.136/picSpace/src/server/usuario.php", async: true, type: "post", dataType: "json", data: {funcion:"login",usuario:user,contrasenya:passw},
 		success: function(result) {
 			// nos viene json con login igual a true o false.
-			if (result.login==false) /* controlamos poir libreria de notificaciones TODO */ alert("Usuario y/o contraseña incorrectos");
+			if (result.login==false) {
+				iziToast.show({
+					title:"Error",
+					message: 'Usuario y/o contraseña incorrectos',
+					timeout: 5000,
+					color:'red',
+					position:'topRight',
+				});	
+			}
 			if (result.login==true){
 				// TODO Produccion poner el replace para no voler hacia atras
 				window.location.assign("./home.html");
@@ -31,4 +45,7 @@ $("#contrasenyaLogin").on('keypress', function (event) {
 })
 $("#botonLogin").click(function () {
 	comprobarUsuario();
+})
+$("#botonRegistrarLogin").click(function () {
+	
 })

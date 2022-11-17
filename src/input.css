@@ -2,12 +2,18 @@
 @tailwind components;
 @tailwind utilities;
 
-/* TAILWIND CLASE
-.nombre-clase{
-    @apply param1 param2 (!important¿?);
-}
-*/
 
+/* general */
+
+.centrarHorizontal{
+    @apply mx-auto;
+}
+.inputText {
+    @apply border border-indigo-800 rounded-xl px-1 drop-shadow focus:outline-none focus:ring-2 focus:ring-indigo-500;
+}
+.cajaTags {
+    @apply border border-indigo-800 rounded-lg py-2 drop-shadow;
+}
 
 /* landing */
 /* lg */
@@ -19,3 +25,8 @@
         background-size: 800px;
     }
 }
+
+/* register */
+.registroCaja {
+	@apply text-center w-96 bg-white lg:border lg:border-indigo-800 lg:rounded-lg lg:shadow-lg lg:shadow-indigo-800/30 ;
+};
