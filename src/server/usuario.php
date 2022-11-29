@@ -24,6 +24,14 @@ switch ($funcion) {
 		$contrasenya = $_POST["contrasenya"];
 		echo login($usuario,$contrasenya);
 		break;
+	case 'obtenerIdUsuario':
+		$identificador = $_POST["identificador"];
+		echo obtenerIdUsuario($identificador);
+		break;
+	case 'obtenerInicio':
+		$identificador = $_POST['identificador'];
+		echo obtenerInicio($identificador);
+		break;
 	default:
 		break;
 };
@@ -56,6 +64,22 @@ function login($identificador, $contrasenya) {
 	return $result;
 
 };
+
+function obtenerIdUsuario($identificador) {
+	$objUsuario = new datUsuario();
+
+	$result = $objUsuario->obtenerIdUsuario($identificador);
+
+	return $result;
+}
+
+function obtenerInicio($identificador) {
+	$objUsuario = new datUsuario();
+
+	$result = $objUsuario->obtenerInicio($identificador);
+
+	return $result;
+}
 
 
 ?>

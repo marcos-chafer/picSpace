@@ -15,6 +15,7 @@ export class noti {
 			message: mensaje,
 			timeout: 5000,
 			position:'topRight',
+			// Indigo-800 de Tailwind
 			color: '#a5b4fc',
 			icon: 'fa-solid fa-info',
 		});

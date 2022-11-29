@@ -5,28 +5,48 @@
 	<meta charset="UTF-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<!-- Favicon -->
+	<link rel="shortcut icon" href="../assets/img/logo_picspace_nuevo_icono_blanco_relleno.png" type="image/x-icon">
 	<!-- FontAwesome -->
 	<link rel="stylesheet" href="../assets/fontawesome/css/all.css">
 	<!-- TailwindCSS -->
 	<link rel="stylesheet" href="./output.css">
+	<!-- izitoast -->
+	<link rel="stylesheet" href="./iziToast.min.css">
+	<script src="./js/iziToast.min.js"></script>		
 	<!-- jQuery -->
 	<script src="./js/jquery-3.6.1.min.js"></script>
 	<script defer src="./js/home.js"></script>
-	<title>picSpace</title>
+	<title>picSpace - Inicio</title>
 </head>
 
 <body class="">
 	<div class="grid lg:grid-cols-6">
 		<!-- Perfil y opciones -->
-		<div class="grid lg:col-span-1 text-center border-b border-black shadow-sm shadow-slate-800">
-			<img src="../assets/img/logo_picspace_nuevo_icono_blanco_relleno.png" class="h-14 place-self-center mt-2" alt="Logo picSpace">
-			<button>
-				<i class="fa-solid fa-arrow-down"></i>
-			</button>
+		<div id="menuOpcionesHome" class="grid lg:col-span-1 lg:h-screen border border-indigo-800">
+			<div>
+				<!-- TODO  Aqui ira la foto de perfil del usuario -->
+				<img src="../assets/img/logo_picspace_nuevo_icono_blanco_relleno.png" class="h-14 centrarHorizontal mt-2" alt="Logo picSpace">
+			</div>
+			<div id="opcionesHome" class="hidden lg:block lg:relative lg:row-span-6">
+				<a href="./home.html">
+					<button class="block centrarHorizontal">Inicio</button>
+				</a>
+				<a href="./albums.html">
+					<button class="block centrarHorizontal">Mis albums</button>
+				</a>
+				<button id="botonCerrarSesion" class="block centrarHorizontal lg:absolute lg:bottom-4 lg:right-20 lg:left-20">Cerrar sesión</button>
+			</div>
+			<div class="lg:hidden">
+				<button id="botonDesplegarMenu" class="block centrarHorizontal">
+					<i class="fa-solid fa-arrow-down"></i>
+				</button>
+			</div>
 		</div>
 		<!-- Fin Perfil y opciones -->
 		<!-- Inicio -->
 		<div id="inicioHome" class="grid lg:col-span-5">
+			
 		</div>
 		<!-- Fin Inicio -->
 	</div>

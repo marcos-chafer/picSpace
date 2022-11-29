@@ -75,8 +75,12 @@ function comprobarCampos(){
 			respuesta = result.exito;
 		}
 	});
-	if (respuesta==true) n.notiInfo("Usuario registrado");
-	// TODO Que hacer cuando nos registramos con éxito
+		// Que hacer cuando nos registramos con éxito
+	if (respuesta==true){
+		n.notiInfo("Usuario registrado");
+		localStorage.setItem('usuarioLogin', identificador);
+		window.location.replace('./home.html');
+	}
 
 }
 

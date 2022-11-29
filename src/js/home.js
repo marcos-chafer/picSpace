@@ -1,8 +1,54 @@
-function iniciarHome() {
-	$.ajax({
-		url: "http://127.0.0.1/picSpace/src/server/home.php", async: true, type: "post", dataType: "json", data: {funcion:"obtenerFeed"} , success: function (result) {postIniciarHome(result)}
-	})
+
+
+function abrirMenu(){
+	$("#opcionesHome").show();
+	$("#botonDesplegarMenu i").removeClass();
+	$("#botonDesplegarMenu i").addClass('fa-solid fa-arrow-up');
+	$("#botonDesplegarMenu").addClass('mb-2');
+	menuOpcionesHome = "abierto";
 }
+
+function cerrarSesion(){
+	localStorage.removeItem('usuarioLogin');
+	window.location.replace('./index.html');
+}
+
+function cerrarMenu(){
+	$("#opcionesHome").hide();
+	$("#botonDesplegarMenu i").removeClass();
+	$("#botonDesplegarMenu i").addClass('fa-solid fa-arrow-down');
+	$("#botonDesplegarMenu").removeClass('mb-2');
+	menuOpcionesHome = "cerrado";
+}
+
+
+function iniciarHome() {
+	// alert("usuarioLogin es: "+identificador);
+
+	// Declaracion de variables
+	this.menuOpcionesHome = "cerrado";
+
+	obtenerIdUsuario();
+	
+	// $.ajax({
+	// 	url: "http://192.168.1.136/picSpace/src/server/usuario.php", async: true, type: "post", dataType: "json",
+	// 	data: {funcion:"obtenerInicio", identificador:identificador},
+	// 	success: function (result) {postIniciarHome(result)}
+	// })
+}
+function obtenerIdUsuario(){
+	let identificador = localStorage.getItem('usuarioLogin');
+
+	$.ajax({
+		url: "http://192.168.1.136/picSpace/src/server/usuario.php", async: true, type: "post", dataType: "json",
+		data: {funcion:"obtenerIdUsuario", identificador:identificador},
+		success: function (result) {
+			localStorage.setItem('idUsuario',result[0].id);
+		}
+	})
+
+}
+
 function postIniciarHome(datos) {
 	console.log(datos)
 	for (let i = 0; i < datos.length; i++) {
@@ -49,5 +95,15 @@ function postIniciarHome(datos) {
 		
 	}
 }
+
+
+$("#botonDesplegarMenu").click(function(){
+	if (menuOpcionesHome=="cerrado") abrirMenu();
+	else cerrarMenu();
+});
+
+$("#botonCerrarSesion").click(function(){
+	cerrarSesion();
+});
 
 iniciarHome();

@@ -67,6 +67,42 @@ class datUsuario {
 		}
 	}
 
+	public function obtenerIdUsuario($identificador) {
+		// motamos la consulta
+		$inicio = "SELECT u.id FROM usuario AS u ";
+		$where = " WHERE u.identificador='".$identificador."'";
+		$sql = $inicio.$where;
+		// ejecutamos consulta
+		$result = $this->conn->query($sql);
+		// Preparamos array donde iran los resultados
+		$jsondata = array();
+		// Mientras haya resultados, montaremos una row por cada fila, y la transformaremos en un objeto
+		while($row = $result->fetch_object()){
+			// Añadimos el objeto row al array
+			array_push($jsondata,$row);
+		}
+		// Devolvemos el array codificado en json
+		return json_encode($jsondata);
+
+	}
+
+	public function obtenerInicio($identificador) {
+		// motamos la consulta
+		$inicio = "SELECT u.identificador, u.contrasenya FROM usuario AS u ";
+		$where = " WHERE identificador='".$identificador;
+		$sql = $inicio.$where;
+		// ejecutamos consulta
+		$result = $this->conn->query($sql);
+		// Si nos vienen resultados significa que coincide
+		if ($result->num_rows > 0) {
+			return json_encode(array("login"=>true));
+		}
+		// si no hay ningun resultado...
+		else {
+			return json_encode(array("login"=>false));
+		}
+	}
+
 
 
 }

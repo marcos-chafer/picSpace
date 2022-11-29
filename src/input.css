@@ -5,6 +5,10 @@
 
 /* general */
 
+/* clase que se usa para el registro e introducción de album e imagen */
+.registroCaja {
+	@apply text-center w-96 bg-white lg:border lg:border-indigo-800 lg:rounded-lg lg:shadow-lg lg:shadow-indigo-800/30 ;
+};
 .centrarHorizontal{
     @apply mx-auto;
 }
@@ -13,6 +17,10 @@
 }
 .cajaTags {
     @apply border border-indigo-800 rounded-lg py-2 drop-shadow;
+}
+
+.boton {
+    @apply bg-indigo-800  hover:bg-indigo-400 text-white font-semibold rounded-xl py-1 px-2;
 }
 
 /* landing */
@@ -27,6 +35,3 @@
 }
 
 /* register */
-.registroCaja {
-	@apply text-center w-96 bg-white lg:border lg:border-indigo-800 lg:rounded-lg lg:shadow-lg lg:shadow-indigo-800/30 ;
-};

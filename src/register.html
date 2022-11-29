@@ -10,7 +10,6 @@
 	<!-- FontAwesome -->
 	<link rel="stylesheet" href="../assets/fontawesome/css/all.css">
 	<!-- TailwindCSS -->
-	<link rel="stylesheet" href="./input.css">
 	<link rel="stylesheet" href="./output.css">
 	<!-- izitoast -->
 	<link rel="stylesheet" href="./iziToast.min.css">
@@ -39,7 +38,7 @@
 		<div class="mt-2">
 			<label class="block" for="identificadorUsuario">Identificador:</label>
 			<span class="text-indigo-800">@</span>
-			<input class="inputText mr-4" type="text" id="identificadorUsuario" />
+			<input class="inputText mr-4" title="Debe ser único" type="text" id="identificadorUsuario" />
 		</div>
 		<div class="mt-2">
 			<label class="block" for="contrasenyaUsuario">Contraseña:</label>
@@ -49,9 +48,12 @@
 			<label class="block" for="contrasenyasegundaUsuario">Repetir contraseña:</label>
 			<input class="inputText" type="password" id="contrasenyasegundaUsuario"/>
 		</div>
-		<div class="mt-2 mb-6">
+		<div class="mt-2">
 			<label class="block" for="emailUsuario">Correo electrónico:</label>
 			<input class="inputText" type="text" id="emailUsuario"/>
+		</div>
+		<div class="mt-2">
+			Tags
 		</div>
 		<div class="mt-2 mb-6 w-72 centrarHorizontal cajaTags grid grid-cols-2">
 			<div>

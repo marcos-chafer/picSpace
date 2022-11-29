@@ -1,3 +1,8 @@
+function comprobarLogin(){
+	//SI hay cookie de usuario redirigimos a su inicio
+	if(localStorage.getItem('usuarioLogin')) window.location.replace("./home.html");
+}
+
 function comprobarUsuario() {
 	let user = $("#usuarioLogin").val().trim();
 	let passw = $("#contrasenyaLogin").val().trim();
@@ -27,8 +32,8 @@ function comprobarUsuario() {
 				});	
 			}
 			if (result.login==true){
-				// TODO Produccion poner el replace para no voler hacia atras
-				window.location.assign("./home.html");
+				localStorage.setItem('usuarioLogin',user);
+				window.location.replace("./home.html");
 			};
 		}
 	});
@@ -47,5 +52,8 @@ $("#botonLogin").click(function () {
 	comprobarUsuario();
 })
 $("#botonRegistrarLogin").click(function () {
-	
+	window.location.assign("./register.html");
 })
+
+comprobarLogin();
+
