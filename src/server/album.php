@@ -15,8 +15,10 @@ switch ($funcion) {
 		echo guardarAlbum($nombre,$idusuario);
 		break;
 	case 'eliminarAlbum':
+		$idusuario = $_POST["idusuario"];
 		$idalbum = $_POST["idalbum"];
-		echo eliminarAlbum($idalbum);
+		$nombrealbum = $_POST["nombrealbum"];
+		echo eliminarAlbum($idusuario,$idalbum,$nombrealbum);
 		break;
 	case 'modificarAlbum':
 		$idalbum = $_POST["idalbum"];
@@ -47,12 +49,12 @@ function guardarAlbum($nombre,$idusuario){
 	return $result;
 }
 
-function eliminarAlbum($idalbum){
+function eliminarAlbum($idusuario,$idalbum,$nombrealbum){
 // Elimina un album de BBDD
 
 	$objAlbum = new datAlbum();
 	
-	$result = $objAlbum->eliminarAlbum($idalbum);
+	$result = $objAlbum->eliminarAlbum($idusuario,$idalbum,$nombrealbum);
 
 	return $result;
 }

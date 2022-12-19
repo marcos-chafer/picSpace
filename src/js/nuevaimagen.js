@@ -3,6 +3,7 @@ let n = new noti();
 
 var idusuario = localStorage.getItem('idUsuario');
 var idalbum = sessionStorage.getItem('idAlbum');
+var nombrealbum = sessionStorage.getItem('nombreAlbum');
 var menuOpcionesHome = "cerrado";
 
 function abrirMenu(){
@@ -13,15 +14,18 @@ function abrirMenu(){
 	menuOpcionesHome = "abierto";
 }
 
-function crearAlbum(){
+function crearImagen(){
+
 	let titulo = $("#tituloImagen").val();
 	let descripcion = $("#descripcionImagen").val();
+	// Cogemos el archivo del input
+	let archivo = $("#archivoImagen").prop('files')[0];
 
 	if (titulo==""){
 		n.notiError("Titulo vacío");
 		return;
 	}
-	else if (titulo.length>100){
+	else if (titulo.length>50){
 		n.notiError("Titulo demasiado largo");
 		$("#tituloUsuario").val("");
 		return;
@@ -31,15 +35,34 @@ function crearAlbum(){
 		$("#descripcionUsuario").val("");
 		return;
 	}
+	else if (archivo==undefined){
+		n.notiError("Imagen no seleccionada");
+		return;
+	}
+
+	//Creamos un objeto FormData donde irán los datos del archivo
+	let formData = new FormData();
+	formData.append('file', archivo);
+	formData.append('filename', titulo);
+	formData.append('descripcion', descripcion);
+	formData.append('idUsuario', idusuario);
+	formData.append('idAlbum', idalbum);
+	formData.append('nombreAlbum', nombrealbum);
+	
 
 	$.ajax({
-		url: "http://192.168.1.136/picSpace/src/server/imagen.php", async: false, type: "post", dataType: "json",
-		data: {funcion:"guardarImagen",idalbum:idalbum,idusuario:idusuario,titulo:titulo,descripcion:descripcion},
+		url: "http://192.168.1.136/picSpace/src/server/imagen.php",
+		async: false,
+		type: "post",
+		data: formData,
+		contentType: false,
+		processData: false,
+		dataType: "text",
+		data: formData,
 		success: function(result) {
-			// nos viene json con exito = true si se hizo correctamente
-			let respuesta = result.exito;
-			// Cuando nos viene exito a true
-			if (respuesta==true) window.location.replace('./album.html');
+			let data = JSON.parse(result);
+			// Si la imagen se guarda correctamente, toca registrarla en BBDD y moverla a la carpeta correcta
+			if (data.exito == true) window.location.replace('./album.html');
 		}
 	});
 }
@@ -67,5 +90,5 @@ $("#botonCerrarSesion").click(function(){
 });
 
 $("#botonContinuar").click(function(){
-	crearAlbum();
+	crearImagen();
 })

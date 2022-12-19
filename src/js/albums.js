@@ -1,3 +1,6 @@
+import { noti } from "./noti.js";
+let n = new noti();
+
 function abrirMenu(){
 	$("#opcionesHome").show();
 	$("#botonDesplegarMenu i").removeClass();
@@ -19,14 +22,30 @@ function cerrarMenu(){
 	menuOpcionesHome = "cerrado";
 }
 
-function crearAlbum(){
+albums.crearAlbum = function(){
 	window.location.assign("./nuevoalbum.html");
 }
 
 function iniciarAlbum() {
 	// Declaracion de variables
 	let identificador = localStorage.getItem('usuarioLogin');
-	let menuOpcionesHome = "cerrado";
+	albums.menuOpcionesHome = "cerrado";
+
+	// Controlamos notis
+	let noti = sessionStorage.getItem('noti');
+	switch (noti) {
+		case "eliminarAlbum":
+			n.notiInfo("Álbum eliminado con éxito");
+			break;
+		case "guardarAlbum":
+			n.notiInfo("Álbum creado con éxito");
+			break;
+		default:
+			break;
+	}
+	//Limpiamos noti una vez controlada
+	sessionStorage.removeItem('noti');
+
 
 
 	$.ajax({
@@ -43,7 +62,7 @@ function iniciarAlbum() {
 				// creamos los elementos
 				let album = document.createElement("div");
 				// album.setAttribute('id',id);
-				album.setAttribute('onClick','irAAlbum('+id+',"'+nombre+'")');
+				album.setAttribute('onClick','albums.irAAlbum('+id+',"'+nombre+'")');
 				album.style = "cursor: pointer;";
 				album.classList = "bg-indigo-300 rounded-md lg:h-48 flex justify-center hover:bg-indigo-500";
 
@@ -64,7 +83,7 @@ function iniciarAlbum() {
 
 		let botonMas = document.createElement("button");
 		botonMas.setAttribute('id','botonMas');
-		botonMas.setAttribute('onClick','crearAlbum();');
+		botonMas.setAttribute('onClick','albums.crearAlbum();');
 		botonMas.style = "cursor: pointer;";
 		botonMas.classList = "bg-indigo-300 rounded-full p-5 w-fit centrarHorizontal mt-16 hover:bg-indigo-500";
 
@@ -82,7 +101,7 @@ function iniciarAlbum() {
 	})
 }
 
-function irAAlbum(idalbum,nombrealbum) {
+albums.irAAlbum = function(idalbum,nombrealbum) {
 	
 	//asignamos cookie para saber adonde vamos y usaremos el nombre posteriormente
 	sessionStorage.setItem('idAlbum',idalbum);

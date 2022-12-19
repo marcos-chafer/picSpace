@@ -36,10 +36,13 @@ class datImagen {
 
 	}
 
-	public function guardarImagen($titulo,$descripcion,$idalbum,$idusuario,$fecha){
+	public function guardarImagenBBDD($idusuario,$idalbum,$nombrealbum,$titulo,$ruta,$descripcion,$fecha){
+
+		$ruta = "/picspace/media/".$idusuario."/".$nombrealbum."/".$titulo;
+
 		// montamos la consulta
-		$inicio = "INSERT INTO imagen (`id_album`,`id_usuario`, `titulo`, `fecha`,`descripcion`) ";
-		$values = " VALUES ('".$idalbum."','".$idusuario."','".$titulo."','".$fecha."','".$descripcion."') ";
+		$inicio = "INSERT INTO imagen (`id_album`,`id_usuario`, `titulo`, `fecha`,`descripcion`,`ruta`) ";
+		$values = " VALUES ('".$idalbum."','".$idusuario."','".$titulo."','".$fecha."','".$descripcion."','".$ruta."') ";
 		$sql = $inicio.$values;
 
 		// ejecutamos consulta

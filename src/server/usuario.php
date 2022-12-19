@@ -49,8 +49,15 @@ function guardarUsuario($nombre,$identificador,$contrasenya,$email){
 // Registra usuario en BBDD usando los params
 // TODO securizar más esto
 	$objUsuario = new datUsuario();
-	
+	// Guardamos el usuario en BBDD
 	$result = $objUsuario->guardarUsuario($nombre,$identificador,$contrasenya,$email);
+	// Obtenemos la id del usuario recién creado para crear sus carpetas
+	$idusuario = $objUsuario->obtenerIdUsuario($identificador);
+	$objIdusuario = json_decode($idusuario);
+	$idusuario = $objIdusuario[0]->id;
+	
+	// Creamos estructura de carpetas del usuario
+	mkdir('/XAMPP/htdocs/picspace/media/'.$idusuario."/",0777,true);
 
 	return $result;
 }
@@ -80,6 +87,6 @@ function obtenerInicio($identificador) {
 
 	return $result;
 }
-
+// TODO eliminar usuario (eliminando estructura de archivos)
 
 ?>

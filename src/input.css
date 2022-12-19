@@ -18,9 +18,12 @@
 .cajaTags {
     @apply border border-indigo-800 rounded-lg py-2 drop-shadow;
 }
-
 .boton {
     @apply bg-indigo-800  hover:bg-indigo-400 text-white font-semibold rounded-xl py-1 px-2;
+}
+
+.menuOpciones {
+	@apply grid lg:col-span-1 lg:h-screen border border-indigo-800 border-t-0;
 }
 
 /* landing */
@@ -34,4 +37,8 @@
     }
 }
 
-/* register */
+/* home */
+
+.botonOpciones {
+    @apply block mt-2 mx-14 hover:bg-indigo-400 hover:rounded-full;
+}

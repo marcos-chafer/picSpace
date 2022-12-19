@@ -32,7 +32,10 @@ function crearAlbum(){
 			// nos viene json con exito = true si se hizo correctamente
 			let respuesta = result.exito;
 			// Cuando nos viene exito a true
-			if (respuesta==true) window.location.replace('./albums.html');
+			if (respuesta==true){
+				sessionStorage.setItem('noti','guardarAlbum');
+				window.location.replace('./albums.html');
+			}
 		}
 	});
 }

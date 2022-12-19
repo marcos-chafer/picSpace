@@ -42,6 +42,7 @@ class datUsuario {
 		$result = $this->conn->query($sql);
 		// Si el resultado es true está bien
 		if ($result == TRUE) {
+
 			return json_encode(array('exito'=>true));
 		}
 		// si no hay ningun resultado

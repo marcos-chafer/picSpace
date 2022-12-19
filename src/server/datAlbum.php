@@ -25,7 +25,10 @@ class datAlbum {
 		$result = $this->conn->query($sql);
 		// Si el resultado es true está bien
 		if ($result == TRUE) {
-			return json_encode(array('exito'=>true));
+			// Creamos la carpeta del álbum con el nombre
+			mkdir('/XAMPP/htdocs/picspace/media/'.$idusuario.'/'.$nombre,0777,true);
+
+			return json_encode(array('exito'=>true,'noti'=>'guardarAlbum'));
 		}
 		// si no hay ningun resultado
 		else {
@@ -34,7 +37,7 @@ class datAlbum {
 	}
 
 
-	public function eliminarAlbum($idalbum){
+	public function eliminarAlbum($idusuario,$idalbum,$nombrealbum){
 		// motamos la consulta
 		$inicio = "DELETE FROM album  ";
 		$where = " WHERE id = '".$idalbum."'";
@@ -44,6 +47,15 @@ class datAlbum {
 		$result = $this->conn->query($sql);
 		// Si el resultado es true está bien
 		if ($result == TRUE) {
+			$ruta = "/XAMPP/htdocs/picspace/media/".$idusuario."/".$nombrealbum;
+			// Cogemos todos los archivos de la ruta
+			$archivos = glob($ruta . '/*');
+			foreach ($archivos as $archivo) {
+				if(is_file($archivo)){
+					unlink($archivo);
+				}
+			}
+			rmdir($ruta);
 			return json_encode(array('exito'=>true));
 		}
 		// si no hay ningun resultado
@@ -84,7 +96,7 @@ class datAlbum {
 	
 	public function obtenerAlbums($identificador){
 		// motamos la consulta
-		$inicio = "SELECT a.id, a.id_usuario, a.nombre, a.fecha, a.tags FROM album AS a JOIN usuario AS u  ";
+		$inicio = "SELECT a.id, a.id_usuario, a.nombre, a.fecha, a.tags FROM album AS a LEFT JOIN usuario AS u ON a.id_usuario = u.id ";
 		$where = " WHERE u.identificador = '".$identificador."'";
 		$sql = $inicio.$where;
 

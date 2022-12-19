@@ -13,17 +13,18 @@
 	<link rel="stylesheet" href="./output.css">
 	<!-- izitoast -->
 	<link rel="stylesheet" href="./iziToast.min.css">
-	<script src="./js/iziToast.min.js"></script>		
+	<script src="./js/iziToast.min.js"></script>
+	<script type="module" src="./js/noti.js"></script>	
 	<!-- jQuery -->
 	<script src="./js/jquery-3.6.1.min.js"></script>
-	<script defer src="./js/album.js"></script>
+	<script defer type="module" src="./js/album.js"></script>
 	<title>picSpace - Album</title>
 </head>
 
 <body class="overflow-x-hidden">
 	<div class="grid lg:grid-cols-6">
 		<!-- Perfil y opciones -->
-		<div id="menuOpcionesHome" class="grid lg:col-span-1 lg:h-screen border border-indigo-800">
+		<div id="menuOpcionesHome" class="grid lg:col-span-1 lg:h-screen border border-x-indigo-800">
 			<div class="grid grid-cols-3 lg:grid-cols-1">
 				<a href="./albums.html" class="p-3 rounded-full mt-4 ml-2 lg:hidden h-fit w-fit hover:bg-indigo-400">
 					<i class="fa fa-arrow-left fa-2xl"></i>
@@ -34,14 +35,16 @@
 					<i class="fa fa-gear fa-2xl"></i>
 				</a>
 			</div>
-			<div id="opcionesHome" class="hidden lg:block lg:relative lg:row-span-6">
-				<a href="./home.html">
-					<button class="block centrarHorizontal">Inicio</button>
+			<div id="opcionesHome" class="hidden lg:block lg:relative lg:row-span-6 text-center">
+				<a href="./home.html" class="botonOpciones">
+					<i class="fa-solid fa-house"></i>
+					<button class="">Inicio</button>
 				</a>
-				<a href="./albums.html">
-					<button class="block centrarHorizontal">Mis albums</button>
+				<a href="./albums.html" class="botonOpciones">
+					<i class="fa-solid fa-book"></i>
+					<button>Mis albums</button>
 				</a>
-				<button id="botonCerrarSesion" class="block centrarHorizontal lg:absolute lg:bottom-4 lg:right-20 lg:left-20">Cerrar sesión</button>
+				<button id="botonCerrarSesion" class="boton block centrarHorizontal lg:absolute lg:bottom-4 lg:right-20 lg:left-20">Cerrar sesión</button>
 			</div>
 			<div class="lg:hidden">
 				<button id="botonDesplegarMenu" class="block centrarHorizontal">

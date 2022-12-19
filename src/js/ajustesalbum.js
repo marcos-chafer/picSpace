@@ -48,10 +48,12 @@ function comprobarEliminacionAlbum(){
 function eliminarAlbum(){
 
 	let idalbum = sessionStorage.getItem('idAlbum');
+	let nombrealbum = sessionStorage.getItem('nombreAlbum');
+	
 
 	$.ajax({
 		url: "http://192.168.1.136/picSpace/src/server/album.php", async: false, type: "post", dataType: "json",
-		data: {funcion:"eliminarAlbum",idalbum:idalbum},
+		data: {funcion:"eliminarAlbum",idusuario:idusuario,idalbum:idalbum,nombrealbum:nombrealbum},
 		success: function(result) {
 			// nos viene json con exito = true si se hizo correctamente
 			let respuesta = result.exito;
@@ -60,6 +62,8 @@ function eliminarAlbum(){
 				// limpiamos items de session
 				sessionStorage.removeItem('idAlbum');
 				sessionStorage.removeItem('nombreAlbum');
+				// Añadimos noti de eliminarAlbum
+				sessionStorage.setItem('noti','eliminarAlbum');
 				// Nos vamos a albums
 				window.location.replace("./albums.html");
 			};

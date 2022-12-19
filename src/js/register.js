@@ -9,6 +9,9 @@ function comprobarCampos(){
 	let contrasenyasegunda = $("#contrasenyasegundaUsuario").val().trim()
 	let email = $("#emailUsuario").val()
 
+	// Inicializamos la expresión regular para comprobar si el email es válido
+	let verificaremail = /[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?/;
+
 	// Comprobamos todos los campos si vienen vacíos o son demasiado largos
 	if (nombre==""){
 		n.notiError("Nombre vacío");
@@ -63,8 +66,10 @@ function comprobarCampos(){
 		n.notiError("Email no puede estar vacío");
 		return;
 	}
-	// TODO validar email
-
+	else if (!verificaremail.test(email)){
+		n.notiError("Email incorrecto");
+		return;
+	}
 	// Si todo va bien, registramos el usuario en BD
 
 	$.ajax({
