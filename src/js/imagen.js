@@ -27,10 +27,7 @@ function crearImagen() {
 	window.location.assign("./nuevaimagen.html");
 }
 
-function iniciarAlbum() {
-
-
-	// Guardamos nombre en session para usarlo en ajustes
+function iniciarImagen() {
 
 	// Declaracion de variables
 	let idalbum = sessionStorage.getItem('idAlbum');
@@ -58,9 +55,6 @@ function iniciarAlbum() {
 				imagen.setAttribute('id', id);
 				imagen.style = "cursor: pointer;";
 				imagen.classList = "grid text-center bg-indigo-300 rounded-md lg:h-48 flex justify-center hover:bg-indigo-500";
-				// añadimos el title para ser usado posteriormente
-				imagen.title = titulo;
-				imagen.addEventListener('click',irAImagen);
 
 				let imagenTitulo = document.createElement("div");
 				imagenTitulo.textContent = titulo;
@@ -102,20 +96,6 @@ function iniciarAlbum() {
 	})
 }
 
-function irAImagen(event) {
-
-	// Cogemos el id y el nombre de la imagen
-	let idimagen = (event.currentTarget.id);
-	let nombreimagen = (event.currentTarget.title);
-
-	//asignamos cookie para saber adonde vamos y usaremos el nombre posteriormente
-	sessionStorage.setItem('idImagen',idimagen);
-	sessionStorage.setItem('nombreImagen',nombreimagen);
-	window.location.assign("./imagen.html");
-	
-};
-
-// ASIGNACIÓN DE EVENTOS
 $("#botonDesplegarMenu").click(function () {
 	if (menuOpcionesHome == 'cerrado') abrirMenu();
 	else cerrarMenu();
@@ -126,4 +106,4 @@ $("#botonCerrarSesion").click(function () {
 });
 
 
-iniciarAlbum();
+iniciarImagen();

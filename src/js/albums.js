@@ -22,7 +22,7 @@ function cerrarMenu(){
 	menuOpcionesHome = "cerrado";
 }
 
-albums.crearAlbum = function(){
+function crearAlbum(){
 	window.location.assign("./nuevoalbum.html");
 }
 
@@ -61,8 +61,9 @@ function iniciarAlbum() {
 				
 				// creamos los elementos
 				let album = document.createElement("div");
-				// album.setAttribute('id',id);
-				album.setAttribute('onClick','albums.irAAlbum('+id+',"'+nombre+'")');
+				album.setAttribute('id',id);
+				album.setAttribute('nombre',nombre);
+				album.addEventListener('click',irAAlbum);
 				album.style = "cursor: pointer;";
 				album.classList = "bg-indigo-300 rounded-md lg:h-48 flex justify-center hover:bg-indigo-500";
 
@@ -83,7 +84,7 @@ function iniciarAlbum() {
 
 		let botonMas = document.createElement("button");
 		botonMas.setAttribute('id','botonMas');
-		botonMas.setAttribute('onClick','albums.crearAlbum();');
+		botonMas.addEventListener('click',crearAlbum);
 		botonMas.style = "cursor: pointer;";
 		botonMas.classList = "bg-indigo-300 rounded-full p-5 w-fit centrarHorizontal mt-16 hover:bg-indigo-500";
 
@@ -101,8 +102,12 @@ function iniciarAlbum() {
 	})
 }
 
-albums.irAAlbum = function(idalbum,nombrealbum) {
-	
+function irAAlbum(event) {
+
+	// Cogemos el id y el nombre del album
+	let idalbum = (event.currentTarget.id);
+	let nombrealbum = (event.currentTarget.attributes.nombre.value);
+
 	//asignamos cookie para saber adonde vamos y usaremos el nombre posteriormente
 	sessionStorage.setItem('idAlbum',idalbum);
 	sessionStorage.setItem('nombreAlbum',nombrealbum);

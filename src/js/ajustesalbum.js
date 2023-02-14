@@ -4,7 +4,7 @@ let n = new noti();
 var idusuario = localStorage.getItem('idUsuario');
 var menuOpcionesHome = "cerrado";
 
-function abrirMenu(){
+function abrirMenu() {
 	$("#opcionesHome").show();
 	$("#botonDesplegarMenu i").removeClass();
 	$("#botonDesplegarMenu i").addClass('fa-solid fa-arrow-up');
@@ -13,12 +13,12 @@ function abrirMenu(){
 }
 
 
-function cerrarSesion(){
+function cerrarSesion() {
 	localStorage.removeItem('usuarioLogin');
 	window.location.replace('./index.html');
 }
 
-function cerrarMenu(){
+function cerrarMenu() {
 	$("#opcionesHome").hide();
 	$("#botonDesplegarMenu i").removeClass();
 	$("#botonDesplegarMenu i").addClass('fa-solid fa-arrow-down');
@@ -26,44 +26,72 @@ function cerrarMenu(){
 	menuOpcionesHome = "cerrado";
 }
 
-function comprobarEliminacionAlbum(){
+function comprobarEliminacionAlbum() {
 
-	// Usamos una notificación custom sin usar noti ya que necesitamos que utilice funciones de esta página
-	iziToast.show({
-		title: "¿Está seguro de que desea eliminar el álbum?",
-		timeout: 5000,
-		position:'topCenter',
-		icon: 'fa-solid fa-info',
-		color: 'red',
-		buttons: [
-			['<button>Eliminar</button>', function () {
-				eliminarAlbum();
-			}], 
-		],
-	});
+	// Comprobamos si el álbum está vacío
+	var idalbum = sessionStorage.getItem('idAlbum')
 
+	$.ajax({
+		url: "http://192.168.1.136/picSpace/src/server/imagen.php", async: false, type: "post", dataType: "json",
+		data: { funcion: "obtenerImagenes", idalbum: idalbum },
+		success: function (result) {
+			// Si el álbum no contiene imagenes, mostramos un mensaje
+			if (result.length == 0) {
+				// Usamos una notificación custom sin usar noti ya que necesitamos que utilice funciones de esta página
+				iziToast.show({
+					title: "¿Está seguro de que desea eliminar el álbum?",
+					timeout: 5000,
+					position: 'topCenter',
+					icon: 'fa-solid fa-info',
+					color: 'red',
+					buttons: [
+						['<button>Eliminar</button>', function () {
+							eliminarAlbum();
+						}],
+					],
+				});
+			}
+			// Si nos llega con imágenes
+			else{
+				// Usamos una notificación custom sin usar noti ya que necesitamos que utilice funciones de esta página
+				iziToast.show({
+					title: "El álbum contiene imágenes",
+					message:'¿Está seguro de que desea eliminar el álbum?',
+					timeout: 5000,
+					position: 'topCenter',
+					icon: 'fa-solid fa-warning',
+					color: 'red',
+					buttons: [
+						['<button>Eliminar</button>', function () {
+							eliminarAlbum();
+						}],
+					],
+				});
+			}
+		}
+	})
 
 }
 
-function eliminarAlbum(){
+function eliminarAlbum() {
 
 	let idalbum = sessionStorage.getItem('idAlbum');
 	let nombrealbum = sessionStorage.getItem('nombreAlbum');
-	
+
 
 	$.ajax({
 		url: "http://192.168.1.136/picSpace/src/server/album.php", async: false, type: "post", dataType: "json",
-		data: {funcion:"eliminarAlbum",idusuario:idusuario,idalbum:idalbum,nombrealbum:nombrealbum},
-		success: function(result) {
+		data: { funcion: "eliminarAlbum", idusuario: idusuario, idalbum: idalbum, nombrealbum: nombrealbum },
+		success: function (result) {
 			// nos viene json con exito = true si se hizo correctamente
 			let respuesta = result.exito;
 			// Cuando nos viene exito a true
-			if (respuesta==true) {
+			if (respuesta == true) {
 				// limpiamos items de session
 				sessionStorage.removeItem('idAlbum');
 				sessionStorage.removeItem('nombreAlbum');
 				// Añadimos noti de eliminarAlbum
-				sessionStorage.setItem('noti','eliminarAlbum');
+				sessionStorage.setItem('noti', 'eliminarAlbum');
 				// Nos vamos a albums
 				window.location.replace("./albums.html");
 			};
@@ -75,28 +103,26 @@ function eliminarAlbum(){
 
 function iniciarAjustes() {
 
-
 	$("#nombreAlbum").val(sessionStorage.getItem('nombreAlbum'));
-
 }
 
-function irAAlbum(idalbum,nombrealbum) {
-	
+function irAAlbum(idalbum, nombrealbum) {
+
 	//asignamos cookie para saber adonde vamos y usaremos el nombre posteriormente
-	sessionStorage.setItem('idAlbum',idalbum);
-	sessionStorage.setItem('nombreAlbum',nombrealbum);
+	sessionStorage.setItem('idAlbum', idalbum);
+	sessionStorage.setItem('nombreAlbum', nombrealbum);
 	window.location.assign("./album.html");
-	
+
 };
 
-function modificarAlbum(){
+function modificarAlbum() {
 	var nombre = $("#nombreAlbum").val();
 
-	if (nombre==""){
+	if (nombre == "") {
 		n.notiError("Nombre vacío");
 		return;
 	}
-	else if (nombre.length>100){
+	else if (nombre.length > 100) {
 		n.notiError("Nombre demasiado largo");
 		$("#nombreUsuario").val("");
 		return;
@@ -105,32 +131,32 @@ function modificarAlbum(){
 	let idalbum = sessionStorage.getItem('idAlbum');
 	$.ajax({
 		url: "http://192.168.1.136/picSpace/src/server/album.php", async: false, type: "post", dataType: "json",
-		data: {funcion:"modificarAlbum",idalbum:idalbum,nombre:nombre},
-		success: function(result) {
+		data: { funcion: "modificarAlbum", idalbum: idalbum, nombre: nombre },
+		success: function (result) {
 			// nos viene json con exito = true si se hizo correctamente
 			let respuesta = result.exito;
 			// Cuando nos viene exito a true
-			if (respuesta==true) irAAlbum(idalbum,nombre);
+			if (respuesta == true) irAAlbum(idalbum, nombre);
 		}
 	});
 }
 
 
 
-$("#botonDesplegarMenu").click(function(){
-	if (menuOpcionesHome=='cerrado') abrirMenu();
+$("#botonDesplegarMenu").click(function () {
+	if (menuOpcionesHome == 'cerrado') abrirMenu();
 	else cerrarMenu();
 });
 
-$("#botonCerrarSesion").click(function(){
+$("#botonCerrarSesion").click(function () {
 	cerrarSesion();
 });
 
-$("#botonCambiar").click(function(){
+$("#botonCambiar").click(function () {
 	modificarAlbum();
 })
 
-$("#botonEliminar").click(function(){
+$("#botonEliminar").click(function () {
 	comprobarEliminacionAlbum();
 })
 
