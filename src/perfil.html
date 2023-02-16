@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta charset="UTF-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<!-- Favicon -->
+	<link rel="shortcut icon" href="../assets/img/logo_picspace_nuevo_icono_blanco_relleno.png" type="image/x-icon">
+	<!-- FontAwesome -->
+	<link rel="stylesheet" href="../assets/fontawesome/css/all.css">
+	<!-- TailwindCSS -->
+	<link rel="stylesheet" href="./output.css">
+	<!-- izitoast -->
+	<link rel="stylesheet" href="./iziToast.min.css">
+	<script src="./js/iziToast.min.js"></script>
+	<script type="module" src="./js/noti.js"></script>	
+	<!-- jQuery -->
+	<script src="./js/jquery-3.6.1.min.js"></script>
+	<script defer type="module" src="./js/perfil.js"></script>
+	<title>picSpace - Perfil</title>
+</head>
+
+<body class="overflow-x-hidden">
+	<div class="grid lg:grid-cols-6">
+		<!-- Perfil y opciones -->
+		<div id="menuOpcionesHome" class="grid lg:col-span-1 lg:h-screen border border-indigo-800">
+			<div class="grid grid-cols-3 lg:grid-cols-1">
+				<a href="./album.html" class="p-3 rounded-full mt-4 ml-2 lg:hidden h-fit w-fit hover:bg-indigo-800">
+					<i class="fa fa-arrow-left fa-2xl"></i>
+				</a>
+				<!-- TODO  Aqui ira la foto de perfil del usuario -->
+				<img src="../assets/img/logo_picspace_nuevo_icono_blanco_relleno.png" class="h-14 mt-2 centrarHorizontal" alt="Logo picSpace">
+			</div>
+			<div id="opcionesHome" class="hidden lg:block lg:relative lg:row-span-6 text-center">
+				<a href="./home.html" class="botonOpciones">
+					<i class="fa-solid fa-house"></i>
+					<button class="">Inicio</button>
+				</a>
+				<a href="./albums.html" class="botonOpciones">
+					<i class="fa-solid fa-book"></i>
+					<button>Mis albums</button>
+				</a>
+				<button id="botonCerrarSesion" class="boton block centrarHorizontal lg:absolute lg:bottom-4 lg:right-20 lg:left-20">Cerrar sesión</button>
+			</div>
+			<div class="lg:hidden">
+				<button id="botonDesplegarMenu" class="block centrarHorizontal">
+					<i class="fa-solid fa-arrow-down"></i>
+				</button>
+			</div>
+		</div>
+		<!-- Fin Perfil y opciones -->
+		<!-- Perfil de usuario -->
+		<div  class="mt-2 lg:col-span-5">
+			<h1 id="usuarioNombre" class="text-center font-bold text-3xl"></h1>
+			<div class="grid lg:grid-cols-4 lg:h-32 items-center text-center">
+				<div id="usuarioImagen" class="col-start-2">
+					Aqui ira la imagen del usuario
+				</div>
+				<div id="usuarioDatos">
+					<span id="usuarioDatosNombre"></span>
+					<span id="usuarioDatosIdentificador"></span>
+				</div>
+			</div>
+			<div class="flex justify-evenly">
+				<span id="usuarioSiguiendo">siguiendo</span>
+				<span id="usuarioSeguidores">seguidores</span>
+				<button id="usuarioAjustes">Ajustes
+					<i class="fa-solid fa-gear"></i>
+				</button>
+			</div>
+			<div id="usuarioAlbums" class="ml-10 mt-20">
+				<h1 class="text-center font-bold text-2xl mb-5">Albums:</h1>
+
+			</div>
+	
+		</div>
+		<!-- Fin Perfil de usuario -->
+	</div>
+</body>
+
+</html>

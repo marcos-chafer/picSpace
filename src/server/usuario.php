@@ -32,6 +32,10 @@ switch ($funcion) {
 		$identificador = $_POST['identificador'];
 		echo obtenerInicio($identificador);
 		break;
+	case 'obtenerUsuario':
+		$idusuario = $_POST['idusuario'];
+		echo obtenerUsuario($idusuario);
+		break;
 	default:
 		break;
 };
@@ -84,6 +88,14 @@ function obtenerInicio($identificador) {
 	$objUsuario = new datUsuario();
 
 	$result = $objUsuario->obtenerInicio($identificador);
+
+	return $result;
+}
+
+function obtenerUsuario($idusuario) {
+	$objUsuario = new datUsuario();
+
+	$result = $objUsuario->obtenerUsuario($idusuario);
 
 	return $result;
 }
