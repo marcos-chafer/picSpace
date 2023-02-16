@@ -10,6 +10,13 @@ else $funcion = "guardarImagenServidor";
 
 switch ($funcion) {
 
+
+	case 'comentarImagen':
+		$idimagen = $_POST['idimagen'];
+		$idusuario = $_POST['idusuario'];
+		$comentarioTexto = $_POST['comentarioTexto'];
+		echo comentarImagen($idimagen,$idusuario,$comentarioTexto);
+		break;
 	case 'guardarImagenServidor':
 		// Cogemos el nombre del archivo
 		$nombrearchivo = $_FILES['file']['full_path'];
@@ -36,6 +43,10 @@ switch ($funcion) {
 
 		}
 		break;
+	case 'obtenerComentarios':
+		$idimagen = $_POST["idimagen"];
+		echo obtenerComentarios($idimagen);
+		break;
 	case 'obtenerImagen':
 		$idimagen = $_POST["idimagen"];
 		echo obtenerImagen($idimagen);
@@ -53,6 +64,17 @@ switch ($funcion) {
 		break;
 };
 
+function comentarImagen($idimagen,$idusuario,$comentarioTexto){
+// Registra comentario en BBDD usando los params
+
+	$fecha = date("Y-m-d");
+	$objImagen = new datImagen();
+	
+	$result = $objImagen->comentarImagen($idimagen,$idusuario,$comentarioTexto,$fecha);
+
+	return $result;
+}
+
 function guardarImagenBBDD($idusuario,$idalbum,$nombrealbum,$titulo,$ruta,$descripcion,){
 // Registra imagen en BBDD usando los params
 // TODO securizar más esto
@@ -61,6 +83,16 @@ function guardarImagenBBDD($idusuario,$idalbum,$nombrealbum,$titulo,$ruta,$descr
 	$objImagen = new datImagen();
 	
 	$result = $objImagen->guardarImagenBBDD($idusuario,$idalbum,$nombrealbum,$titulo,$ruta,$descripcion,$fecha);
+
+	return $result;
+}
+
+function obtenerComentarios($idimagen){
+// Funcion que obtiene los comentarios de una imagen
+	// Instanciamos objeto de imagen
+	$objImagen = new datImagen();
+	// Llamamos al método del objeto imagen y guardamos lo que devuelva en una variable
+	$result = $objImagen->obtenerComentarios($idimagen);
 
 	return $result;
 }

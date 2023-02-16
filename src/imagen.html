@@ -40,7 +40,7 @@
 					<i class="fa-solid fa-house"></i>
 					<button class="">Inicio</button>
 				</a>
-				<a href="./albums.html" class="botonOpciones">
+				<a href="./album.html" class="botonOpciones">
 					<i class="fa-solid fa-book"></i>
 					<button>Mis albums</button>
 				</a>
@@ -61,11 +61,11 @@
 			<div id="imagenRuta" class="flex justify-center" style="height: 600px; margin-left: 20px; margin-right: 20px;">
 			</div>
 			<div id="imagenDatos" class="flex justify-around mt-5">
-				<div id="imagenDescripcion">
+				<div id="imagenDescripcion" class="flex justify-center">
 					<span id="iamgenAutor"></span>
 
 				</div>
-				<div id="imagenPuntuacion">
+				<div id="imagenPuntuacion" class="flex justify-center">
 					<button id="imagenPuntuar">
 						<i class="fa fa-heart fa-2xl"></i>
 					</button>
@@ -85,8 +85,17 @@
 			<a href="./ajustesimagen.html" class="p-3 rounded-full mt-4 ml-2 hidden lg:block h-fit w-fit centrarHorizontal hover:bg-indigo-400">
 				<i class="fa fa-gear fa-2xl"></i>
 			</a>
+			<div id="imagenComentarios">
+				<h1 class="font-semibold">Comentarios</h1>
+				<div id="imagenComentariosCaja" class="cajaTags mx-5">
+				</div>
+				<input type="text" id="imagenComentarioTexto" class="inputText mt-2" placeholder="Escribe tu comentario..." />
+				<button id="imagenComentariosEnviar">
+					<i class="fa fa-paper-plane fa-lg text-indigo-700"></i>
+				</button>
+			</div>
 		</div>
-		
+		<!-- Fin Columna info album -->
 	</div>
 </body>
 
