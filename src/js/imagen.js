@@ -23,77 +23,75 @@ function cerrarMenu() {
 	menuOpcionesHome = "cerrado";
 }
 
-function crearImagen() {
-	window.location.assign("./nuevaimagen.html");
-}
-
 function iniciarImagen() {
 
 	// Declaracion de variables
-	let idalbum = sessionStorage.getItem('idAlbum');
-	let nombrealbum = sessionStorage.getItem('nombreAlbum');
+	var idimagen = sessionStorage.getItem('idImagen');
+	var nombreimagen = sessionStorage.getItem('nombreImagen');
+	var idalbum = sessionStorage.getItem('idAlbum');
+	var nombrealbum = sessionStorage.getItem('nombreAlbum');
+	$("#nombreImagen").html(nombreimagen);
 	$("#nombreAlbum").html(nombrealbum);
 	menuOpcionesHome = "cerrado";
 
+	$.ajax({
+		url: "http://192.168.1.136/picSpace/src/server/imagen.php", async: false, type: "post", dataType: "json",
+		data: { funcion: "obtenerImagen", idimagen: idimagen },
+		// Cuando lleguen los datos...
+		success: function (result) {
+
+			let imagen = result[0];
+			// Nos quedamos solo con el nombre y no con la extensión
+			imagen.titulo = imagen.titulo.split(".")[0];
+
+			console.log(imagen);
+			$("#nombreImagen").html(imagen.titulo);
+
+			// Añadiendo imagen
+			let imagenRuta = document.createElement('img');
+			imagenRuta.setAttribute('src', imagen.ruta);
+			imagenRuta.style.height = "100%";
+			// imagenRuta.style.width = "100%";
+
+			$("#imagenRuta").append(imagenRuta);
+
+			// Añadiendo descripcion
+			$("#imagenDescripcion").html(imagen.descripcion);
+
+			// Añadiendo puntuación
+			$("#imagenPuntos").html(imagen.puntos);
+
+		}
+	})
+}
+
+function puntuarImagen() {
+// Funcion que decide si subir un punto o quitarselo a una imagen
+
+	var idimagen = sessionStorage.getItem('idImagen');
+	var idusuario = localStorage.getItem('idUsuario');
 
 	$.ajax({
 		url: "http://192.168.1.136/picSpace/src/server/imagen.php", async: false, type: "post", dataType: "json",
-		data: { funcion: "obtenerImagenes", idalbum: idalbum },
+		data: { funcion: "puntuarImagen", idimagen: idimagen, idusuario: idusuario },
 		// Cuando lleguen los datos...
 		success: function (result) {
-			for (let i = 0; i < result.length; i++) {
-				// asignamos variables con los datos
-				let id = result[i].id;
-				let titulo = result[i].titulo;
-				// Nos quedamos solo con el nombre y no con la extensión
-				titulo = titulo.split(".")[0];
-				let fecha = result[i].fecha;
-				let ruta = result[i].ruta;
 
-				// creamos los elementos
-				let imagen = document.createElement("div");
-				imagen.setAttribute('id', id);
-				imagen.style = "cursor: pointer;";
-				imagen.classList = "grid text-center bg-indigo-300 rounded-md lg:h-48 flex justify-center hover:bg-indigo-500";
-
-				let imagenTitulo = document.createElement("div");
-				imagenTitulo.textContent = titulo;
-
-				let imagenImagen = document.createElement('div');
-				imagenImagen.classList = "h-32";
-
-				let imagenRuta = document.createElement('img')
-				imagenRuta.setAttribute('src', ruta)
-
-				imagenImagen.append(imagenRuta);
-
-				// añadimos elementos al div de imagenes
-				imagen.append(imagenTitulo);
-				imagen.append(imagenImagen);
-				$("#imagenes").append(imagen);
+			// si no viene vacío, significa que el usuario ya ha puntuado esta imagen
+			if (result.length != 0){
+				n.notiInfo('Usted ya ha puntuado la imagen');
+				return;
 			}
-			// Cuando se hayan recorrido todos los imagenes...
-			let colMas = document.createElement("div");
-			colMas.classList = "lg:h-48";
+			else{	// En cambio, si viene vacío, cambiamos estilo del corazón
+				$("#imagenPuntuar").css("color","red");
+				let puntos = parseInt($("#imagenPuntos").html());
+				$("#imagenPuntos").html(puntos+1);
 
-			let botonMas = document.createElement("button");
-			botonMas.setAttribute('id', 'botonMas');
-			botonMas.addEventListener('click',crearImagen);
-			botonMas.style = "cursor: pointer;";
-			botonMas.classList = "bg-indigo-300 rounded-full p-5 w-fit centrarHorizontal mt-16 hover:bg-indigo-500";
+			}
 
-
-
-			let i = document.createElement('i');
-			i.classList = "fa-solid fa-plus fa-2xl";
-
-			// añadimos elementos despues de los albumes
-			botonMas.append(i);
-			colMas.append(botonMas);
-
-			$("#imagenes").append(colMas);
 		}
 	})
+
 }
 
 $("#botonDesplegarMenu").click(function () {
@@ -105,5 +103,12 @@ $("#botonCerrarSesion").click(function () {
 	cerrarSesion();
 });
 
+$("#imagenRuta").dblclick(function () {
+	puntuarImagen();
+})
+
+$("#imagenPuntuar").click(function () {
+	puntuarImagen();
+})
 
 iniciarImagen();

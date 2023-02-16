@@ -9,10 +9,7 @@ if (isset($_POST["funcion"])) $funcion = $_POST["funcion"];
 else $funcion = "guardarImagenServidor";
 
 switch ($funcion) {
-	case 'obtenerImagenes':
-		$idalbum = $_POST["idalbum"];
-		echo obtenerImagenes($idalbum);
-		break;
+
 	case 'guardarImagenServidor':
 		// Cogemos el nombre del archivo
 		$nombrearchivo = $_FILES['file']['full_path'];
@@ -39,9 +36,44 @@ switch ($funcion) {
 
 		}
 		break;
+	case 'obtenerImagen':
+		$idimagen = $_POST["idimagen"];
+		echo obtenerImagen($idimagen);
+		break;
+	case 'obtenerImagenes':
+		$idalbum = $_POST["idalbum"];
+		echo obtenerImagenes($idalbum);
+		break;
+	case 'puntuarImagen':
+		$idimagen = $_POST['idimagen'];
+		$idusuario = $_POST['idusuario'];
+		echo puntuarImagen($idimagen,$idusuario);
+		break;
 	default:
 		break;
 };
+
+function guardarImagenBBDD($idusuario,$idalbum,$nombrealbum,$titulo,$ruta,$descripcion,){
+// Registra imagen en BBDD usando los params
+// TODO securizar más esto
+
+	$fecha = date("Y-m-d");
+	$objImagen = new datImagen();
+	
+	$result = $objImagen->guardarImagenBBDD($idusuario,$idalbum,$nombrealbum,$titulo,$ruta,$descripcion,$fecha);
+
+	return $result;
+}
+
+function obtenerImagen($idimagen){
+// Funcion que obtiene la información de una imagen
+	// Instanciamos objeto de imagen
+	$objImagen = new datImagen();
+	// Llamamos al método del objeto imagen y guardamos lo que devuelva en una variable
+	$result = $objImagen->obtenerImagen($idimagen);
+
+	return $result;
+}
 
 function obtenerImagenes($idalbum){
 // Funcion que obtiene todas las imagenes asignadas a un album
@@ -52,14 +84,11 @@ function obtenerImagenes($idalbum){
 	return $result;
 }
 
-function guardarImagenBBDD($idusuario,$idalbum,$nombrealbum,$titulo,$ruta,$descripcion,){
-// Registra imagen en BBDD usando los params
-// TODO securizar más esto
-
-	$fecha = date("Y-m-d");
+function puntuarImagen($idimagen,$idusuario){
+// Funcion que decide si puntuar o quitar el punto a una imagen
 	$objImagen = new datImagen();
-	
-	$result = $objImagen->guardarImagenBBDD($idusuario,$idalbum,$nombrealbum,$titulo,$ruta,$descripcion,$fecha);
+
+	$result = $objImagen->puntuarImagen($idimagen,$idusuario);
 
 	return $result;
 }
