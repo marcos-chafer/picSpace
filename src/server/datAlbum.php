@@ -64,14 +64,6 @@ class datAlbum {
 		}
 	}
 
-
-
-
-
-
-
-
-
 	public function modificarAlbum($idalbum,$nombre){
 		// motamos la consulta
 		$inicio = "UPDATE album  ";

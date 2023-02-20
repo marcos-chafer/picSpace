@@ -17,6 +17,13 @@ switch ($funcion) {
 		$comentarioTexto = $_POST['comentarioTexto'];
 		echo comentarImagen($idimagen,$idusuario,$comentarioTexto);
 		break;
+	case 'eliminarImagen':
+		$idusuario = $_POST["idusuario"];
+		$idimagen = $_POST["idimagen"];
+		$nombreimagen = $_POST["nombreimagen"];
+		$nombrealbum = $_POST["nombrealbum"];
+		echo eliminarImagen($idusuario,$idimagen,$nombreimagen,$nombrealbum);
+		break;
 	case 'guardarImagenServidor':
 		// Cogemos el nombre del archivo
 		$nombrearchivo = $_FILES['file']['full_path'];
@@ -42,6 +49,12 @@ switch ($funcion) {
 		else{
 
 		}
+		break;
+	case 'modificarImagen':
+		$idimagen = $_POST["idimagen"];
+		$nombre = $_POST["nombre"];
+		$descripcion = $_POST["descripcion"];
+		echo modificarImagen($idimagen,$nombre,$descripcion);
 		break;
 	case 'obtenerComentarios':
 		$idimagen = $_POST["idimagen"];
@@ -75,6 +88,16 @@ function comentarImagen($idimagen,$idusuario,$comentarioTexto){
 	return $result;
 }
 
+function eliminarImagen($idusuario,$idimagen,$nombreimagen,$nombrealbum){
+// Elimina una imagen de BBDD
+
+	$objImagen = new datImagen();
+	
+	$result = $objImagen->eliminarImagen($idusuario,$idimagen,$nombreimagen,$nombrealbum);
+
+	return $result;
+}
+
 function guardarImagenBBDD($idusuario,$idalbum,$nombrealbum,$titulo,$ruta,$descripcion,){
 // Registra imagen en BBDD usando los params
 // TODO securizar más esto
@@ -83,6 +106,17 @@ function guardarImagenBBDD($idusuario,$idalbum,$nombrealbum,$titulo,$ruta,$descr
 	$objImagen = new datImagen();
 	
 	$result = $objImagen->guardarImagenBBDD($idusuario,$idalbum,$nombrealbum,$titulo,$ruta,$descripcion,$fecha);
+
+	return $result;
+}
+
+function modificarImagen($idimagen,$nombre,$descripcion){
+// Modifica datos de una imagen de BBDD utilizando los params
+// TODO securizar más esto
+
+	$objImagen = new datImagen();
+	
+	$result = $objImagen->modificarImagen($idimagen,$nombre,$descripcion);
 
 	return $result;
 }

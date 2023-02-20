@@ -183,6 +183,12 @@ $("#botonCerrarSesion").click(function () {
 	cerrarSesion();
 });
 
+$("#botonAjustesImagen").click(function () {
+	sessionStorage.setItem('nombreImagen',$("#nombreImagen").html());
+	sessionStorage.setItem('descripcionImagen',$("#imagenDescripcion").html());
+	window.location.assign('./ajustesimagen.html');
+});
+
 $("#imagenRuta").dblclick(function () {
 	puntuarImagen();
 })

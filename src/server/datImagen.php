@@ -30,14 +30,63 @@ class datImagen {
 		}
 	}
 
+	public function eliminarImagen($idusuario,$idimagen,$nombreimagen,$nombrealbum){
+		// montamos la consulta
+		$inicio = "DELETE FROM imagen  ";
+		$where = " WHERE id = '".$idimagen."'";
+		$sql = $inicio.$where;
+
+		// ejecutamos consulta
+		$result = $this->conn->query($sql);
+		// Si el resultado es true está bien
+		if ($result == TRUE) {
+			$ruta = "/XAMPP/htdocs/picspace/media/".$idusuario."/".$nombrealbum;
+			// Cogemos todos los archivos de la ruta
+			$archivos = glob($ruta . '/*');
+			$arrayprueba = array ();
+			foreach ($archivos as $archivo) {
+				if (explode(".",basename($archivo))[0] == $nombreimagen){
+					unlink($archivo);
+				}
+			}
+			return json_encode(array('exito'=>true));
+		}
+		// si no hay ningun resultado
+		else {
+			return json_encode(array('exito'=>false));
+		}
+	}
+
 	public function guardarImagenBBDD($idusuario,$idalbum,$nombrealbum,$titulo,$ruta,$descripcion,$fecha){
 
 		$ruta = "/picspace/media/".$idusuario."/".$nombrealbum."/".$titulo;
 
+		// No queremos guardar la extensión de la imagen, así que la descartamos
+		$titulo = explode(".",$titulo);
+
 		// montamos la consulta
 		$inicio = "INSERT INTO imagen (`id_album`,`id_usuario`, `titulo`, `fecha`,`descripcion`,`ruta`) ";
-		$values = " VALUES ('".$idalbum."','".$idusuario."','".$titulo."','".$fecha."','".$descripcion."','".$ruta."') ";
+		$values = " VALUES ('".$idalbum."','".$idusuario."','".$titulo[0]."','".$fecha."','".$descripcion."','".$ruta."') ";
 		$sql = $inicio.$values;
+
+		// ejecutamos consulta
+		$result = $this->conn->query($sql);
+		// Si el resultado es true está bien
+		if ($result == TRUE) {
+			return json_encode(array('exito'=>true));
+		}
+		// si no hay ningun resultado
+		else {
+			return json_encode(array('exito'=>false));
+		}
+	}
+
+	public function modificarImagen($idimagen,$nombre,$descripcion){
+		// montamos la consulta
+		$inicio = "UPDATE imagen  ";
+		$values = " SET `titulo` = '".$nombre."', descripcion = '".$descripcion."' ";
+		$where = " WHERE `id` = '".$idimagen."' ";
+		$sql = $inicio.$values.$where;
 
 		// ejecutamos consulta
 		$result = $this->conn->query($sql);

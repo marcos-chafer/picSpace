@@ -30,7 +30,17 @@ function crearImagen() {
 function iniciarAlbum() {
 
 
-	// Guardamos nombre en session para usarlo en ajustes
+	// Controlamos notis
+	let noti = sessionStorage.getItem('noti');
+	switch (noti) {
+		case "eliminarImagen":
+			n.notiInfo("Imagen eliminada con éxito");
+			break;
+		default:
+			break;
+	}
+	//Limpiamos noti una vez controlada
+	sessionStorage.removeItem('noti');
 
 	// Declaracion de variables
 	let idalbum = sessionStorage.getItem('idAlbum');
