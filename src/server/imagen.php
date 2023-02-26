@@ -17,6 +17,11 @@ switch ($funcion) {
 		$comentarioTexto = $_POST['comentarioTexto'];
 		echo comentarImagen($idimagen,$idusuario,$comentarioTexto);
 		break;
+	case 'comprobarPunto':
+		$idimagen = $_POST['idimagen'];
+		$idusuario = $_POST['idusuario'];
+		echo comprobarPunto($idimagen,$idusuario);
+		break;
 	case 'eliminarImagen':
 		$idusuario = $_POST["idusuario"];
 		$idimagen = $_POST["idimagen"];
@@ -71,7 +76,8 @@ switch ($funcion) {
 	case 'puntuarImagen':
 		$idimagen = $_POST['idimagen'];
 		$idusuario = $_POST['idusuario'];
-		echo puntuarImagen($idimagen,$idusuario);
+		$punto = $_POST['punto'];
+		echo puntuarImagen($idimagen,$idusuario,$punto);
 		break;
 	default:
 		break;
@@ -84,6 +90,16 @@ function comentarImagen($idimagen,$idusuario,$comentarioTexto){
 	$objImagen = new datImagen();
 	
 	$result = $objImagen->comentarImagen($idimagen,$idusuario,$comentarioTexto,$fecha);
+
+	return $result;
+}
+
+function comprobarPunto($idimagen,$idusuario){
+// Comprueba si el usuario ha puntuado la imagen
+
+	$objImagen = new datImagen();
+	
+	$result = $objImagen->comprobarPunto($idimagen,$idusuario);
 
 	return $result;
 }
@@ -150,11 +166,11 @@ function obtenerImagenes($idalbum){
 	return $result;
 }
 
-function puntuarImagen($idimagen,$idusuario){
+function puntuarImagen($idimagen,$idusuario,$punto){
 // Funcion que decide si puntuar o quitar el punto a una imagen
 	$objImagen = new datImagen();
 
-	$result = $objImagen->puntuarImagen($idimagen,$idusuario);
+	$result = $objImagen->puntuarImagen($idimagen,$idusuario,$punto);
 
 	return $result;
 }

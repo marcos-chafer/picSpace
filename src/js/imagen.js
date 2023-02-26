@@ -58,6 +58,29 @@ function comentarImagen() {
 
 }
 
+function comprobarPunto(){
+// Comprueba si el usuario ya ha puntuado la imagen
+
+	var idimagen = sessionStorage.getItem('idImagen');
+	var idusuario = localStorage.getItem('idUsuario');
+
+
+	$.ajax({
+		url: "http://192.168.1.136/picSpace/src/server/imagen.php", async: false, type: "post", dataType: "json",
+		data: { funcion: "comprobarPunto", idimagen: idimagen, idusuario: idusuario },
+		// Cuando lleguen los datos...
+		success: function (result) {
+
+			if (result.punto){
+				$("#imagenPuntuar").css("color", "red");
+			}
+
+		}
+	})	
+
+
+}
+
 function iniciarImagen() {
 
 	// Declaracion de variables
@@ -83,6 +106,9 @@ function iniciarImagen() {
 
 	// Limpiamos input de comentario
 	$("#imagenComentarioTexto").val("");
+
+	// Comprobamos si debemos colorear el corazón
+	comprobarPunto();
 
 
 
@@ -151,27 +177,29 @@ function puntuarImagen() {
 	var idimagen = sessionStorage.getItem('idImagen');
 	var idusuario = localStorage.getItem('idUsuario');
 
-	$.ajax({
-		url: "http://192.168.1.136/picSpace/src/server/imagen.php", async: false, type: "post", dataType: "json",
-		data: { funcion: "puntuarImagen", idimagen: idimagen, idusuario: idusuario },
-		// Cuando lleguen los datos...
-		success: function (result) {
+	// Si hay voto del usuario, hay que quitar el punto
+	if ($("#imagenPuntuar").css('color') == 'rgb(255, 0, 0)'){
 
-			// si no viene vacío, significa que el usuario ya ha puntuado esta imagen
-			if (result.length != 0) {
-				n.notiInfo('Usted ya ha puntuado la imagen');
-				return;
+		$.ajax({
+			url: "http://192.168.1.136/picSpace/src/server/imagen.php", async: false, type: "post", dataType: "json",
+			data: { funcion: "puntuarImagen", idimagen: idimagen, idusuario: idusuario, punto:"quitar" },
+			// Cuando lleguen los datos...
+			success: function (result) {
+				window.location.reload();
 			}
-			else {	// En cambio, si viene vacío, cambiamos estilo del corazón
-				$("#imagenPuntuar").css("color", "red");
-				let puntos = parseInt($("#imagenPuntos").html());
-				$("#imagenPuntos").html(puntos + 1);
+		})
+	}
+	else{
 
+		$.ajax({
+			url: "http://192.168.1.136/picSpace/src/server/imagen.php", async: false, type: "post", dataType: "json",
+			data: { funcion: "puntuarImagen", idimagen: idimagen, idusuario: idusuario, punto:"poner" },
+			// Cuando lleguen los datos...
+			success: function (result) {
+				window.location.reload();
 			}
-
-		}
-	})
-
+		})
+	}
 }
 
 $("#botonDesplegarMenu").click(function () {

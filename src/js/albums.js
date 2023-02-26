@@ -58,6 +58,7 @@ function iniciarAlbum() {
 				let id = result[i].id;
 				let nombre = result[i].nombre;
 				let fecha = result[i].fecha;
+				let ruta = result[i].ruta;
 				
 				// creamos los elementos
 				let album = document.createElement("div");
@@ -65,13 +66,19 @@ function iniciarAlbum() {
 				album.setAttribute('nombre',nombre);
 				album.addEventListener('click',irAAlbum);
 				album.style = "cursor: pointer;";
-				album.classList = "bg-indigo-300 rounded-md lg:h-48 flex justify-center hover:bg-indigo-500";
+				album.classList = "bg-indigo-300 rounded-md lg:h-48 hover:bg-indigo-500 text-center";
 
 				let albumTitulo = document.createElement("div");
 				albumTitulo.textContent = nombre;
 
 				let albumImagen = document.createElement('div');
 				albumImagen.classList = "h-32";
+
+				let albumRuta = document.createElement('img');
+				albumRuta.setAttribute('src',ruta)
+				console.log(result);
+				
+				albumImagen.append(albumRuta);
 
 				// añadimos elementos al div de albumes
 				album.append(albumTitulo);

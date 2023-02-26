@@ -30,6 +30,33 @@ class datImagen {
 		}
 	}
 
+	public function comprobarPunto($idimagen,$idusuario){
+		// motamos la consulta
+		// Comprobamos si hay registro de esta imagen con este usuario
+		$inicio = "SELECT * FROM imagen_punto AS ip";
+		$where = " WHERE ip.idimagen = '".$idimagen."' AND ip.idusuario = '".$idusuario."'";
+		$sql = $inicio.$where;
+
+		// ejecutamos consulta
+		$result = $this->conn->query($sql);
+
+		// Preparamos array donde iran los resultados
+		$jsondata = array();
+		// Mientras haya resultados, montaremos una row por cada fila, y la transformaremos en un objeto
+		while($row = $result->fetch_object()){
+			// Añadimos el objeto row al array
+			array_push($jsondata,$row);
+		}
+		// Si el resultado va vacío, significa que el usuario no ha puntuado esta imagen
+		if (empty($jsondata)) {
+			return json_encode(array('punto'=>false));	
+
+		}
+		else {
+			return json_encode(array('punto'=>true));	
+		}
+	}
+
 	public function eliminarImagen($idusuario,$idimagen,$nombreimagen,$nombrealbum){
 		// montamos la consulta
 		$inicio = "DELETE FROM imagen  ";
@@ -163,7 +190,31 @@ class datImagen {
 		return json_encode($jsondata);		
 	}
 
-	public function puntuarImagen($idimagen,$idusuario){
+	public function puntuarImagen($idimagen,$idusuario,$punto){
+
+
+		if ($punto=='quitar'){
+			// Quitamos el registro de imagen y le bajamos un punto a la imagen
+			// Montamos consulta
+			$inicio = "DELETE FROM imagen_punto";
+			$where = " WHERE idimagen = '".$idimagen."' AND idusuario = '".$idusuario."'";
+			$sql = $inicio.$where;
+
+			// ejecutamos consulta
+			$result = $this->conn->query($sql);
+
+			// Bajamos el punto a la imagen
+			// montamos la consulta
+			$inicio = "UPDATE imagen SET puntos = puntos - 1";
+			$where = " WHERE id = '".$idimagen."'";
+			$sql = $inicio.$where;
+
+			// ejecutamos consulta
+			$result = $this->conn->query($sql);
+			return json_encode(array("exito"=>true));
+
+		}
+
 		// motamos la consulta
 		// Comprobamos si hay registro de esta imagen con este usuario
 		$inicio = "SELECT * FROM imagen_punto AS ip";
