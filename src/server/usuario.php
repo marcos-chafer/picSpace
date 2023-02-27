@@ -12,6 +12,11 @@ switch ($funcion) {
 		$identificador = $_POST["identificador"];
 		echo buscarIdentificador($identificador);
 		break;
+	case 'eliminarNotificacion':
+		$idusuario = $_POST['idusuario'];
+		$idnotificacion = $_POST['idnotificacion'];
+		echo eliminarNotificacion($idusuario,$idnotificacion);
+		break;
 	case 'guardarUsuario':
 		$nombre = $_POST["nombre"];
 		$identificador = $_POST["identificador"];
@@ -32,6 +37,10 @@ switch ($funcion) {
 		$identificador = $_POST['identificador'];
 		echo obtenerInicio($identificador);
 		break;
+	case 'obtenerNotificaciones':
+		$idusuario = $_POST['idusuario'];
+		echo obtenerNotificaciones($idusuario);
+		break;
 	case 'obtenerUsuario':
 		$idusuario = $_POST['idusuario'];
 		echo obtenerUsuario($idusuario);
@@ -45,6 +54,14 @@ function buscarIdentificador($identificador){
 	$objUsuario = new datUsuario();
 
 	$result = $objUsuario->buscarIdentificador($identificador);
+
+	return $result;
+}
+
+function eliminarNotificacion($idusuario,$idnotificacion){
+	$objUsuario = new datUsuario();
+
+	$result = $objUsuario->eliminarNotificacion($idusuario,$idnotificacion);
 
 	return $result;
 }
@@ -88,6 +105,14 @@ function obtenerInicio($identificador) {
 	$objUsuario = new datUsuario();
 
 	$result = $objUsuario->obtenerInicio($identificador);
+
+	return $result;
+}
+
+function obtenerNotificaciones($idusuario) {
+	$objUsuario = new datUsuario();
+
+	$result = $objUsuario->obtenerNotificaciones($idusuario);
 
 	return $result;
 }

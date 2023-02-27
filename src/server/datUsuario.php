@@ -34,6 +34,24 @@ class datUsuario {
 		}
 	}
 
+	public function eliminarNotificacion($idusuario,$idnotificacion){
+		// montamos la consulta
+		$inicio = "DELETE FROM notificacion";
+		$where = " WHERE idnotificado = '".$idusuario."' AND id = '".$idnotificacion."'";
+		$sql = $inicio.$where;
+
+		// ejecutamos consulta
+		$result = $this->conn->query($sql);
+		// Si nos vienen resultados significa que todo ha ido bien
+		if ($result == 1) {
+			return json_encode(array('exito'=>true));
+		}
+		// si no hay ningun resultado
+		else {
+			return json_encode(array('exito'=>false));
+		}
+	}
+
 	public function guardarUsuario($nombre,$identificador,$contrasenya,$email){
 		// motamos la consulta
 		$inicio = "INSERT INTO usuario (`identificador`, `contrasenya`, `nombre`, `email`) ";
@@ -104,6 +122,24 @@ class datUsuario {
 		else {
 			return json_encode(array("login"=>false));
 		}
+	}
+
+	public function obtenerNotificaciones($idusuario) {
+		// montamos la consulta
+		$inicio = "SELECT * FROM notificacion AS n ";
+		$where = " WHERE n.idnotificado= '".$idusuario."'";
+		$sql = $inicio.$where;
+		// ejecutamos consulta
+		$result = $this->conn->query($sql);
+		// Preparamos array donde iran los resultados
+		$jsondata = array();
+		// Mientras haya resultados, montaremos una row por cada fila, y la transformaremos en un objeto
+		while($row = $result->fetch_object()){
+			// Añadimos el objeto row al array
+			array_push($jsondata,$row);
+		}
+		// Devolvemos el array codificado en json
+		return json_encode($jsondata);
 	}
 
 	public function obtenerUsuario($idusuario) {

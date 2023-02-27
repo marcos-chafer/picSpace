@@ -545,6 +545,10 @@ video {
   grid-column: span 2 / span 2;
 }
 
+.col-span-6 {
+  grid-column: span 6 / span 6;
+}
+
 .col-start-2 {
   grid-column-start: 2;
 }
@@ -619,6 +623,10 @@ video {
   margin-left: 0.25rem;
 }
 
+.mb-24 {
+  margin-bottom: 6rem;
+}
+
 .ml-10 {
   margin-left: 2.5rem;
 }
@@ -645,6 +653,10 @@ video {
 
 .ml-auto {
   margin-left: auto;
+}
+
+.ml-24 {
+  margin-left: 6rem;
 }
 
 .block {
@@ -743,6 +755,10 @@ video {
 
 .transform {
   transform: translate(var(--tw-translate-x), var(--tw-translate-y)) rotate(var(--tw-rotate)) skewX(var(--tw-skew-x)) skewY(var(--tw-skew-y)) scaleX(var(--tw-scale-x)) scaleY(var(--tw-scale-y));
+}
+
+.cursor-pointer {
+  cursor: pointer;
 }
 
 .resize {
