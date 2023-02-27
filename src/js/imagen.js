@@ -149,16 +149,33 @@ function iniciarImagen() {
 		success: function (result) {
 			result.forEach(function(comentario) {
 				let comentarioContenedor = document.createElement('div');
+				comentarioContenedor.classList = "flex";
+
+				let comentarioImagen = document.createElement('img');
+				comentarioImagen.classList = "mr-[20px]";
+				comentarioImagen.style.width = "10px";
+				comentarioImagen.style.height = "10px";
+				comentarioContenedor.append(comentarioImagen);
+
 				// TODO Redirigir al perfil del usuario al clickar en el nombre
 				let comentarioUsuario = document.createElement('span');
 				comentarioUsuario.textContent = comentario.nombre+": ";
-				comentarioContenedor.append(comentarioUsuario);
 
 				let comentarioTexto = document.createElement('span');
 				comentarioTexto.textContent = comentario.texto;
-				comentarioContenedor.append(comentarioTexto);
 
-				let comentarioFecha = document.createElement('span');
+				let comentarioComentario = document.createElement('div');
+				// Comprobamos si el comentario es del usuario logueado, entonces lo movemos a la derecha
+				let usuarioLogin = localStorage.getItem('usuarioLogin');
+				if (comentario.nombre == usuarioLogin) comentarioComentario.classList = "text-right mr-2 ml-auto";
+				else comentarioComentario.classList = "text-left mr-2 m";
+				comentarioComentario.append(comentarioUsuario);
+				comentarioComentario.append(comentarioTexto);
+				comentarioContenedor.append(comentarioComentario);
+
+
+				let comentarioFecha = document.createElement('div');
+				comentarioFecha.classList = "ml-auto self-end";
 				comentarioFecha.textContent = " "+comentario.fecha;
 				comentarioFecha.style.color = "gray";
 				comentarioFecha.style.fontSize = "10px";
