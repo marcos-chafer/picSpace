@@ -29,7 +29,6 @@ function crearImagen() {
 
 function iniciarAlbum() {
 
-
 	// Controlamos notis
 	let noti = sessionStorage.getItem('noti');
 	switch (noti) {

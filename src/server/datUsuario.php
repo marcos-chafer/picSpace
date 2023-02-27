@@ -52,10 +52,10 @@ class datUsuario {
 		}
 	}
 
-	public function guardarUsuario($nombre,$identificador,$contrasenya,$email){
+	public function guardarUsuario($nombre,$identificador,$contrasenya,$email,$tags){
 		// motamos la consulta
-		$inicio = "INSERT INTO usuario (`identificador`, `contrasenya`, `nombre`, `email`) ";
-		$values = " VALUES ('".$identificador."','".$contrasenya."','".$nombre."','".$email."') ";
+		$inicio = "INSERT INTO usuario (`identificador`, `contrasenya`, `nombre`, `email`, `tags`) ";
+		$values = " VALUES ('".$identificador."','".$contrasenya."','".$nombre."','".$email."','".$tags."') ";
 		$sql = $inicio.$values;
 
 		// ejecutamos consulta

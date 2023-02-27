@@ -43,6 +43,19 @@ function comprobarEliminacionImagen() {
 
 }
 
+function comprobarTags(){
+
+	$("#tagsIntroducidos").html("Tags introducidos:<br/>");
+
+	let tags = ($("#tagsImagen").val().split(","))
+	tags.forEach(function(tag) {
+		let tagContenedor = document.createElement('div');
+		tagContenedor.classList = "bg-indigo-800  hover:bg-indigo-400 text-white font-semibold rounded-xl py-1 px-2 mr-2 w-fit inline";
+		tagContenedor.textContent = tag;
+		$("#tagsIntroducidos").append(tagContenedor);
+	});
+}
+
 function eliminarImagen() {
 
 	console.log("Hey");
@@ -79,6 +92,20 @@ function iniciarAjustes() {
 
 	$("#nombreImagen").val(sessionStorage.getItem('nombreImagen'));
 	$("#descripcionImagen").val(sessionStorage.getItem('descripcionImagen'));
+	let idimagen = sessionStorage.getItem('idImagen');
+
+	$.ajax({
+		url: "http://192.168.1.136/picSpace/src/server/imagen.php", async: false, type: "post", dataType: "json",
+		data: { funcion: "obtenerImagen", idimagen: idimagen },
+		// Cuando lleguen los datos...
+		success: function (result) {
+
+			let imagen = result[0];
+			$("#tagsImagen").val(imagen.tags);
+
+		}
+	})
+
 }
 
 function irAImagen(idimagen, nombreimagen) {
@@ -93,6 +120,7 @@ function irAImagen(idimagen, nombreimagen) {
 function modificarImagen() {
 	var nombre = $("#nombreImagen").val();
 	var descripcion = $("#descripcionImagen").val();
+	var tags = $("#tagsImagen").val();
 
 	if (nombre == "") {
 		n.notiError("Nombre vacío");
@@ -116,7 +144,7 @@ function modificarImagen() {
 	let idimagen = sessionStorage.getItem('idImagen');
 	$.ajax({
 		url: "http://192.168.1.136/picSpace/src/server/imagen.php", async: false, type: "post", dataType: "json",
-		data: { funcion: "modificarImagen", idimagen: idimagen, nombre: nombre, descripcion:descripcion },
+		data: { funcion: "modificarImagen", idimagen: idimagen, nombre: nombre, descripcion:descripcion, tags:tags },
 		success: function (result) {
 			// nos viene json con exito = true si se hizo correctamente
 			let respuesta = result.exito;
@@ -145,5 +173,16 @@ $("#botonCambiar").click(function () {
 $("#botonEliminar").click(function () {
 	comprobarEliminacionImagen();
 })
+
+$("#tagsImagen").on('keyup',function(e){
+	// Cada vez que el usuario suelte la tecla de los tags, analizaremos la tecla pulsada, si es coma, ejecutaremos la funcion
+	if (e.key==','){
+		comprobarTags();
+	}
+});
+// Hay que poner tambien el ultimo tag
+$("#tagsImagen").on('focusout',function(){
+	comprobarTags();
+});
 
 iniciarAjustes();

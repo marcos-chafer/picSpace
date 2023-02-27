@@ -7,7 +7,8 @@ function comprobarCampos(){
 	let identificador = $("#identificadorUsuario").val().trim()
 	let contrasenya = $("#contrasenyaUsuario").val().trim()
 	let contrasenyasegunda = $("#contrasenyasegundaUsuario").val().trim()
-	let email = $("#emailUsuario").val()
+	let email = $("#emailUsuario").val();
+	let tags = $("#tagsUsuario").val();
 
 	// Inicializamos la expresión regular para comprobar si el email es válido
 	let verificaremail = /[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?/;
@@ -74,7 +75,7 @@ function comprobarCampos(){
 
 	$.ajax({
 		url: "http://192.168.1.136/picSpace/src/server/usuario.php", async: false, type: "post", dataType: "json",
-		data: {funcion:"guardarUsuario",nombre:nombre,identificador:identificador,contrasenya:contrasenya,email:email},
+		data: {funcion:"guardarUsuario",nombre:nombre,identificador:identificador,contrasenya:contrasenya,email:email ,tags:tags},
 		success: function(result) {
 			// nos viene json con exito = true si se hizo correctamente
 			respuesta = result.exito;
@@ -104,8 +105,31 @@ function comprobarIdentificador(identificador){
 	return respuesta.identificadorExiste;
 }
 
+function comprobarTags(){
+
+	$("#tagsIntroducidos").html("Tags introducidos:<br/>");
+
+	let tags = ($("#tagsUsuario").val().split(","))
+	tags.forEach(function(tag) {
+		let tagContenedor = document.createElement('div');
+		tagContenedor.classList = "bg-indigo-800  hover:bg-indigo-400 text-white font-semibold rounded-xl py-1 px-2 mr-2 w-fit inline";
+		tagContenedor.textContent = tag;
+		$("#tagsIntroducidos").append(tagContenedor);
+	});
+}
 
 
 $("#botonContinuar").on('click',function(){
 	comprobarCampos();
+});
+
+$("#tagsUsuario").on('keyup',function(e){
+	// Cada vez que el usuario suelte la tecla de los tags, analizaremos la tecla pulsada, si es coma, ejecutaremos la funcion
+	if (e.key==','){
+		comprobarTags();
+	}
+});
+// Hay que poner tambien el ultimo tag
+$("#tagsUsuario").on('focusout',function(){
+	comprobarTags();
 });

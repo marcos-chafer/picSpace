@@ -12,7 +12,8 @@ switch ($funcion) {
 	case 'guardarAlbum':
 		$nombre = $_POST["nombre"];
 		$idusuario = $_POST["idusuario"];
-		echo guardarAlbum($nombre,$idusuario);
+		$tags = $_POST["tags"];
+		echo guardarAlbum($nombre,$idusuario,$tags);
 		break;
 	case 'eliminarAlbum':
 		$idusuario = $_POST["idusuario"];
@@ -23,7 +24,12 @@ switch ($funcion) {
 	case 'modificarAlbum':
 		$idalbum = $_POST["idalbum"];
 		$nombre = $_POST["nombre"];
-		echo modificarAlbum($idalbum,$nombre);
+		$tags = $_POST["tags"];
+		echo modificarAlbum($idalbum,$nombre,$tags);
+		break;
+	case 'obtenerAlbum':
+		$idalbum = $_POST["idalbum"];
+		echo obtenerAlbum($idalbum);
 		break;
 	case 'obtenerAlbums':
 		$identificador = $_POST["identificador"];
@@ -37,14 +43,14 @@ switch ($funcion) {
 
 // FUNCIONES
 
-function guardarAlbum($nombre,$idusuario){
+function guardarAlbum($nombre,$idusuario,$tags){
 // Registra un album en BBDD usando los params
 // TODO securizar más esto
 
 	$fecha = date("Y-m-d");
 	$objAlbum = new datAlbum();
 	
-	$result = $objAlbum->guardarAlbum($nombre,$idusuario,$fecha);
+	$result = $objAlbum->guardarAlbum($nombre,$idusuario,$tags,$fecha);
 
 	return $result;
 }
@@ -59,13 +65,22 @@ function eliminarAlbum($idusuario,$idalbum,$nombrealbum){
 	return $result;
 }
 
-function modificarAlbum($idalbum,$nombre){
+function modificarAlbum($idalbum,$nombre,$tags){
 // Modifica datos de un album de BBDD utilizando los params
 // TODO securizar más esto
 
 	$objAlbum = new datAlbum();
 	
-	$result = $objAlbum->modificarAlbum($idalbum,$nombre);
+	$result = $objAlbum->modificarAlbum($idalbum,$nombre,$tags);
+
+	return $result;
+}
+
+function obtenerAlbum($idalbum){
+
+	$objAlbum = new datAlbum();
+
+	$result = $objAlbum->obtenerAlbum($idalbum);
 
 	return $result;
 }

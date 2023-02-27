@@ -22,7 +22,8 @@ switch ($funcion) {
 		$identificador = $_POST["identificador"];
 		$contrasenya = $_POST["contrasenya"];
 		$email = $_POST["email"];
-		echo guardarUsuario($nombre,$identificador,$contrasenya,$email);
+		$tags = $_POST["tags"];
+		echo guardarUsuario($nombre,$identificador,$contrasenya,$email,$tags);
 		break;
 	case 'login':
 		$usuario = $_POST["usuario"];
@@ -66,12 +67,12 @@ function eliminarNotificacion($idusuario,$idnotificacion){
 	return $result;
 }
 
-function guardarUsuario($nombre,$identificador,$contrasenya,$email){
+function guardarUsuario($nombre,$identificador,$contrasenya,$email,$tags){
 // Registra usuario en BBDD usando los params
 // TODO securizar más esto
 	$objUsuario = new datUsuario();
 	// Guardamos el usuario en BBDD
-	$result = $objUsuario->guardarUsuario($nombre,$identificador,$contrasenya,$email);
+	$result = $objUsuario->guardarUsuario($nombre,$identificador,$contrasenya,$email,$tags);
 	// Obtenemos la id del usuario recién creado para crear sus carpetas
 	$idusuario = $objUsuario->obtenerIdUsuario($identificador);
 	$objIdusuario = json_decode($idusuario);

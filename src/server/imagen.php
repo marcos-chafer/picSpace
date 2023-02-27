@@ -40,6 +40,7 @@ switch ($funcion) {
 		$idalbum = $_POST['idAlbum'];
 		$nombrealbum = $_POST['nombreAlbum'];
 		$descripcion = $_POST['descripcion'];
+		$tags = $_POST['tags'];
 
 		$ruta = "/XAMPP/htdocs/picspace/media/".$idusuario."/".$nombrealbum."/".$titulo;
 
@@ -49,7 +50,7 @@ switch ($funcion) {
 			// Ponemos la ruta de la imagen
 			$ruta = "/picspace/media/".$idusuario."/".$nombrealbum."/".$titulo;
 
-			echo guardarImagenBBDD($idusuario,$idalbum,$nombrealbum,$titulo,$ruta,$descripcion);
+			echo guardarImagenBBDD($idusuario,$idalbum,$nombrealbum,$titulo,$ruta,$descripcion,$tags);
 		}
 		else{
 
@@ -59,7 +60,8 @@ switch ($funcion) {
 		$idimagen = $_POST["idimagen"];
 		$nombre = $_POST["nombre"];
 		$descripcion = $_POST["descripcion"];
-		echo modificarImagen($idimagen,$nombre,$descripcion);
+		$tags = $_POST["tags"];
+		echo modificarImagen($idimagen,$nombre,$descripcion,$tags);
 		break;
 	case 'obtenerComentarios':
 		$idimagen = $_POST["idimagen"];
@@ -114,25 +116,25 @@ function eliminarImagen($idusuario,$idimagen,$nombreimagen,$nombrealbum){
 	return $result;
 }
 
-function guardarImagenBBDD($idusuario,$idalbum,$nombrealbum,$titulo,$ruta,$descripcion,){
+function guardarImagenBBDD($idusuario,$idalbum,$nombrealbum,$titulo,$ruta,$descripcion,$tags){
 // Registra imagen en BBDD usando los params
 // TODO securizar más esto
 
 	$fecha = date("Y-m-d");
 	$objImagen = new datImagen();
 	
-	$result = $objImagen->guardarImagenBBDD($idusuario,$idalbum,$nombrealbum,$titulo,$ruta,$descripcion,$fecha);
+	$result = $objImagen->guardarImagenBBDD($idusuario,$idalbum,$nombrealbum,$titulo,$ruta,$descripcion,$tags,$fecha);
 
 	return $result;
 }
 
-function modificarImagen($idimagen,$nombre,$descripcion){
+function modificarImagen($idimagen,$nombre,$descripcion,$tags){
 // Modifica datos de una imagen de BBDD utilizando los params
 // TODO securizar más esto
 
 	$objImagen = new datImagen();
 	
-	$result = $objImagen->modificarImagen($idimagen,$nombre,$descripcion);
+	$result = $objImagen->modificarImagen($idimagen,$nombre,$descripcion,$tags);
 
 	return $result;
 }

@@ -84,7 +84,7 @@ class datImagen {
 		}
 	}
 
-	public function guardarImagenBBDD($idusuario,$idalbum,$nombrealbum,$titulo,$ruta,$descripcion,$fecha){
+	public function guardarImagenBBDD($idusuario,$idalbum,$nombrealbum,$titulo,$ruta,$descripcion,$tags,$fecha){
 
 		$ruta = "/picspace/media/".$idusuario."/".$nombrealbum."/".$titulo;
 
@@ -92,8 +92,8 @@ class datImagen {
 		$titulo = explode(".",$titulo);
 
 		// montamos la consulta
-		$inicio = "INSERT INTO imagen (`id_album`,`id_usuario`, `titulo`, `fecha`,`descripcion`,`ruta`) ";
-		$values = " VALUES ('".$idalbum."','".$idusuario."','".$titulo[0]."','".$fecha."','".$descripcion."','".$ruta."') ";
+		$inicio = "INSERT INTO imagen (`id_album`,`id_usuario`, `titulo`, `fecha`,`descripcion`,`ruta`, `tags`) ";
+		$values = " VALUES ('".$idalbum."','".$idusuario."','".$titulo[0]."','".$fecha."','".$descripcion."','".$ruta."','".$tags."') ";
 		$sql = $inicio.$values;
 
 		// ejecutamos consulta
@@ -108,10 +108,10 @@ class datImagen {
 		}
 	}
 
-	public function modificarImagen($idimagen,$nombre,$descripcion){
+	public function modificarImagen($idimagen,$nombre,$descripcion,$tags){
 		// montamos la consulta
 		$inicio = "UPDATE imagen  ";
-		$values = " SET `titulo` = '".$nombre."', descripcion = '".$descripcion."' ";
+		$values = " SET `titulo` = '".$nombre."', descripcion = '".$descripcion."', tags = '".$tags."' ";
 		$where = " WHERE `id` = '".$idimagen."' ";
 		$sql = $inicio.$values.$where;
 

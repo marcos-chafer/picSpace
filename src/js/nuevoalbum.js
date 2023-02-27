@@ -14,6 +14,7 @@ function abrirMenu(){
 
 function crearAlbum(){
 	let nombre = $("#nombreAlbum").val();
+	let tags = $("#tagsAlbum").val();
 
 	if (nombre==""){
 		n.notiError("Nombre vacío");
@@ -27,7 +28,7 @@ function crearAlbum(){
 
 	$.ajax({
 		url: "http://192.168.1.136/picSpace/src/server/album.php", async: false, type: "post", dataType: "json",
-		data: {funcion:"guardarAlbum",nombre:nombre,idusuario:idusuario},
+		data: {funcion:"guardarAlbum",nombre:nombre,idusuario:idusuario, tags:tags},
 		success: function(result) {
 			// nos viene json con exito = true si se hizo correctamente
 			let respuesta = result.exito;
@@ -53,6 +54,19 @@ function cerrarMenu(){
 	menuOpcionesHome = "cerrado";
 }
 
+function comprobarTags(){
+
+	$("#tagsIntroducidos").html("Tags introducidos:<br/>");
+
+	let tags = ($("#tagsAlbum").val().split(","))
+	tags.forEach(function(tag) {
+		let tagContenedor = document.createElement('div');
+		tagContenedor.classList = "bg-indigo-800  hover:bg-indigo-400 text-white font-semibold rounded-xl py-1 px-2 mr-2 w-fit inline";
+		tagContenedor.textContent = tag;
+		$("#tagsIntroducidos").append(tagContenedor);
+	});
+}
+
 $("#botonDesplegarMenu").click(function(){
 	if (menuOpcionesHome=='cerrado') abrirMenu();
 	else cerrarMenu();
@@ -65,3 +79,14 @@ $("#botonCerrarSesion").click(function(){
 $("#botonContinuar").click(function(){
 	crearAlbum();
 })
+
+$("#tagsAlbum").on('keyup',function(e){
+	// Cada vez que el usuario suelte la tecla de los tags, analizaremos la tecla pulsada, si es coma, ejecutaremos la funcion
+	if (e.key==','){
+		comprobarTags();
+	}
+});
+// Hay que poner tambien el ultimo tag
+$("#tagsAlbum").on('focusout',function(){
+	comprobarTags();
+});

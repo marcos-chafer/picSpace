@@ -18,6 +18,7 @@ function crearImagen(){
 
 	let titulo = $("#tituloImagen").val();
 	let descripcion = $("#descripcionImagen").val();
+	let tags = $("#tagsImagen").val();
 	// Cogemos el archivo del input
 	let archivo = $("#archivoImagen").prop('files')[0];
 
@@ -45,6 +46,7 @@ function crearImagen(){
 	formData.append('file', archivo);
 	formData.append('filename', titulo);
 	formData.append('descripcion', descripcion);
+	formData.append('tags', tags);
 	formData.append('idUsuario', idusuario);
 	formData.append('idAlbum', idalbum);
 	formData.append('nombreAlbum', nombrealbum);
@@ -80,6 +82,19 @@ function cerrarMenu(){
 	menuOpcionesHome = "cerrado";
 }
 
+function comprobarTags(){
+
+	$("#tagsIntroducidos").html("Tags introducidos:<br/>");
+
+	let tags = ($("#tagsImagen").val().split(","))
+	tags.forEach(function(tag) {
+		let tagContenedor = document.createElement('div');
+		tagContenedor.classList = "bg-indigo-800  hover:bg-indigo-400 text-white font-semibold rounded-xl py-1 px-2 mr-2 w-fit inline";
+		tagContenedor.textContent = tag;
+		$("#tagsIntroducidos").append(tagContenedor);
+	});
+}
+
 $("#botonDesplegarMenu").click(function(){
 	if (menuOpcionesHome=='cerrado') abrirMenu();
 	else cerrarMenu();
@@ -92,3 +107,13 @@ $("#botonCerrarSesion").click(function(){
 $("#botonContinuar").click(function(){
 	crearImagen();
 })
+$("#tagsImagen").on('keyup',function(e){
+	// Cada vez que el usuario suelte la tecla de los tags, analizaremos la tecla pulsada, si es coma, ejecutaremos la funcion
+	if (e.key==','){
+		comprobarTags();
+	}
+});
+// Hay que poner tambien el ultimo tag
+$("#tagsImagen").on('focusout',function(){
+	comprobarTags();
+});

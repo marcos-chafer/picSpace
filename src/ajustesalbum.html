@@ -68,36 +68,14 @@
 					<label class="block" for="nombreAlbum">Nombre de album:</label>
 					<input class="inputText" type="text" id="nombreAlbum"/>
 				</div>
-				<div class="mt-2">
-					Tags
-				</div>
-				<div class="mt-2 mb-6 w-72 centrarHorizontal cajaTags grid grid-cols-2">
-					<div>
-						<label for="tagReligion">Religion</label>
-						<input type="checkbox" class="idgrupal_tag" id="tagReligion">
-					</div>
-					<div>
-						<label for="tagComida">Comida</label>
-						<input type="checkbox" class="idgrupal_tag" id="tagComida">
-					</div>
-					<div>
-						<label for="tagFinanciero">Financiero</label>
-						<input type="checkbox" class="idgrupal_tag" id="tagFinanciero">
-					</div>
-					<div>
-						<label for="tagCamara">Camara</label>
-						<input type="checkbox" class="idgrupal_tag" id="tagCamara">
-					</div>
-					<div>
-						<label for="tagReposteria">Reposteria</label>
-						<input type="checkbox" class="idgrupal_tag" id="tagReposteria">
-					</div>
-					<div>
-						<label for="tagCoches">Coches</label>
-						<input type="checkbox" class="idgrupal_tag" id="tagCoches">
+				<div class="mt-2 mb-4">
+					<label class="" for="tagsAlbum">Tags:</label>
+					<i class="fa fa-info-circle" title="Introduce los tags separados por comas, Ej: coches, motos, deporte"></i>
+					<input class="inputText centrarHorizontal block" type="text" id="tagsAlbum"/>
+					<div id="tagsIntroducidos">
+		
 					</div>
 				</div>
-				
 			</div>
 			<div class="mt-4 flex justify-center">
 				<button id="botonCambiar" class="bg-indigo-800  hover:bg-indigo-400 text-white font-semibold rounded-xl py-1 px-2">Cambiar</button>
