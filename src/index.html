@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" class="min-h-full">
+<html lang="en">
 
 <head>
 	<meta charset="UTF-8">
@@ -20,48 +20,70 @@
 	<title>picSpace</title>
 </head>
 
-<body class="min-h-screen overflow-hidden">
-	<div class="grid lg:grid-cols-2 auto-rows-min">
-		<!-- TODO Hacer el LOGO y ponerlo en la landing page y como favicon -->
-		<!-- Izquierda Logo/descripcion -->
-		<div class="grid auto-rows-min h-80 lg:h-full place-content-center ">
-			<img src="../assets/img/logo_picspace_nuevo.png" alt="picSpace logo" class="h-28 lg:h-36 rounded-lg shadow-gray-400 shadow-md">
-			<div class="text-center">
-				<p>descriptionplaceholder</p>
+<body>
+	<div class="grid sm:grid-cols-2 h-[90vh]">
+		<div class="hidden lg:block">
+			<div id="presentacion" class="mt-24 mr-6 border">
+
 			</div>
 		</div>
-		<!-- Fin Izquierda -->
-		<!-- Derecha Login/Registrarse -->
-		<!-- el auto-rows-min hace que las rows no se separen tanto -->
-		<div class="bg-indigo-800 h-screen text-white grid auto-rows-min bg-image-login-show justify-center lg:content-center">
-			<div class="justify-self-center mt-10 lg:mt-0">
-				<img src="../assets/img/logo_picspace_nuevo_icono_blanco_relleno.png" class="h-16 lg:h-20" alt="icono de picSpace">
-			</div>
-			<div class="mt-4 justify-self-center">
-				<label class="block" for="usuarioLogin">Usuario</label>
-				<input class="rounded-full text-black px-1 shadow-inner shadow-indigo-800 focus:outline-none focus:ring-2 focus:ring-indigo-500" type="text" id="usuarioLogin">
-			</div>
-			<div class="justify-self-center">
-				<label class="block" for="contrasenyaLogin">Contraseña</label>
-				<input class="rounded-full text-black px-1 shadow-inner shadow-indigo-800 focus:outline-none focus:ring-2 focus:ring-indigo-500" type="password" id="contrasenyaLogin">
-			</div>
-			<div class="grid grid-cols-2 mt-1 mb-20 text-gray-200">
-				<!-- TODO método para recuperar contraseña -->
-				<div class="text-xs mt-1 ml-1">
-					<p class=>restorePassword</p>
+		<div>
+			<div id="cajaLogin" class="mt-6 lg:mt-24 lg:ml-6 w-96 lg:border rounded-sm border-indigo-200">
+				<img class="mt-2 mx-auto rounded-xl" src="../assets/img/logo_picspace_nuevo_icono_blanco_relleno.png" alt="Imagen logo picSpace">
+				<div id="inputsLogin" class=" mt-12 mx-auto w-52">
+					<input type="text" class="inputText mb-2" placeholder="Nombre de usuario">
+					<input type="text" class="inputText mb-4" placeholder="Contraseña">
+					<button class="block boton w-full mx-auto">Log in</button>
 				</div>
-				<div class="mt-2">
-					<button class="border w-full bg-indigo-700 hover:bg-indigo-400 rounded-full py-1 px-2"
-						id="botonLogin">Iniciar sesión</button>
+				<div class="flex items-center mt-4">
+					<div class="w-1/3 h-fit ml-6 border-b border-indigo-200"></div>
+					<div class="w-1/3 text-center text-indigo-200">O</div>
+					<div class="w-1/3 h-fit mr-6 border-b border-indigo-200"></div>
 				</div>
-				<div class="col-span-2 mt-2">
-					<button class="border float-right w-1/2 bg-indigo-700 hover:bg-indigo-400 rounded-full py-1 px-2"
-						id="botonRegistrarLogin">Registrarse</button>
+				<div class="flex justify-center gap-4 h-8 mt-6">
+					<i class="fab fa-twitter fa-lg text-blue-500 cursor-pointer"></i>
+					<i class="fab fa-google fa-lg text-red-500 cursor-pointer"></i>
+					<i class="fab fa-facebook fa-lg text-blue-800 cursor-pointer"></i>
+					<i class="fab fa-reddit fa-lg text-orange-600 cursor-pointer"></i>
+					<i class="fab fa-twitch fa-lg text-purple-600 cursor-pointer"></i>
+					<i class="fab fa-microsoft fa-lg text-blue-400 cursor-pointer"></i>
 				</div>
-			</div>		
+				<div class="mt-2 pb-4 text-center">
+					<span class="text-indigo-600 cursor-pointer">¿Olvidaste la contraseña?</span>
+				</div>
+			</div>
+			<div id="cajaRegistro" class="mt-2 lg:ml-6 w-96 py-4 lg:border rounded-sm border-indigo-200">
+				<div class="text-center text-slate-700">
+					¿No tienes una cuenta?
+					<span class="text-indigo-700 font-semibold cursor-pointer">Regístrate</span>
+				</div>
+			</div>
+			<div class="mt-4 lg:ml-6 w-96">
+				<div class="text-center text-slate-700">
+					Descarga la aplicación.
+				</div>
+				<div class="flex mt-4 justify-center gap-1">
+					<img class="h-10 rounded-md cursor-pointer" src="../assets/img/google_play.bmp" alt="">
+					<img class="h-10 cursor-pointer" src="../assets/img/microsoft_store.bmp" alt="" >
+				</div>
+			</div>
 		</div>
-		<!-- Fin Derecha -->
 	</div>
+	<footer class="flex flex-col gap-3 text-xs mb-12 children:text-slate-400">
+		<div class="flex justify-center children:cursor-pointer children:mx-2 children:lg:mx-0 lg:gap-10 flex-wrap ">
+			<span>Sobre</span>
+			<span>Blog</span>
+			<span>Trabajos</span>
+			<span>Ayuda</span>
+			<span>API</span>
+			<span>Términos</span>
+			<span>Privacidad</span>
+			<span>Contacto</span>
+		</div>
+		<div class="flex justify-center">
+			<span>© 2023 picSpace by Marcos Chafer</span>
+		</div>
+	</footer>
 </body>
 
 </html>

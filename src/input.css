@@ -13,7 +13,7 @@
     @apply mx-auto;
 }
 .inputText {
-    @apply border border-indigo-800 rounded-xl px-1 drop-shadow focus:outline-none focus:ring-2 focus:ring-indigo-500;
+    @apply border border-indigo-800 rounded-xl px-1 drop-shadow focus:outline-none focus:ring-2 focus:ring-indigo-500 placeholder:text-slate-400 placeholder:text-xs placeholder:top-0;
 }
 .textArea {
     @apply border border-indigo-800 rounded-lg px-1 drop-shadow focus:outline-none focus:ring-2 focus:ring-indigo-500;
@@ -22,7 +22,7 @@
     @apply border border-indigo-800 rounded-lg py-2 drop-shadow;
 }
 .boton {
-    @apply bg-indigo-800  hover:bg-indigo-400 text-white font-semibold rounded-xl py-1 px-2;
+    @apply bg-indigo-700  hover:bg-indigo-800 text-white font-semibold rounded-xl py-1 px-2;
 }
 
 .menuOpciones {
