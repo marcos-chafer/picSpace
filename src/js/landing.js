@@ -1,3 +1,32 @@
+function cambiarImagen(modo){
+	if (modo == "anterior"){
+		let imagen = $("#imagenPresentacion").prop('src').split("/");
+		imagen = imagen[imagen.length-1]
+		if (imagen == 'presentacion1.bmp'){
+			$("#imagenPresentacion").prop('src','../assets/img/presentacion3.bmp');
+		}
+		else if (imagen == 'presentacion2.bmp'){
+			$("#imagenPresentacion").prop('src','../assets/img/presentacion1.bmp');
+		}
+		else{
+			$("#imagenPresentacion").prop('src','../assets/img/presentacion2.bmp');
+		}
+	}
+	else if (modo == "siguiente") {
+		let imagen = $("#imagenPresentacion").prop('src').split("/");
+		imagen = imagen[imagen.length-1]
+		if (imagen == 'presentacion1.bmp'){
+			$("#imagenPresentacion").prop('src','../assets/img/presentacion2.bmp');
+		}
+		else if (imagen == 'presentacion2.bmp'){
+			$("#imagenPresentacion").prop('src','../assets/img/presentacion3.bmp');
+		}
+		else{
+			$("#imagenPresentacion").prop('src','../assets/img/presentacion1.bmp');
+		}
+	}
+}
+
 function comprobarLogin(){
 	//SI hay cookie de usuario redirigimos a su inicio
 	if(localStorage.getItem('usuarioLogin')) window.location.replace("./home.html");
@@ -40,6 +69,24 @@ function comprobarUsuario() {
 
 }
 
+function iniciarCarrusel() {
+
+	setInterval(function(){
+		let imagen = $("#imagenPresentacion").prop('src').split("/");
+		imagen = imagen[imagen.length-1]
+		if (imagen == 'presentacion1.bmp'){
+			$("#imagenPresentacion").prop('src','../assets/img/presentacion2.bmp');
+		}
+		else if (imagen == 'presentacion2.bmp'){
+			$("#imagenPresentacion").prop('src','../assets/img/presentacion3.bmp');
+		}
+		else{
+			$("#imagenPresentacion").prop('src','../assets/img/presentacion1.bmp');
+		}
+
+	},5000)
+}
+
 $("#usuarioLogin").on('keypress', function (event) {
 	// Si la tecla pulsado ha sido 13(enter)...
 	if (event.which == 13) comprobarUsuario();
@@ -54,6 +101,12 @@ $("#botonLogin").click(function () {
 $("#botonRegistrarLogin").click(function () {
 	window.location.assign("./register.html");
 })
+$("#botonImagenAnterior").click(function(){
+	cambiarImagen("anterior");
+})
+$("#botonImagenSiguiente").click(function(){
+	cambiarImagen("siguiente");
+})
 
 comprobarLogin();
-
+iniciarCarrusel();

@@ -23,30 +23,42 @@
 <body>
 	<div class="grid sm:grid-cols-2 h-[90vh]">
 		<div class="hidden lg:block">
-			<div id="presentacion" class="mt-24 mr-6 border">
-
+			<div id="presentacion" class="mt-24 mr-6 flex justify-end h-[66%] items-center">
+				<div id="card1" class="flex gap-3 relative mr-20 w-1/2">
+					<div class="self-center">
+						<button id="botonImagenAnterior">
+							<i class="fa fa-less-than fa-2xl text-slate-400"></i>
+						</button>
+					</div>
+					<img id="imagenPresentacion" class="h-[400px]" value="1" src="../assets/img/presentacion1.bmp" alt="">
+					<div class="self-center">
+						<button id="botonImagenSiguiente">
+							<i class="fa fa-greater-than fa-2xl text-slate-400"></i>
+						</button>
+					</div>
+				</div>
 			</div>
 		</div>
 		<div>
 			<div id="cajaLogin" class="mt-6 lg:mt-24 lg:ml-6 w-96 lg:border rounded-sm border-indigo-200">
 				<img class="mt-2 mx-auto rounded-xl" src="../assets/img/logo_picspace_nuevo_icono_blanco_relleno.png" alt="Imagen logo picSpace">
 				<div id="inputsLogin" class=" mt-12 mx-auto w-52">
-					<input type="text" class="inputText mb-2" placeholder="Nombre de usuario">
-					<input type="text" class="inputText mb-4" placeholder="Contraseña">
-					<button class="block boton w-full mx-auto">Log in</button>
+					<input id="usuarioLogin" type="text" class="inputText mb-2" placeholder="Nombre de usuario">
+					<input id="contrasenyaLogin" type="text" class="inputText mb-4" placeholder="Contraseña">
+					<button id="botonLogin" class="block boton w-full mx-auto">Entrar</button>
 				</div>
 				<div class="flex items-center mt-4">
 					<div class="w-1/3 h-fit ml-6 border-b border-indigo-200"></div>
 					<div class="w-1/3 text-center text-indigo-200">O</div>
 					<div class="w-1/3 h-fit mr-6 border-b border-indigo-200"></div>
 				</div>
+				<div class="mt-2 pb-4 text-center">
+					<span class="text-slate-700">Inicia sesión con:</span>
+				</div>
 				<div class="flex justify-center gap-4 h-8 mt-6">
-					<i class="fab fa-twitter fa-lg text-blue-500 cursor-pointer"></i>
-					<i class="fab fa-google fa-lg text-red-500 cursor-pointer"></i>
 					<i class="fab fa-facebook fa-lg text-blue-800 cursor-pointer"></i>
-					<i class="fab fa-reddit fa-lg text-orange-600 cursor-pointer"></i>
-					<i class="fab fa-twitch fa-lg text-purple-600 cursor-pointer"></i>
-					<i class="fab fa-microsoft fa-lg text-blue-400 cursor-pointer"></i>
+					<i class="fab fa-google fa-lg text-red-500 cursor-pointer"></i>
+					<i class="fab fa-twitter fa-lg text-blue-500 cursor-pointer"></i>
 				</div>
 				<div class="mt-2 pb-4 text-center">
 					<span class="text-indigo-600 cursor-pointer">¿Olvidaste la contraseña?</span>
@@ -55,7 +67,7 @@
 			<div id="cajaRegistro" class="mt-2 lg:ml-6 w-96 py-4 lg:border rounded-sm border-indigo-200">
 				<div class="text-center text-slate-700">
 					¿No tienes una cuenta?
-					<span class="text-indigo-700 font-semibold cursor-pointer">Regístrate</span>
+					<button id="botonRegistrarLogin" class="text-indigo-700 font-semibold cursor-pointer">Regístrate</button>
 				</div>
 			</div>
 			<div class="mt-4 lg:ml-6 w-96">
