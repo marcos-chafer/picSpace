@@ -260,40 +260,30 @@ class datImagen {
 		return json_encode($jsondata);	
 	}
 
-	// public function login($identificador, $contrasenya){
-	// 	// motamos la consulta
-	// 	$inicio = "SELECT u.identificador, u.contrasenya FROM usuario AS u ";
-	// 	$where = " WHERE identificador='".$identificador."' AND contrasenya='".$contrasenya."' ";
-	// 	$sql = $inicio.$where;
-	// 	// ejecutamos consulta
-	// 	$result = $this->conn->query($sql);
-	// 	// Si nos vienen resultados significa que coincide
-	// 	if ($result->num_rows > 0) {
-	// 		return json_encode(array("login"=>true));
-	// 	}
-	// 	// si no hay ningun resultado...
-	// 	else {
-	// 		return json_encode(array("login"=>false));
-	// 	}
-	// }
-
-	// public function obtenerInicio($identificador) {
-	// 	// motamos la consulta
-	// 	$inicio = "SELECT u.identificador, u.contrasenya FROM usuario AS u ";
-	// 	$where = " WHERE identificador='".$identificador;
-	// 	$sql = $inicio.$where;
-	// 	// ejecutamos consulta
-	// 	$result = $this->conn->query($sql);
-	// 	// Si nos vienen resultados significa que coincide
-	// 	if ($result->num_rows > 0) {
-	// 		return json_encode(array("login"=>true));
-	// 	}
-	// 	// si no hay ningun resultado...
-	// 	else {
-	// 		return json_encode(array("login"=>false));
-	// 	}
-	// }
-
-
+	public function obtenerInicio($idusuario) {
+		// montamos la consulta
+		$inicio = "SELECT u2.id as idusuario, u2.identificador, u2.nombre AS nombreusuario, u2.tags as tagsusuario, i.id as idimagen, i.id_album, i.titulo, i.fecha, i.puntos, i.tags AS tagsimagen, i.descripcion, i.ruta, a.nombre as nombrealbum";
+		$where = " 
+		FROM usuario u1
+		INNER JOIN usuario_seguidor us ON u1.id = us.id_seguidor
+		INNER JOIN usuario u2 ON us.id_seguido = u2.id
+		INNER JOIN imagen i ON u2.id = i.id_usuario
+		INNER JOIN album a on i.id_album = a.id
+		WHERE u1.id = $idusuario
+		ORDER BY i.fecha;
+		 ";
+		$sql = $inicio.$where;
+		// ejecutamos consulta
+		$result = $this->conn->query($sql);
+		// Preparamos array donde iran los resultados
+		$jsondata = array();
+		// Mientras haya resultados, montaremos una row por cada fila, y la transformaremos en un objeto
+		while($row = $result->fetch_object()){
+			// Añadimos el objeto row al array
+			array_push($jsondata,$row);
+		}
+		// devolvemos los datos como json
+		return json_encode($jsondata);	
+	}
 
 }

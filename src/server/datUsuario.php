@@ -107,23 +107,6 @@ class datUsuario {
 
 	}
 
-	public function obtenerInicio($identificador) {
-		// motamos la consulta
-		$inicio = "SELECT u.identificador, u.contrasenya FROM usuario AS u ";
-		$where = " WHERE identificador='".$identificador;
-		$sql = $inicio.$where;
-		// ejecutamos consulta
-		$result = $this->conn->query($sql);
-		// Si nos vienen resultados significa que coincide
-		if ($result->num_rows > 0) {
-			return json_encode(array("login"=>true));
-		}
-		// si no hay ningun resultado...
-		else {
-			return json_encode(array("login"=>false));
-		}
-	}
-
 	public function obtenerNotificaciones($idusuario) {
 		// montamos la consulta
 		$inicio = "SELECT * FROM notificacion AS n ";

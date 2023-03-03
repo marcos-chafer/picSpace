@@ -81,6 +81,10 @@ switch ($funcion) {
 		$punto = $_POST['punto'];
 		echo puntuarImagen($idimagen,$idusuario,$punto);
 		break;
+	case 'obtenerInicio':
+		$idusuario = $_POST['idusuario'];
+		echo obtenerInicio($idusuario);
+		break;
 	default:
 		break;
 };
@@ -177,23 +181,11 @@ function puntuarImagen($idimagen,$idusuario,$punto){
 	return $result;
 }
 
-// function login($identificador, $contrasenya) {
-// // Funcion que comprueba si el usuario y la contraseña pasados por parametro estan en BBDD
-// 	$objUsuario = new datUsuario();
+function obtenerInicio($idusuario) {
+	$objImagen = new datImagen();
 
-// 	$result = $objUsuario->login($identificador, $contrasenya);
+	$result = $objImagen->obtenerInicio($idusuario);
 
-// 	return $result;
-
-// };
-
-// function obtenerInicio($identificador) {
-// 	$objUsuario = new datUsuario();
-
-// 	$result = $objUsuario->obtenerInicio($identificador);
-
-// 	return $result;
-// }
-
-
+	return $result;
+}
 ?>

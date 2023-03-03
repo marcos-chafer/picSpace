@@ -29,13 +29,38 @@ function iniciarHome() {
 	this.menuOpcionesHome = "cerrado";
 
 	obtenerIdUsuario();
+	let idusuario = localStorage.getItem('idUsuario');
 	
-	// $.ajax({
-	// 	url: "http://192.168.1.136/picSpace/src/server/usuario.php", async: true, type: "post", dataType: "json",
-	// 	data: {funcion:"obtenerInicio", identificador:identificador},
-	// 	success: function (result) {postIniciarHome(result)}
-	// })
+	$.ajax({
+		url: "http://192.168.1.136/picSpace/src/server/imagen.php", async: true, type: "post", dataType: "json",
+		data: {funcion:"obtenerInicio", idusuario:idusuario},
+		success: function (result) {
+			postIniciarHome(result)
+		}
+	})
 }
+
+function IrAAlbum(idalbum,nombrealbum){
+
+	sessionStorage.setItem('idAlbum',idalbum);
+	sessionStorage.setItem('nombreAlbum',nombrealbum);
+	window.location.assign('./album.html');
+}
+
+function IrAPerfil(idperfil){
+
+	sessionStorage.setItem('idPerfil',idperfil);
+	window.location.assign('./perfil.html');
+}
+
+function IrAImagen(idalbum,nombrealbum,idimagen){
+
+	sessionStorage.setItem('idAlbum',idalbum);
+	sessionStorage.setItem('nombreAlbum',nombrealbum);
+	sessionStorage.setItem('idImagen',idimagen);
+	window.location.assign('./imagen.html');
+}
+
 function obtenerIdUsuario(){
 	let identificador = localStorage.getItem('usuarioLogin');
 
@@ -50,50 +75,59 @@ function obtenerIdUsuario(){
 }
 
 function postIniciarHome(datos) {
-	console.log(datos)
-	for (let i = 0; i < datos.length; i++) {
-		let nombreUsuario = datos[i].nombreUsuario;
-		let identificadorUsuario = datos[i].identificadorUsuario;
-		let fotoPerfilUsuario = datos[i].fotoPerfilUsuario;
-		let tituloImagenUsuario = datos[i].tituloImagenUsuario;
-		let imagenUsuario = datos[i].imagenUsuario;
+	datos.forEach(function(post){
+		console.log(post);
+		let postContenedor = document.createElement('div');
+		postContenedor.classList = "flex flex-col items-center border w-1/3 h-1/3";
 
-		let contenedor = document.createElement("div");
-		contenedor.classList.add("grid","lg:grid-cols-2","justify-evenly","border","border-black");
+		let postTexto = document.createElement('div');
 
-		let infoUsuario = document.createElement("div");
-		infoUsuario.classList.add("justify-self-center");
+		let postTextoIdentificador = document.createElement('span');
+		postTextoIdentificador.classList = "font-semibold cursor-pointer";
+		postTextoIdentificador.setAttribute('onclick','IrAPerfil('+post.idusuario+')');
+		postTextoIdentificador.textContent = post.identificador;
+		postContenedor.append(postTextoIdentificador)
 
-		let fotoPerfilInfoUsuario = document.createElement("span");
-		fotoPerfilInfoUsuario.textContent=fotoPerfilUsuario;
-		infoUsuario.append(fotoPerfilInfoUsuario);
+		let postTextoAlbum = document.createElement('span');
+		postTextoAlbum.classList = "font-semibold cursor-pointer";
+		postTextoAlbum.textContent = post.nombrealbum;
+		postTextoAlbum.setAttribute('onclick','IrAAlbum('+post.id_album+',"'+post.nombrealbum+'")');
+		postContenedor.append(postTextoAlbum)
 
-		let nombreInfoUsuario = document.createElement("span");
-		nombreInfoUsuario.textContent=nombreUsuario;
-		infoUsuario.append(nombreInfoUsuario);
+		postTexto.textContent = " ha subido una foto a ";
+		postTexto.append(postTextoAlbum);
+		postContenedor.append(postTexto);
 
-		let identificadorInfoUsuario = document.createElement("span");
-		identificadorInfoUsuario.textContent=identificadorUsuario;
-		infoUsuario.append(identificadorInfoUsuario);
+		let postImagen = document.createElement('div');
+		postImagen.classList = "flex flex-row mt-4"
 
-		contenedor.append(infoUsuario);
+		let postRuta = document.createElement('img');
+		postRuta.classList = "w-40 cursor-pointer";
+		postRuta.setAttribute('title',post.titulo);
+		postRuta.setAttribute('src',post.ruta);
+		postRuta.setAttribute('onclick','IrAImagen('+post.id_album+',"'+post.nombrealbum+'",'+post.idimagen+')');
+		postImagen.append(postRuta);
 
-		let infoImagen = document.createElement("div");
-		infoImagen.classList.add("justify-self-center");
+		let postImagenPuntuar= document.createElement('i');
+		postImagenPuntuar.classList = "ml-4 fa fa-heart";
+		postImagen.append(postImagenPuntuar);
 
-		let tituloImagenInfoUsuario = document.createElement("span");
-		tituloImagenInfoUsuario.textContent=tituloImagenUsuario;
-		infoImagen.append(tituloImagenInfoUsuario);
+		let postImagenPuntuacion = document.createElement('span');
+		postImagenPuntuacion.classList = "ml-2";
+		postImagenPuntuacion.textContent = post.puntos;
+		postImagen.append(postImagenPuntuacion);
 
-		let imagenInfoUsuario = document.createElement("span");
-		imagenInfoUsuario.textContent=imagenUsuario;
-		infoImagen.append(imagenInfoUsuario);
 
-		contenedor.append(infoImagen);
+		postContenedor.append(postImagen);
+
+
+		$("#inicioHome").append(postContenedor);
+
+
+
+	})
+
 		
-		$("#inicioHome").append(contenedor);
-		
-	}
 }
 
 
