@@ -74,7 +74,7 @@ function comprobarCampos(){
 	// Si todo va bien, registramos el usuario en BD
 
 	$.ajax({
-		url: "http://192.168.1.136/picSpace/src/server/usuario.php", async: false, type: "post", dataType: "json",
+		url: "http://127.0.0.1/picSpace/src/server/usuario.php", async: false, type: "post", dataType: "json",
 		data: {funcion:"guardarUsuario",nombre:nombre,identificador:identificador,contrasenya:contrasenya,email:email ,tags:tags},
 		success: function(result) {
 			// nos viene json con exito = true si se hizo correctamente
@@ -94,7 +94,7 @@ function comprobarIdentificador(identificador){
 	// Inicializamos la respuesta
 	let respuesta="";
 	$.ajax({
-		url: "http://192.168.1.136/picSpace/src/server/usuario.php", async: false, type: "post", dataType: "json",
+		url: "http://127.0.0.1/picSpace/src/server/usuario.php", async: false, type: "post", dataType: "json",
 		data: {funcion:"buscarIdentificador",identificador:identificador},
 		success: function(result) {
 			// nos viene json con identificadorExiste igual a true o false, le asignamos el valor a la respuesta

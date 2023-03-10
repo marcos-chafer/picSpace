@@ -4,16 +4,43 @@ header('Access-Control-Allow-Origin: *');
 // Requerimos que estén los archivos donde esta el dat que realiza conexiones a BBDD
 require_once('./datAlbum.php');
 // Obtenemos que funcion queremos realizar
-$funcion = $_POST["funcion"];
+if (isset($_POST["funcion"])) $funcion = $_POST["funcion"];
+// Si no nos viene funcion en post debe de ser una subida de archivo
+else $funcion = "guardarAlbumImagenServidor";
+
 
 
 // Comprobamos la función a realizar
 switch ($funcion) {
-	case 'guardarAlbum':
-		$nombre = $_POST["nombre"];
-		$idusuario = $_POST["idusuario"];
-		$tags = $_POST["tags"];
-		echo guardarAlbum($nombre,$idusuario,$tags);
+	case 'guardarAlbumImagenServidor':
+		// Cogemos el nombre del archivo
+		$nombrearchivo = $_FILES['file']['full_path'];
+		$nombreexplotado = explode(".",$nombrearchivo);
+		
+		$idusuario = $_POST['idUsuario'];
+		$nombrealbum = $_POST['nombrealbum'];
+		$tags = $_POST['tags'];
+		// El nombre del archivo será nombrealbum_cover.extensionarchivo
+		$titulo = $nombrealbum."_cover.".$nombreexplotado[1];
+
+		$ruta = "/XAMPP/htdocs/picspace/media/".$idusuario."/".$nombrealbum."/".$titulo;
+
+
+		// Creamos la carpeta del album si no existe
+		if (!file_exists("/XAMPP/htdocs/picspace/media/".$idusuario."/".$nombrealbum)){
+			mkdir("/XAMPP/htdocs/picspace/media/".$idusuario."/".$nombrealbum,777);
+		}
+		//Guardamos el archivo en la ruta seleccionada
+		if(move_uploaded_file($_FILES['file']['tmp_name'],$ruta)){
+			// Si todo va bien, guardamos imagen en BBDD
+			// Ponemos la ruta de la imagen
+			$ruta = "/picspace/media/".$idusuario."/".$nombrealbum."/".$titulo;
+			// Llamamos a guardar album para guardarlo en BBDD
+			echo guardarAlbum($nombrealbum,$idusuario,$tags,$ruta);
+		}
+		else{
+
+		}
 		break;
 	case 'eliminarAlbum':
 		$idusuario = $_POST["idusuario"];
@@ -43,14 +70,14 @@ switch ($funcion) {
 
 // FUNCIONES
 
-function guardarAlbum($nombre,$idusuario,$tags){
+function guardarAlbum($nombre,$idusuario,$tags,$ruta){
 // Registra un album en BBDD usando los params
 // TODO securizar más esto
 
 	$fecha = date("Y-m-d");
 	$objAlbum = new datAlbum();
-	
-	$result = $objAlbum->guardarAlbum($nombre,$idusuario,$tags,$fecha);
+
+	$result = $objAlbum->guardarAlbum($nombre,$idusuario,$tags,$fecha,$ruta);
 
 	return $result;
 }

@@ -15,6 +15,9 @@ function abrirMenu(){
 function crearAlbum(){
 	let nombre = $("#nombreAlbum").val();
 	let tags = $("#tagsAlbum").val();
+	// Cogemos el archivo del input
+	let archivo = $("#imagenAlbum").prop('files')[0];
+
 
 	if (nombre==""){
 		n.notiError("Nombre vacío");
@@ -26,10 +29,26 @@ function crearAlbum(){
 		return;
 	}
 
+	//Creamos un objeto FormData donde irán los datos del archivo
+	let formData = new FormData();
+	formData.append('file', archivo);
+	// NECESARIO UN FILENAME
+	formData.append('filename', nombre);
+	formData.append('nombrealbum', nombre);
+	formData.append('tags', tags);
+	formData.append('idUsuario', idusuario);
+
 	$.ajax({
-		url: "http://192.168.1.136/picSpace/src/server/album.php", async: false, type: "post", dataType: "json",
-		data: {funcion:"guardarAlbum",nombre:nombre,idusuario:idusuario, tags:tags},
+		url: "http://127.0.0.1/picSpace/src/server/album.php",
+		async: false,
+		type: "post",
+		data: formData,
+		contentType: false,
+		processData: false,
+		dataType: "text",
 		success: function(result) {
+			result = JSON.parse(result);
+
 			// nos viene json con exito = true si se hizo correctamente
 			let respuesta = result.exito;
 			// Cuando nos viene exito a true

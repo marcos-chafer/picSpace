@@ -32,7 +32,7 @@ function iniciarPerfil() {
 	if (idusuario=="" || idusuario==null) idusuario = localStorage.getItem('idUsuario');
 
 	$.ajax({
-		url: "http://192.168.1.136/picSpace/src/server/usuario.php", async: false, type: "post", dataType: "json",
+		url: "http://127.0.0.1/picSpace/src/server/usuario.php", async: false, type: "post", dataType: "json",
 		data: { funcion: "obtenerUsuario", idusuario: idusuario},
 		success: function (result) {
 			let perfil = result[0];

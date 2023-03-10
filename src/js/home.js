@@ -32,7 +32,7 @@ function iniciarHome() {
 	let idusuario = localStorage.getItem('idUsuario');
 	
 	$.ajax({
-		url: "http://192.168.1.136/picSpace/src/server/imagen.php", async: true, type: "post", dataType: "json",
+		url: "http://127.0.0.1/picSpace/src/server/imagen.php", async: true, type: "post", dataType: "json",
 		data: {funcion:"obtenerInicio", idusuario:idusuario},
 		success: function (result) {
 			postIniciarHome(result)
@@ -65,7 +65,7 @@ function obtenerIdUsuario(){
 	let identificador = localStorage.getItem('usuarioLogin');
 
 	$.ajax({
-		url: "http://192.168.1.136/picSpace/src/server/usuario.php", async: true, type: "post", dataType: "json",
+		url: "http://127.0.0.1/picSpace/src/server/usuario.php", async: true, type: "post", dataType: "json",
 		data: {funcion:"obtenerIdUsuario", identificador:identificador},
 		success: function (result) {
 			localStorage.setItem('idUsuario',result[0].id);
@@ -78,7 +78,7 @@ function postIniciarHome(datos) {
 	datos.forEach(function(post){
 		console.log(post);
 		let postContenedor = document.createElement('div');
-		postContenedor.classList = "flex flex-col items-center border w-1/3 h-1/3";
+		postContenedor.classList = "flex flex-col items-center border w-full lg:w-1/3 h-1/3";
 
 		let postTexto = document.createElement('div');
 

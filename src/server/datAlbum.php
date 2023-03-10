@@ -15,19 +15,16 @@ class datAlbum {
 
 
 
-	public function guardarAlbum($nombre,$idusuario,$tags,$fecha){
+	public function guardarAlbum($nombre,$idusuario,$tags,$fecha,$ruta){
 		// motamos la consulta
-		$inicio = "INSERT INTO album (`id_usuario`, `nombre`, `tags`, `fecha`) ";
-		$values = " VALUES ('".$idusuario."','".$nombre."','".$tags."','".$fecha."') ";
+		$inicio = "INSERT INTO album (`id_usuario`, `nombre`, `tags`, `fecha`, `ruta`) ";
+		$values = " VALUES ('".$idusuario."','".$nombre."','".$tags."','".$fecha."','".$ruta."') ";
 		$sql = $inicio.$values;
 
 		// ejecutamos consulta
 		$result = $this->conn->query($sql);
 		// Si el resultado es true está bien
 		if ($result == TRUE) {
-			// Creamos la carpeta del álbum con el nombre
-			mkdir('/XAMPP/htdocs/picspace/media/'.$idusuario.'/'.$nombre,0777,true);
-
 			return json_encode(array('exito'=>true,'noti'=>'guardarAlbum'));
 		}
 		// si no hay ningun resultado
