@@ -49,7 +49,7 @@ function iniciarAlbum() {
 
 
 	$.ajax({
-		url: "http://127.0.0.1/picSpace/src/server/imagen.php", async: false, type: "post", dataType: "json",
+		url: "http://192.168.1.38/picSpace/src/server/imagen.php", async: false, type: "post", dataType: "json",
 		data: { funcion: "obtenerImagenes", idalbum: idalbum },
 		// Cuando lleguen los datos...
 		success: function (result) {

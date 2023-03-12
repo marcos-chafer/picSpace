@@ -66,7 +66,7 @@ function eliminarImagen() {
 
 
 	$.ajax({
-		url: "http://127.0.0.1/picSpace/src/server/imagen.php", async: false, type: "post", dataType: "json",
+		url: "http://192.168.1.38/picSpace/src/server/imagen.php", async: false, type: "post", dataType: "json",
 		data: { funcion: "eliminarImagen", idusuario: idusuario, idimagen: idimagen, nombreimagen: nombreimagen, nombrealbum: nombrealbum },
 		success: function (result) {
 			// nos viene json con exito = true si se hizo correctamente
@@ -95,7 +95,7 @@ function iniciarAjustes() {
 	let idimagen = sessionStorage.getItem('idImagen');
 
 	$.ajax({
-		url: "http://127.0.0.1/picSpace/src/server/imagen.php", async: false, type: "post", dataType: "json",
+		url: "http://192.168.1.38/picSpace/src/server/imagen.php", async: false, type: "post", dataType: "json",
 		data: { funcion: "obtenerImagen", idimagen: idimagen },
 		// Cuando lleguen los datos...
 		success: function (result) {
@@ -143,7 +143,7 @@ function modificarImagen() {
 
 	let idimagen = sessionStorage.getItem('idImagen');
 	$.ajax({
-		url: "http://127.0.0.1/picSpace/src/server/imagen.php", async: false, type: "post", dataType: "json",
+		url: "http://192.168.1.38/picSpace/src/server/imagen.php", async: false, type: "post", dataType: "json",
 		data: { funcion: "modificarImagen", idimagen: idimagen, nombre: nombre, descripcion:descripcion, tags:tags },
 		success: function (result) {
 			// nos viene json con exito = true si se hizo correctamente

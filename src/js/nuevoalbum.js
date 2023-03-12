@@ -39,7 +39,7 @@ function crearAlbum(){
 	formData.append('idUsuario', idusuario);
 
 	$.ajax({
-		url: "http://127.0.0.1/picSpace/src/server/album.php",
+		url: "http://192.168.1.38/picSpace/src/server/album.php",
 		async: false,
 		type: "post",
 		data: formData,

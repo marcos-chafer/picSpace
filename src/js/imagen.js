@@ -39,7 +39,7 @@ function comentarImagen() {
 	}
 
 	$.ajax({
-		url: "http://127.0.0.1/picSpace/src/server/imagen.php", async: false, type: "post", dataType: "json",
+		url: "http://192.168.1.38/picSpace/src/server/imagen.php", async: false, type: "post", dataType: "json",
 		data: { funcion: "comentarImagen", idimagen: idimagen, idusuario: idusuario, comentarioTexto: comentarioTexto},
 		// Cuando lleguen los datos...
 		success: function (result) {
@@ -66,7 +66,7 @@ function comprobarPunto(){
 
 
 	$.ajax({
-		url: "http://127.0.0.1/picSpace/src/server/imagen.php", async: false, type: "post", dataType: "json",
+		url: "http://192.168.1.38/picSpace/src/server/imagen.php", async: false, type: "post", dataType: "json",
 		data: { funcion: "comprobarPunto", idimagen: idimagen, idusuario: idusuario },
 		// Cuando lleguen los datos...
 		success: function (result) {
@@ -113,7 +113,7 @@ function iniciarImagen() {
 
 
 	$.ajax({
-		url: "http://127.0.0.1/picSpace/src/server/imagen.php", async: false, type: "post", dataType: "json",
+		url: "http://192.168.1.38/picSpace/src/server/imagen.php", async: false, type: "post", dataType: "json",
 		data: { funcion: "obtenerImagen", idimagen: idimagen },
 		// Cuando lleguen los datos...
 		success: function (result) {
@@ -143,7 +143,7 @@ function iniciarImagen() {
 
 	// Obtenemos comentarios
 	$.ajax({
-		url: "http://127.0.0.1/picSpace/src/server/imagen.php", async: false, type: "post", dataType: "json",
+		url: "http://192.168.1.38/picSpace/src/server/imagen.php", async: false, type: "post", dataType: "json",
 		data: { funcion: "obtenerComentarios", idimagen: idimagen },
 		// Cuando lleguen los datos...
 		success: function (result) {
@@ -198,7 +198,7 @@ function puntuarImagen() {
 	if ($("#imagenPuntuar").css('color') == 'rgb(255, 0, 0)'){
 
 		$.ajax({
-			url: "http://127.0.0.1/picSpace/src/server/imagen.php", async: false, type: "post", dataType: "json",
+			url: "http://192.168.1.38/picSpace/src/server/imagen.php", async: false, type: "post", dataType: "json",
 			data: { funcion: "puntuarImagen", idimagen: idimagen, idusuario: idusuario, punto:"quitar" },
 			// Cuando lleguen los datos...
 			success: function (result) {
@@ -209,7 +209,7 @@ function puntuarImagen() {
 	else{
 
 		$.ajax({
-			url: "http://127.0.0.1/picSpace/src/server/imagen.php", async: false, type: "post", dataType: "json",
+			url: "http://192.168.1.38/picSpace/src/server/imagen.php", async: false, type: "post", dataType: "json",
 			data: { funcion: "puntuarImagen", idimagen: idimagen, idusuario: idusuario, punto:"poner" },
 			// Cuando lleguen los datos...
 			success: function (result) {
