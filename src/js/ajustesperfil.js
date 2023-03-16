@@ -4,7 +4,6 @@ let n = new noti();
 var idusuario = localStorage.getItem('idUsuario');
 var menuOpcionesHome = "cerrado";
 
-
 function abrirMenu() {
 	$("#opcionesHome").show();
 	$("#botonDesplegarMenu i").removeClass();
@@ -117,18 +116,31 @@ function eliminarAlbum() {
 
 function iniciarAjustes() {
 
-	$("#nombreAlbum").val(sessionStorage.getItem('nombreAlbum'));
-
-	// Obtenemos los datos del album
-	let idalbum = sessionStorage.getItem('idAlbum');
+	// Obtenemos los datos del perfil
+	let idusuario = localStorage.getItem('idUsuario');
 	$.ajax({
-		url: "http://192.168.1.137/picSpace/src/server/album.php", async: false, type: "post", dataType: "json",
-		data: { funcion: "obtenerAlbum", idalbum: idalbum },
+		url: "http://192.168.1.137/picSpace/src/server/usuario.php", async: false, type: "post", dataType: "json",
+		data: { funcion: "obtenerUsuario", idusuario: idusuario },
 		success: function (result) {
+			let usuario = result[0];
 
-			$("#tagsAlbum").val(result[0].tags);
+			$("#nombrePerfil").val(usuario.nombre);
+			$("#descripcionPerfil").val(usuario.descripcion);
+			$("#tagsPerfil").val(usuario.tags);
 		}
 	});
+	// Obtenemos la contrasenya del usuario
+	$.ajax({
+		url: "http://192.168.1.137/picSpace/src/server/usuario.php", async: false, type: "post", dataType: "json",
+		data: { funcion: "obtenerUsuarioContrasenya", idusuario: idusuario },
+		success: function (result) {
+			let usuario = result[0];
+
+			$("#contrasenyaPerfil").val(usuario.contrasenya);
+
+		}
+	});
+
 
 }
 
@@ -141,32 +153,77 @@ function irAAlbum(idalbum, nombrealbum) {
 
 };
 
-function modificarAlbum() {
-	var nombre = $("#nombreAlbum").val();
-	let tags = $("#tagsAlbum").val();
+function modificarUsuario() {
+	var nombre = $("#nombrePerfil").val();
+	var contrasenya = $("#contrasenyaPerfil").val();
+	var descripcion = $("#descripcionPerfil").val();
+	let tags = $("#tagsPerfil").val();
+	// Cogemos el archivo del input
+	let archivo = $("#imagenPerfil").prop('files')[0];
+
 
 
 	if (nombre == "") {
 		n.notiError("Nombre vacío");
 		return;
 	}
-	else if (nombre.length > 100) {
+	else if (nombre.length > 50) {
 		n.notiError("Nombre demasiado largo");
-		$("#nombreUsuario").val("");
+		$("#nombrePerfil").val("");
+		return;
+	}
+	else if (contrasenya == "") {
+		n.notiError("Contrasenya vacía");
+		return;
+	}
+	else if (contrasenya.length > 50) {
+		n.notiError("Contrasenya demasiado larga");
+		$("#contrasenyaPerfil").val("");
+		return;
+	}
+	else if (descripcion.length > 255) {
+		n.notiError("Descripción demasiado larga");
+		$("#descripcionPerfil").val("");
 		return;
 	}
 
-	let idalbum = sessionStorage.getItem('idAlbum');
+	let idusuario = localStorage.getItem('idUsuario');
+
+	//Creamos un objeto FormData donde irán los datos del archivo
+	let formData = new FormData();
+	formData.append('file', archivo);
+	// NECESARIO UN FILENAME
+	formData.append('filename', nombre);
+	formData.append('nombre', nombre);
+	formData.append('contrasenya', contrasenya);
+	formData.append('descripcion', descripcion);
+	formData.append('tags', tags);
+	formData.append('idUsuario', idusuario);
+
 	$.ajax({
-		url: "http://192.168.1.137/picSpace/src/server/album.php", async: false, type: "post", dataType: "json",
-		data: { funcion: "modificarAlbum", idalbum: idalbum, nombre: nombre, tags:tags },
-		success: function (result) {
-			// nos viene json con exito = true si se hizo correctamente
-			let respuesta = result.exito;
-			// Cuando nos viene exito a true
-			if (respuesta == true) irAAlbum(idalbum, nombre);
+		url: "http://192.168.1.137/picSpace/src/server/usuario.php",
+		async: false,
+		type: "post",
+		data: formData,
+		contentType: false,
+		processData: false,
+		dataType: "text",
+		success: function(result) {
+
+			sessionStorage.setItem('noti','modificarUsuario');
+			window.location.replace('./perfil.html');
+
 		}
 	});
+
+	// $.ajax({
+	// 	url: "http://192.168.1.137/picSpace/src/server/usuario.php", async: false, type: "post", dataType: "json",
+	// 	data: { funcion: "modificarUsuario", idusuario: idusuario, nombre: nombre, contrasenya: contrasenya, descripcion:descripcion, tags:tags },
+	// 	success: function (result) {
+	// 		console.log(result);
+
+	// 	}
+	// });
 }
 
 
@@ -176,17 +233,17 @@ $("#botonDesplegarMenu").click(function () {
 	else cerrarMenu();
 });
 
+$("#botonCerrarSesion").click(function () {
+	cerrarSesion();
+});
+
 $("#IrAMiPerfil").click(function() {
 	sessionStorage.removeItem('idPerfil');
 	window.location.assign("./perfil.html");
 })
 
-$("#botonCerrarSesion").click(function () {
-	cerrarSesion();
-});
-
 $("#botonCambiar").click(function () {
-	modificarAlbum();
+	modificarUsuario();
 })
 
 $("#botonEliminar").click(function () {

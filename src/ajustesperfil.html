@@ -17,8 +17,8 @@
 	<script type="module" src="./js/noti.js"></script>	
 	<!-- jQuery -->
 	<script src="./js/jquery-3.6.1.min.js"></script>
-	<script defer type="module" src="./js/perfil.js"></script>
-	<title>picSpace - Perfil</title>
+	<script defer type="module" src="./js/ajustesperfil.js"></script>
+	<title>picSpace - Ajustes del perfil</title>
 </head>
 
 <body class="overflow-x-hidden">
@@ -26,7 +26,7 @@
 		<!-- Perfil y opciones -->
 		<div id="menuOpcionesHome" class="grid lg:col-span-1 lg:h-screen border border-indigo-800">
 			<div class="grid grid-cols-3 lg:grid-cols-1">
-				<a href="./album.html" class="p-3 rounded-full mt-4 ml-2 lg:hidden h-fit w-fit hover:bg-indigo-800">
+				<a href="./perfil.html" class="p-3 rounded-full mt-4 ml-2 lg:hidden h-fit w-fit hover:bg-indigo-800">
 					<i class="fa fa-arrow-left fa-2xl"></i>
 				</a>
 				<!-- TODO  Aqui ira la foto de perfil del usuario -->
@@ -79,29 +79,51 @@
 			</div>
 		</div>
 		<!-- Fin Perfil y opciones -->
-		<!-- Perfil de usuario -->
+		<!-- Nuevo album -->
 		<div  class="mt-2 lg:col-span-5">
-			<h1 id="usuarioNombre" class="text-center font-bold text-3xl"></h1>
-			<div class="grid lg:grid-cols-4 lg:h-32 mt-6 items-center text-center">
-				<div id="usuarioImagen" class="col-start-2">
+			
+			<div class="grid grid-cols-1 lg:grid-cols-3 text-center text-2xl font-semibold">
+				<a href="./album.html" class="p-3 hidden lg:block rounded-full mt-2 ml-2 w-fit hover:bg-indigo-400">
+					<i class="fa fa-arrow-left fa-2xl"></i>
+				</a>
+				<h1>Ajustes de cuenta</h1>
+			</div>
+			<div id="formAlbum" class="registroCaja centrarHorizontal mt-32">
+				<div class="mt-6">
+					<label class="block" for="nombrePerfil">Nombre de usuario:</label>
+					<input class="inputText" type="text" id="nombrePerfil"/>
 				</div>
-				<div id="usuarioDatos">
-					<span id="usuarioDatosNombre"></span>
-					<span id="usuarioDatosIdentificador"></span>
+				<div class="mt-2">
+					<label class="block" for="contrasenyaPerfil">Contraseña:</label>
+					<input class="inputText" type="password" id="contrasenyaPerfil"/>
+				</div>
+				<div class="mt-2">
+					<label class="block" for="descripcionPerfil">Descripción del perfil:</label>
+					<input class="inputText" type="text" id="descripcionPerfil"/>
+				</div>
+				<div class="mt-6">
+					<label class="block" for="imagenPerfil">Imagen de perfil:</label>
+					<input type="file" id="imagenPerfil" accept="image/png, .jpeg, .jpg"/>
+				</div>
+				<div class="mt-2 mb-4">
+					<label class="" for="tagsPerfil">Tags del perfil:</label>
+					<i class="fa fa-info-circle" title="Introduce los tags separados por comas, Ej: coches, motos, deporte"></i>
+					<input class="inputText centrarHorizontal block" type="text" id="tagsPerfil"/>
+					<div id="tagsIntroducidos">
+		
+					</div>
 				</div>
 			</div>
-			<div class="flex mt-6 justify-evenly" id="infoPerfil">
-				<span id="usuarioSiguiendo">siguiendo</span>
-				<span id="usuarioSeguidores">seguidores</span>
+			<div class="mt-4 flex justify-center">
+				<button id="botonCambiar" class="bg-indigo-800  hover:bg-indigo-400 text-white font-semibold rounded-xl py-1 px-2">Cambiar</button>
 			</div>
-			<h1 class="text-center font-bold text-2xl mt-8">Albums:</h1>
-
-			<div id="usuarioAlbums" class="flex gap-4 ml-10 mt-16">
-
+			<div class="flex justify-center mt-20">
+				<button id="botonEliminar" class="bg-red-800  hover:bg-red-400 text-white font-semibold rounded-xl py-1 px-2">
+					Eliminar cuenta
+				</button>
 			</div>
-	
 		</div>
-		<!-- Fin Perfil de usuario -->
+		<!-- Fin Nuevo album -->
 	</div>
 </body>
 

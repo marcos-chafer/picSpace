@@ -44,48 +44,51 @@ function eliminarNotificacion(id){
 
 function iniciarAlbum() {
 
-
-	// Declaracion de variables
-	let idusuario = localStorage.getItem('idUsuario');
 	menuOpcionesHome = "cerrado";
 
 
 	$.ajax({
-		url: "http://192.168.1.137/picSpace/src/server/usuario.php", async: false, type: "post", dataType: "json",
-		data: { funcion: "obtenerNotificaciones", idusuario: idusuario },
+		url: "http://192.168.1.137/picSpace/src/server/imagen.php", async: false, type: "post", dataType: "json",
+		data: { funcion: "obtenerTendencias" },
 		// Cuando lleguen los datos...
 		success: function (result) {
-			result.forEach(function(notificacion){
-				let notificacionContenedor = document.createElement('div');
+			//Recorremos las imagenes
+			for (let i = 0; i < result.length; i++) {
+				// asignamos variables con los datos
+				let id = result[i].id;
+				let titulo = result[i].titulo;
+				// Nos quedamos solo con el nombre y no con la extensión
+				titulo = titulo.split(".")[0];
+				let fecha = result[i].fecha;
+				let ruta = result[i].ruta;
 
-				let notificacionBotones = document.createElement('div');
-				notificacionBotones.classList = "inline mr-2";
-				notificacionContenedor.append(notificacionBotones);
+				console.log(result[i]);
 
-				let notificacionEliminar = document.createElement('i');
-				notificacionEliminar.setAttribute('id','botonEliminar_'+notificacion.id);
-				notificacionEliminar.setAttribute('title','Eliminar notificación');
-				notificacionEliminar.classList = "fa fa-x fa-xl cursor-pointer";
-				notificacionBotones.append(notificacionEliminar);
+				// creamos los elementos
+				let imagen = document.createElement("div");
+				imagen.setAttribute('id', id);
+				imagen.style = "cursor: pointer;";
+				imagen.classList = "grid text-center bg-indigo-300 w-1/2 h-20 mx-20 mb-10 rounded-md flex justify-center hover:bg-indigo-500 hover:scale-110 transition duration-200 ease-in-out";
+				// añadimos el title para ser usado posteriormente
+				imagen.title = titulo;
+				imagen.addEventListener('click',irAImagen);
 
-				let notificacionUsuario = document.createElement('button');
-				
+				let imagenTitulo = document.createElement("div");
+				imagenTitulo.textContent = titulo;
 
-				let notificacionTexto = document.createElement('span');
-				notificacionTexto.textContent = notificacion.texto;
-				notificacionContenedor.append(notificacionTexto);
+				let imagenImagen = document.createElement('div');
+				imagenImagen.classList = "h-32";
 
-				
+				let imagenRuta = document.createElement('img')
+				imagenRuta.setAttribute('src', ruta)
 
-				$("#cajaNotificaciones").append(notificacionContenedor);
+				imagenImagen.append(imagenRuta);
 
-				// Agregamos funcionalidad a los botones
-
-				$("#botonEliminar_"+notificacion.id).click(function(){
-					eliminarNotificacion(notificacion.id);
-				})
-
-			})
+				// añadimos elementos al div de imagenes
+				imagen.append(imagenTitulo);
+				imagen.append(imagenImagen);
+				$("#cajaTendencias").append(imagen);
+			}
 		}
 	})
 }
@@ -112,7 +115,7 @@ $("#botonDesplegarMenu").click(function () {
 $("#IrAMiPerfil").click(function() {
 	sessionStorage.removeItem('idPerfil');
 	window.location.assign("./perfil.html");
-});
+})
 
 $("#botonCerrarSesion").click(function () {
 	cerrarSesion();

@@ -1,7 +1,3 @@
-import { noti } from "./noti.js";
-var n = new noti();
-
-
 function abrirMenu() {
 	$("#opcionesHome").show();
 	$("#botonDesplegarMenu i").removeClass();
@@ -23,6 +19,12 @@ function cerrarMenu() {
 	menuOpcionesHome = "cerrado";
 }
 
+function IrAPerfil(idperfil){
+
+	sessionStorage.setItem('idPerfil',idperfil);
+	window.location.assign('./perfil.html');
+}
+
 function eliminarNotificacion(id){
 // Elimina notificación de bbdd
 	let idusuario = localStorage.getItem('idUsuario');
@@ -42,7 +44,7 @@ function eliminarNotificacion(id){
 
 }
 
-function iniciarAlbum() {
+function iniciarSeguidores() {
 
 
 	// Declaracion de variables
@@ -52,43 +54,43 @@ function iniciarAlbum() {
 
 	$.ajax({
 		url: "http://192.168.1.137/picSpace/src/server/usuario.php", async: false, type: "post", dataType: "json",
-		data: { funcion: "obtenerNotificaciones", idusuario: idusuario },
+		data: { funcion: "obtenerSeguidores", idusuario: idusuario },
 		// Cuando lleguen los datos...
 		success: function (result) {
-			result.forEach(function(notificacion){
-				let notificacionContenedor = document.createElement('div');
-
-				let notificacionBotones = document.createElement('div');
-				notificacionBotones.classList = "inline mr-2";
-				notificacionContenedor.append(notificacionBotones);
-
-				let notificacionEliminar = document.createElement('i');
-				notificacionEliminar.setAttribute('id','botonEliminar_'+notificacion.id);
-				notificacionEliminar.setAttribute('title','Eliminar notificación');
-				notificacionEliminar.classList = "fa fa-x fa-xl cursor-pointer";
-				notificacionBotones.append(notificacionEliminar);
-
-				let notificacionUsuario = document.createElement('button');
+			result.forEach(function(seguidor){
+				console.log(seguidor);
+				let seguidorContenedor = document.createElement('div');
+				seguidorContenedor.classList = "flex flex-col items-center border w-full lg:w-1/3 h-1/3";
+		
+				let seguidorTexto = document.createElement('div');
+		
+				let seguidorTextoIdentificador = document.createElement('span');
+				seguidorTextoIdentificador.classList = "font-semibold cursor-pointer";
+				seguidorTextoIdentificador.setAttribute('onclick','IrAPerfil('+seguidor.id+')');
+				seguidorTextoIdentificador.textContent = seguidor.identificador;
+				seguidorContenedor.append(seguidorTextoIdentificador)
 				
-
-				let notificacionTexto = document.createElement('span');
-				notificacionTexto.textContent = notificacion.texto;
-				notificacionContenedor.append(notificacionTexto);
-
+				let seguidorImagen = document.createElement('div');
+				seguidorImagen.classList = "flex flex-row mt-4"
+		
+				let seguidorRuta = document.createElement('img');
+				seguidorRuta.classList = "w-20 mb-4";
+				if (seguidor.ruta == null) seguidorRuta.setAttribute('src',"../assets/img/iconousuario.svg");
+				else seguidorRuta.setAttribute('src',seguidor.ruta);
+				seguidorImagen.append(seguidorRuta);
 				
-
-				$("#cajaNotificaciones").append(notificacionContenedor);
-
-				// Agregamos funcionalidad a los botones
-
-				$("#botonEliminar_"+notificacion.id).click(function(){
-					eliminarNotificacion(notificacion.id);
-				})
-
+				seguidorContenedor.append(seguidorImagen);
+		
+				$("#cajaSeguidores").append(seguidorContenedor);
+		
+		
+		
 			})
 		}
 	})
 }
+
+
 
 function irAImagen(event) {
 
@@ -119,4 +121,4 @@ $("#botonCerrarSesion").click(function () {
 });
 
 
-iniciarAlbum();
+iniciarSeguidores();

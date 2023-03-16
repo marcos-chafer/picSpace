@@ -73,19 +73,26 @@ function comprobarCampos(){
 	}
 	// Si todo va bien, registramos el usuario en BD
 
+	var idusuario;
+
 	$.ajax({
-		url: "http://192.168.1.38/picSpace/src/server/usuario.php", async: false, type: "post", dataType: "json",
+		url: "http://192.168.1.137/picSpace/src/server/usuario.php", async: false, type: "post", dataType: "json",
 		data: {funcion:"guardarUsuario",nombre:nombre,identificador:identificador,contrasenya:contrasenya,email:email ,tags:tags},
 		success: function(result) {
 			// nos viene json con exito = true si se hizo correctamente
 			respuesta = result.exito;
+			idusuario = result.id;
 		}
 	});
 		// Que hacer cuando nos registramos con éxito
 	if (respuesta==true){
 		n.notiInfo("Usuario registrado");
+
 		localStorage.setItem('usuarioLogin', identificador);
+		localStorage.setItem('idUsuario', idusuario);
 		window.location.replace('./home.html');
+
+
 	}
 
 }
@@ -94,14 +101,14 @@ function comprobarIdentificador(identificador){
 	// Inicializamos la respuesta
 	let respuesta="";
 	$.ajax({
-		url: "http://192.168.1.38/picSpace/src/server/usuario.php", async: false, type: "post", dataType: "json",
+		url: "http://192.168.1.137/picSpace/src/server/usuario.php", async: false, type: "post", dataType: "json",
 		data: {funcion:"buscarIdentificador",identificador:identificador},
 		success: function(result) {
 			// nos viene json con identificadorExiste igual a true o false, le asignamos el valor a la respuesta
 			respuesta = result;
 		}
 	});
-	//La retornamos
+	//La devolvemos
 	return respuesta.identificadorExiste;
 }
 

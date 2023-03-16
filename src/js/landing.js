@@ -48,7 +48,7 @@ function comprobarUsuario() {
 	} 
 
 	$.ajax({
-		url: "http://192.168.1.38/picSpace/src/server/usuario.php", async: true, type: "post", dataType: "json", data: {funcion:"login",usuario:user,contrasenya:passw},
+		url: "http://192.168.1.137/picSpace/src/server/usuario.php", async: true, type: "post", dataType: "json", data: {funcion:"login",usuario:user,contrasenya:passw},
 		success: function(result) {
 			// nos viene json con login igual a true o false.
 			if (result.login==false) {

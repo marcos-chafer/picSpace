@@ -88,6 +88,27 @@ class datUsuario {
 		}
 	}
 
+	public function modificarUsuario($idusuario,$nombre,$contrasenya,$descripcion,$tags,$ruta = null){
+		// montamos la consulta
+		$inicio = "UPDATE `usuario` SET `nombre` = '".$nombre."', `contrasenya` = '".$contrasenya."', `descripcion` = '".$descripcion."',`tags` = '".$tags."' ";
+		$where = " WHERE id = ".$idusuario;
+		$sql = $inicio.$where;
+		if ($ruta != null){
+			$inicio .= ", `ruta` = '".$ruta."' ";
+			$sql = $inicio.$where;
+		}
+		// ejecutamos consulta
+		$result = $this->conn->query($sql);
+		// Si nos vienen resultados significa que coincide
+		if ($result->num_rows > 0) {
+			return (json_encode(array("exito"=>true)));
+		}
+		// si no hay ningun resultado...
+		else {
+			return (json_encode(array("exito"=>false)));
+		}
+	}
+
 	public function obtenerIdUsuario($identificador) {
 		// motamos la consulta
 		$inicio = "SELECT u.id FROM usuario AS u ";
@@ -125,6 +146,42 @@ class datUsuario {
 		return json_encode($jsondata);
 	}
 
+	public function obtenerSeguidores($idusuario) {
+		// montamos la consulta
+		$inicio = "SELECT * FROM usuario_seguidor us JOIN usuario as u ON u.id = us.id_seguidor";
+		$where = " WHERE us.id_seguido = '".$idusuario."'";
+		$sql = $inicio.$where;
+		// ejecutamos consulta
+		$result = $this->conn->query($sql);
+		// Preparamos array donde iran los resultados
+		$jsondata = array();
+		// Mientras haya resultados, montaremos una row por cada fila, y la transformaremos en un objeto
+		while($row = $result->fetch_object()){
+			// Añadimos el objeto row al array
+			array_push($jsondata,$row);
+		}
+		// Devolvemos el array codificado en json
+		return json_encode($jsondata);
+	}
+
+	public function obtenerSeguidos($idusuario) {
+		// montamos la consulta
+		$inicio = "SELECT * FROM usuario_seguidor us JOIN usuario as u ON u.id = us.id_seguido";
+		$where = " WHERE us.id_seguidor = '".$idusuario."'";
+		$sql = $inicio.$where;
+		// ejecutamos consulta
+		$result = $this->conn->query($sql);
+		// Preparamos array donde iran los resultados
+		$jsondata = array();
+		// Mientras haya resultados, montaremos una row por cada fila, y la transformaremos en un objeto
+		while($row = $result->fetch_object()){
+			// Añadimos el objeto row al array
+			array_push($jsondata,$row);
+		}
+		// Devolvemos el array codificado en json
+		return json_encode($jsondata);
+	}
+
 	public function obtenerUsuario($idusuario) {
 		// motamos la consulta
 		$inicio = "SELECT * FROM usuario AS u ";
@@ -139,6 +196,34 @@ class datUsuario {
 			// Añadimos el objeto row al array
 			array_push($jsondata,$row);
 		}
+		// Eliminamos contrasenya del array jsondata
+		unset($jsondata[0]->contrasenya);
+
+		// Obtenemos número de seguidos y seguidores
+
+		//Seguidores
+		// montamos la consulta
+		$inicio = "SELECT COUNT(*) AS num_seguidores FROM usuario_seguidor ";
+		$where = " WHERE id_seguido ='".$idusuario."'";
+		$sql = $inicio.$where;
+		// ejecutamos consulta
+		$result = $this->conn->query($sql);
+		// Sacamos la fila en un array asociativo, y luego seleccionamos el elemento num_seguidores y lo guardamos
+		$row = mysqli_fetch_assoc($result);
+		$num_seguidores = $row['num_seguidores'];
+		$jsondata['seguidores'] = $num_seguidores;
+
+		//Seguidos
+		// montamos la consulta
+		$inicio = "SELECT COUNT(*) AS num_seguidos FROM usuario_seguidor ";
+		$where = " WHERE id_seguidor ='".$idusuario."'";
+		$sql = $inicio.$where;
+		// ejecutamos consulta
+		$result = $this->conn->query($sql);
+		// Sacamos la fila en un array asociativo, y luego seleccionamos el elemento num_seguidos y lo guardamos
+		$row = mysqli_fetch_assoc($result);
+		$num_seguidos = $row['num_seguidos'];
+		$jsondata['seguidos'] = $num_seguidos;
 
 		//Necesitamos saber datos sobre los albumes, así que preguntamos a album.php
 		$objAlbum = new datAlbum();
@@ -147,6 +232,24 @@ class datUsuario {
 		// Añadimos los albumes a los datos
 		$jsondata['albumes'] = $albumes;
 
+		// Devolvemos el array codificado en json
+		return json_encode($jsondata);
+	}
+
+	public function obtenerUsuarioContrasenya($idusuario) {
+		// montamos la consulta
+		$inicio = "SELECT u.contrasenya FROM usuario u";
+		$where = " WHERE u.id= '".$idusuario."'";
+		$sql = $inicio.$where;
+		// ejecutamos consulta
+		$result = $this->conn->query($sql);
+		// Preparamos array donde iran los resultados
+		$jsondata = array();
+		// Mientras haya resultados, montaremos una row por cada fila, y la transformaremos en un objeto
+		while($row = $result->fetch_object()){
+			// Añadimos el objeto row al array
+			array_push($jsondata,$row);
+		}
 		// Devolvemos el array codificado en json
 		return json_encode($jsondata);
 	}

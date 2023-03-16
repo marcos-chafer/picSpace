@@ -75,6 +75,9 @@ switch ($funcion) {
 		$idalbum = $_POST["idalbum"];
 		echo obtenerImagenes($idalbum);
 		break;
+	case 'obtenerTendencias':
+		echo obtenerTendencias();
+		break;
 	case 'puntuarImagen':
 		$idimagen = $_POST['idimagen'];
 		$idusuario = $_POST['idusuario'];
@@ -168,6 +171,15 @@ function obtenerImagenes($idalbum){
 	$objImagen = new datImagen();
 
 	$result = $objImagen->obtenerImagenes($idalbum);
+
+	return $result;
+}
+
+function obtenerTendencias(){
+// Funcion que obtiene todas las imagenes asignadas a un album
+	$objImagen = new datImagen();
+
+	$result = $objImagen->obtenerTendencias();
 
 	return $result;
 }

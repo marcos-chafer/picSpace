@@ -31,10 +31,23 @@ function iniciarPerfil() {
 	var idusuario = sessionStorage.getItem('idPerfil');
 	if (idusuario=="" || idusuario==null) idusuario = localStorage.getItem('idUsuario');
 
+	// Controlamos notis
+	let noti = sessionStorage.getItem('noti');
+	switch (noti) {
+		case "modificarUsuario":
+			n.notiInfo("Perfil modificado con éxito");
+			break;
+		default:
+			break;
+	}
+	//Limpiamos noti una vez controlada
+	sessionStorage.removeItem('noti');
+
 	$.ajax({
-		url: "http://192.168.1.38/picSpace/src/server/usuario.php", async: false, type: "post", dataType: "json",
+		url: "http://192.168.1.137/picSpace/src/server/usuario.php", async: false, type: "post", dataType: "json",
 		data: { funcion: "obtenerUsuario", idusuario: idusuario},
 		success: function (result) {
+
 			let perfil = result[0];
 			// Transformamos el json de albumes en un objeto para más comodidad
 			let albumes = JSON.parse(result.albumes);
@@ -42,6 +55,15 @@ function iniciarPerfil() {
 			$("#usuarioNombre").html(perfil.nombre);
 			$("#usuarioDatosNombre").html(perfil.nombre);
 			$("#usuarioDatosIdentificador").html("@"+perfil.identificador);
+			$("#usuarioSiguiendo").html(result.seguidos+" siguiendo");
+			$("#usuarioSeguidores").html(result.seguidores+" seguidores");
+			
+			let imagenPerfil = document.createElement('img');
+			if (perfil.ruta == null) imagenPerfil.setAttribute('src',"./../assets/img/iconousuario.svg");
+			else imagenPerfil.setAttribute('src',perfil.ruta);
+			imagenPerfil.classList = "w-32 h-32 rounded-full"
+
+			$("#usuarioImagen").append(imagenPerfil);
 
 			albumes.forEach(function(album) {
 				let usuarioAlbum = document.createElement('div');
@@ -49,7 +71,7 @@ function iniciarPerfil() {
 				usuarioAlbum.setAttribute('nombre',album.nombre);
 				usuarioAlbum.addEventListener('click',irAAlbum);
 				usuarioAlbum.style = "cursor: pointer;";
-				usuarioAlbum.classList = "bg-indigo-300 rounded-md lg:h-48 lg:w-48 flex justify-center hover:bg-indigo-500";
+				usuarioAlbum.classList = "albumCard";
 
 				let albumTitulo = document.createElement("div");
 				albumTitulo.textContent = album.nombre;
@@ -62,6 +84,16 @@ function iniciarPerfil() {
 				usuarioAlbum.append(albumImagen);
 				$("#usuarioAlbums").append(usuarioAlbum);
 			});
+
+			if (idusuario!=localStorage.getItem('idUsuario')){
+
+				let botonSeguir = document.createElement('button');
+				botonSeguir.classList = "boton  hover:scale-125 transition duration-300 ease-in-out";
+				botonSeguir.textContent = "Seguir";
+
+
+				$("#infoPerfil").append(botonSeguir)
+			}
 
 
 		}
@@ -88,6 +120,15 @@ $("#botonDesplegarMenu").click(function () {
 	if (menuOpcionesHome == 'cerrado') abrirMenu();
 	else cerrarMenu();
 });
+
+$("#IrAMiPerfil").click(function() {
+	sessionStorage.removeItem('idPerfil');
+	window.location.assign("./perfil.html");
+})
+
+$("#usuarioAjustes").click(function(){
+	window.location.assign("./ajustesperfil.html");
+})
 
 $("#botonCerrarSesion").click(function () {
 	cerrarSesion();

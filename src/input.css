@@ -40,8 +40,25 @@
     }
 }
 
-/* home */
+/* menu lateral */
 
 .botonOpciones {
-    @apply block mt-2 mx-14 hover:bg-indigo-400 hover:rounded-full;
+    @apply flex items-center mt-2 mx-14 hover:bg-indigo-400 rounded-full hover:scale-110 transition duration-200 ease-in-out;
 }
+.botonOpciones i{
+    @apply ml-2;
+}
+.botonOpciones button{
+    @apply w-full text-center;
+}
+ 
+/* cards */
+
+.albumCard {
+    @apply bg-indigo-300 rounded-md lg:h-48 hover:bg-indigo-500 text-center hover:scale-110 transition duration-200 ease-in-out;
+}
+
+.imagenCard {
+    @apply grid text-center bg-indigo-300 rounded-md lg:h-48 flex justify-center hover:bg-indigo-500 hover:scale-110 transition duration-200 ease-in-out;
+}
+

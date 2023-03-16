@@ -49,7 +49,7 @@ function iniciarAlbum() {
 
 
 	$.ajax({
-		url: "http://192.168.1.38/picSpace/src/server/imagen.php", async: false, type: "post", dataType: "json",
+		url: "http://192.168.1.137/picSpace/src/server/imagen.php", async: false, type: "post", dataType: "json",
 		data: { funcion: "obtenerImagenes", idalbum: idalbum },
 		// Cuando lleguen los datos...
 		success: function (result) {
@@ -66,7 +66,7 @@ function iniciarAlbum() {
 				let imagen = document.createElement("div");
 				imagen.setAttribute('id', id);
 				imagen.style = "cursor: pointer;";
-				imagen.classList = "grid text-center bg-indigo-300 rounded-md lg:h-48 flex justify-center hover:bg-indigo-500";
+				imagen.classList = "imagenCard";
 				// añadimos el title para ser usado posteriormente
 				imagen.title = titulo;
 				imagen.addEventListener('click',irAImagen);
@@ -95,7 +95,7 @@ function iniciarAlbum() {
 			botonMas.setAttribute('id', 'botonMas');
 			botonMas.addEventListener('click',crearImagen);
 			botonMas.style = "cursor: pointer;";
-			botonMas.classList = "bg-indigo-300 rounded-full p-5 w-fit centrarHorizontal mt-16 hover:bg-indigo-500";
+			botonMas.classList = "bg-indigo-300 rounded-full p-5 w-fit centrarHorizontal mt-16 hover:bg-indigo-500 hover:scale-110 transition duration-200 ease-in-out";
 
 
 
@@ -129,6 +129,11 @@ $("#botonDesplegarMenu").click(function () {
 	if (menuOpcionesHome == 'cerrado') abrirMenu();
 	else cerrarMenu();
 });
+
+$("#IrAMiPerfil").click(function() {
+	sessionStorage.removeItem('idPerfil');
+	window.location.assign("./perfil.html");
+})
 
 $("#botonCerrarSesion").click(function () {
 	cerrarSesion();
