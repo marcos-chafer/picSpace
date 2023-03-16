@@ -182,7 +182,7 @@ class datUsuario {
 		return json_encode($jsondata);
 	}
 
-	public function obtenerUsuario($idusuario) {
+	public function obtenerUsuario($idusuario,$idseguidor = null) {
 		// motamos la consulta
 		$inicio = "SELECT * FROM usuario AS u ";
 		$where = " WHERE u.id ='".$idusuario."'";
@@ -198,6 +198,24 @@ class datUsuario {
 		}
 		// Eliminamos contrasenya del array jsondata
 		unset($jsondata[0]->contrasenya);
+
+		// Si nos viene idseguidor, debemos comprobar si el idseguidor sigue al idusuario
+		if ($idseguidor != null){
+			// montamos la consulta
+			$inicio = "SELECT * FROM usuario_seguidor us ";
+			$where = " WHERE us.id_seguido ='".$idusuario."' AND  us.id_seguidor = '".$idseguidor."'";
+			$sql = $inicio.$where;
+			// ejecutamos consulta
+			$result = $this->conn->query($sql);
+			// Si nos vienen resultados significa que coincide
+			if ($result->num_rows > 0) {
+				$jsondata['seSiguen'] = "true";
+			}
+			// si no hay ningun resultado...
+			else {
+				$jsondata['seSiguen'] = "false";
+			}
+		}
 
 		// Obtenemos número de seguidos y seguidores
 
@@ -252,6 +270,40 @@ class datUsuario {
 		}
 		// Devolvemos el array codificado en json
 		return json_encode($jsondata);
+	}
+
+	public function seguirUsuario($idusuario,$idseguidor) {
+		// montamos la consulta
+		$inicio = "INSERT INTO `usuario_seguidor`(`id_seguidor`, `id_seguido`) VALUES ";
+		$where = " ('".$idseguidor."', '".$idusuario."')";
+		$sql = $inicio.$where;
+		// ejecutamos consulta
+		$result = $this->conn->query($sql);
+		// Si nos vienen resultados significa que coincide
+		if ($result->num_rows > 0) {
+			return (json_encode(array("exito"=>true)));
+		}
+		// si no hay ningun resultado...
+		else {
+			return (json_encode(array("exito"=>false)));
+		}
+	}
+
+	public function noSeguirUsuario($idusuario,$idseguidor) {
+		// montamos la consulta
+		$inicio = "DELETE FROM `usuario_seguidor` ";
+		$where = " WHERE id_seguidor = '".$idseguidor."' AND id_seguido = '".$idusuario."' ";
+		$sql = $inicio.$where;
+		// ejecutamos consulta
+		$result = $this->conn->query($sql);
+		// Si nos vienen resultados significa que coincide
+		if ($result->num_rows > 0) {
+			return (json_encode(array("exito"=>true)));
+		}
+		// si no hay ningun resultado...
+		else {
+			return (json_encode(array("exito"=>false)));
+		}
 	}
 
 

@@ -72,7 +72,7 @@ function iniciarAlbum() {
 				albumTitulo.textContent = nombre;
 
 				let albumImagen = document.createElement('div');
-				albumImagen.classList = "h-32";
+				albumImagen.classList = "albumCardImagen";
 
 				let albumRuta = document.createElement('img');
 				albumRuta.setAttribute('src', ruta)
@@ -111,6 +111,7 @@ function iniciarAlbum() {
 
 	let carrusel = document.createElement('div');
 	carrusel.setAttribute('id', 'carrusel');
+	carrusel.classList = "hidden lg:flex w-fit mx-auto mb-20";
 
 	let buttonLeft = document.createElement('button');
 	buttonLeft.setAttribute('id', 'prev');
@@ -119,7 +120,7 @@ function iniciarAlbum() {
 
 	let carruselImages = document.createElement('div');
 	carruselImages.setAttribute('id', 'slideshow-container');
-	carruselImages.classList = "h-10 w-10";
+	carruselImages.classList = "h-36 w-96 flex gap-1 flex-row";
 	carrusel.append(carruselImages);
 
 	let buttonRight = document.createElement('button');
@@ -127,7 +128,7 @@ function iniciarAlbum() {
 	buttonRight.textContent = ">";
 	carrusel.append(buttonRight);
 
-	$("#albums").append(carrusel);
+	$("#espacioCarrusel").append(carrusel);
 
 	//Seleccionamos los elementos recién creados
 

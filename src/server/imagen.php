@@ -10,7 +10,10 @@ else $funcion = "guardarImagenServidor";
 
 switch ($funcion) {
 
-
+	case 'buscarTags':
+		$tags = $_POST['tags'];
+		echo buscarTags($tags);
+		break;
 	case 'comentarImagen':
 		$idimagen = $_POST['idimagen'];
 		$idusuario = $_POST['idusuario'];
@@ -91,6 +94,16 @@ switch ($funcion) {
 	default:
 		break;
 };
+
+function buscarTags($tags){
+// Registra comentario en BBDD usando los params
+
+	$objImagen = new datImagen();
+	
+	$result = $objImagen->buscarTags($tags);
+
+	return $result;
+}
 
 function comentarImagen($idimagen,$idusuario,$comentarioTexto){
 // Registra comentario en BBDD usando los params

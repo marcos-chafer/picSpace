@@ -59,6 +59,7 @@ function iniciarAlbum() {
 				let titulo = result[i].titulo;
 				// Nos quedamos solo con el nombre y no con la extensión
 				titulo = titulo.split(".")[0];
+				let puntos = result[i].puntos;
 				let fecha = result[i].fecha;
 				let ruta = result[i].ruta;
 
@@ -68,24 +69,31 @@ function iniciarAlbum() {
 				let imagen = document.createElement("div");
 				imagen.setAttribute('id', id);
 				imagen.style = "cursor: pointer;";
-				imagen.classList = "grid text-center bg-indigo-300 w-1/2 h-20 mx-20 mb-10 rounded-md flex justify-center hover:bg-indigo-500 hover:scale-110 transition duration-200 ease-in-out";
+				imagen.classList = "text-center bg-indigo-300 w-44 mx-10 mb-32 h-56 rounded-md flex flex-col hover:bg-indigo-500 hover:scale-110 transition duration-200 ease-in-out";
 				// añadimos el title para ser usado posteriormente
 				imagen.title = titulo;
 				imagen.addEventListener('click',irAImagen);
 
 				let imagenTitulo = document.createElement("div");
+				imagenTitulo.classList = "";
 				imagenTitulo.textContent = titulo;
 
+				let imagenPuntos = document.createElement("div");
+				imagenPuntos.textContent = puntos;
+
+
 				let imagenImagen = document.createElement('div');
-				imagenImagen.classList = "h-32";
+				imagenImagen.classList = "w-full overflow-hidden ";
 
 				let imagenRuta = document.createElement('img')
+				imagenRuta.classList = "w-full min-h-full";
 				imagenRuta.setAttribute('src', ruta)
 
 				imagenImagen.append(imagenRuta);
 
 				// añadimos elementos al div de imagenes
 				imagen.append(imagenTitulo);
+				imagen.append(imagenPuntos);
 				imagen.append(imagenImagen);
 				$("#cajaTendencias").append(imagen);
 			}

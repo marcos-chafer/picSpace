@@ -123,7 +123,7 @@ function iniciarAjustes() {
 		data: { funcion: "obtenerUsuario", idusuario: idusuario },
 		success: function (result) {
 			let usuario = result[0];
-
+			console.log(usuario);
 			$("#nombrePerfil").val(usuario.nombre);
 			$("#descripcionPerfil").val(usuario.descripcion);
 			$("#tagsPerfil").val(usuario.tags);

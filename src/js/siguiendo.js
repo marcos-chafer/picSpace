@@ -54,7 +54,7 @@ function iniciarSiguiendo() {
 
 	$.ajax({
 		url: "http://192.168.1.137/picSpace/src/server/usuario.php", async: false, type: "post", dataType: "json",
-		data: { funcion: "obtenerSeguidores", idusuario: idusuario },
+		data: { funcion: "obtenerSeguidos", idusuario: idusuario },
 		// Cuando lleguen los datos...
 		success: function (result) {
 			result.forEach(function(seguido){

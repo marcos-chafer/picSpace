@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta charset="UTF-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<!-- Favicon -->
+	<link rel="shortcut icon" href="../assets/img/logo_picspace_nuevo_icono_blanco_relleno.png" type="image/x-icon">
+	<!-- FontAwesome -->
+	<link rel="stylesheet" href="../assets/fontawesome/css/all.css">
+	<!-- TailwindCSS -->
+	<link rel="stylesheet" href="./output.css">
+	<!-- izitoast -->
+	<link rel="stylesheet" href="./iziToast.min.css">
+	<script src="./js/iziToast.min.js"></script>
+	<script type="module" src="./js/noti.js"></script>
+	<!-- jQuery -->
+	<script src="./js/jquery-3.6.1.min.js"></script>
+	<script defer type="module" src="./js/buscar.js"></script>
+	<title>picSpace - Buscar</title>
+</head>
+
+<body class="overflow-x-hidden">
+	<div class="grid lg:grid-cols-6">
+		<!-- Perfil y opciones -->
+		<div id="menuOpcionesHome" class="grid lg:col-span-1 lg:h-screen border border-x-indigo-800">
+			<div class="grid grid-cols-3 lg:grid-cols-1">
+			<a href="./home.html" class="p-3 rounded-full mt-4 ml-2 lg:hidden h-fit w-fit hover:bg-indigo-800">
+				<i class="fa fa-arrow-left fa-2xl"></i>
+			</a>
+				<!-- TODO  Aqui ira la foto de perfil del usuario -->
+				<img src="../assets/img/logo_picspace_nuevo_icono_blanco_relleno.png" class="h-14 centrarHorizontal mt-2" alt="Logo picSpace">
+			</div>
+			<div id="opcionesHome" class="hidden lg:block lg:relative lg:row-span-6 text-center">
+				<a href="./home.html" class="botonOpciones">
+					<i class="fa-solid fa-house"></i>
+					<button class="">Inicio</button>
+				</a>
+				<a href="./notificaciones.html" class="botonOpciones">
+					<i class="fa-solid fa-bell"></i>
+					<button>Notificaciones</button>
+				</a>
+				<a id="IrAMiPerfil" class="botonOpciones cursor-pointer">
+					<i class="fa-solid fa-user"></i>
+					<button>Perfil</button>
+				</a>
+				<a href="./seguidores.html" class="botonOpciones">
+					<i class="fa-solid fa-users"></i>
+					<button>Seguidores</button>
+				</a>
+				<a href="./siguiendo.html" class="botonOpciones">
+					<i class="fa-solid fa-people-arrows"></i>
+					<button>Siguiendo</button>
+				</a>
+				<a href="./albums.html" class="botonOpciones">
+					<i class="fa-solid fa-book"></i>
+					<button>Mis albums</button>
+				</a>
+				<a href="./buscar.html" class="botonOpciones">
+					<i class="fa-solid fa-magnifying-glass"></i>
+					<button>Buscar</button>
+				</a>
+				<a href="./tendencias.html" class="botonOpciones">
+					<i class="fa-solid fa-star"></i>
+					<button>Tendencias</button>
+				</a>
+				<a href="./ajustesperfil.html" class="botonOpciones">
+					<i class="fa-solid fa-gear"></i>
+					<button>Configuración</button>
+				</a>
+
+				<button id="botonCerrarSesion" class="boton block centrarHorizontal lg:absolute lg:bottom-4 lg:right-20 lg:left-20">Cerrar sesión</button>
+			</div>
+			<div class="lg:hidden">
+				<button id="botonDesplegarMenu" class="block centrarHorizontal">
+					<i class="fa-solid fa-arrow-down"></i>
+				</button>
+			</div>
+		</div>
+		<!-- Fin Perfil y opciones -->
+		<!-- Mis albums -->
+		<div id="albums" class="grid lg:col-span-5 grid-cols-3 lg:grid-cols-8 mt-10 lg:mt-5 gap-x-2 lg:gap-x-5 gap-y-4 lg:gap-y-0 mx-2 lg:mx-4">
+			<!-- TODO debe ir al perfil anterior -->
+			<a href="./home.html" class="p-3 hidden lg:block rounded-full mt-2 ml-2 w-fit h-fit hover:bg-indigo-800">
+				<i class="fa fa-arrow-left fa-2xl"></i>
+			</a>
+			<div class="col-span-6">
+				<h2 class="font-bold text-3xl mb-20 text-center">Buscar</h2>
+				<input type="text" id="tagsBuscar" class="inputText block mx-auto hover:scale-105 transition duration-200 ease-in-out mb-2" placeholder="Busca un tag...">
+				<div id="tagsIntroducidos" class="block mx-auto w-fit mb-4 text-center">
+		
+				</div>
+				<button id="botonBuscar" class="boton block mx-auto">Buscar</button>
+				<div id="cajaResultadosBusqueda" class="mt-10 flex flex-row flex-wrap justify-center">
+				</div>
+			</div>
+		</div>
+		<!-- Fin Mis albums -->
+	</div>
+</body>
+
+</html>

@@ -94,11 +94,22 @@ switch ($funcion) {
 		break;
 	case 'obtenerUsuario':
 		$idusuario = $_POST['idusuario'];
-		echo obtenerUsuario($idusuario);
+		$idseguidor = $_POST['idseguidor'];
+		echo obtenerUsuario($idusuario,$idseguidor);
 		break;
 	case 'obtenerUsuarioContrasenya':
 		$idusuario = $_POST['idusuario'];
 		echo obtenerUsuarioContrasenya($idusuario);
+		break;
+	case 'seguirUsuario':
+		$idusuario = $_POST['idusuario'];
+		$idseguidor = $_POST['idseguidor'];
+		echo seguirUsuario($idusuario,$idseguidor);
+		break;
+	case 'noSeguirUsuario':
+		$idusuario = $_POST['idusuario'];
+		$idseguidor = $_POST['idseguidor'];
+		echo noSeguirUsuario($idusuario,$idseguidor);
 		break;
 	default:
 		break;
@@ -194,10 +205,15 @@ function obtenerSeguidos($idusuario) {
 	return $result;
 }
 
-function obtenerUsuario($idusuario) {
+function obtenerUsuario($idusuario,$idseguidor) {
+
 	$objUsuario = new datUsuario();
 
-	$result = $objUsuario->obtenerUsuario($idusuario);
+	if ($idusuario==$idseguidor){
+		$result = $objUsuario->obtenerUsuario($idusuario);
+	}
+
+	$result = $objUsuario->obtenerUsuario($idusuario,$idseguidor);
 
 	return $result;
 }
@@ -206,6 +222,22 @@ function obtenerUsuarioContrasenya($idusuario) {
 	$objUsuario = new datUsuario();
 
 	$result = $objUsuario->obtenerUsuarioContrasenya($idusuario);
+
+	return $result;
+}
+
+function seguirUsuario($idusuario,$idseguidor) {
+	$objUsuario = new datUsuario();
+
+	$result = $objUsuario->seguirUsuario($idusuario,$idseguidor);
+
+	return $result;
+}
+
+function noSeguirUsuario($idusuario,$idseguidor) {
+	$objUsuario = new datUsuario();
+
+	$result = $objUsuario->noSeguirUsuario($idusuario,$idseguidor);
 
 	return $result;
 }
