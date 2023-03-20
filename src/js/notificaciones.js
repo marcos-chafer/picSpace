@@ -12,6 +12,13 @@ function abrirMenu() {
 
 function cerrarSesion() {
 	localStorage.removeItem('usuarioLogin');
+	localStorage.removeItem('idPerfil');
+	localStorage.removeItem('idUsuario');
+	localStorage.removeItem('usuarioRuta');
+	sessionStorage.removeItem('idPerfil');
+	sessionStorage.removeItem('idImagen');
+	sessionStorage.removeItem('nombreImagen');
+
 	window.location.replace('./index.html');
 }
 
@@ -42,13 +49,34 @@ function eliminarNotificacion(id){
 
 }
 
-function iniciarAlbum() {
+function iniciarNotificaciones() {
 
 
 	// Declaracion de variables
 	let idusuario = localStorage.getItem('idUsuario');
 	menuOpcionesHome = "cerrado";
 
+	// Cargamos foto perfil del usuario para el menú lateral
+	$("#usuarioFotoPerfil").prop('src',localStorage.getItem('usuarioRuta'));
+
+	// Comprobar notificaciones del usuario
+	$.ajax({
+		url: "http://192.168.1.137/picSpace/src/server/usuario.php", async: false, type: "post", dataType: "json",
+		data: { funcion: "obtenerNotificaciones", idusuario: localStorage.getItem('idUsuario')},
+		success: function (result) {
+			console.log(result[0]);
+			if (result[0]!= undefined){
+				$("#notificacionesAlerta").addClass("animate-pulse text-blue-700");
+				// Contamos las notificaciones para mostrar un número en el icono
+				let contNotificaciones = 0;
+				result.forEach(function(notificacion){
+					contNotificaciones++;
+				})
+				$("#notificacionesAlerta").text(" "+contNotificaciones);
+
+			}
+		}
+	});
 
 	$.ajax({
 		url: "http://192.168.1.137/picSpace/src/server/usuario.php", async: false, type: "post", dataType: "json",
@@ -57,23 +85,38 @@ function iniciarAlbum() {
 		success: function (result) {
 			result.forEach(function(notificacion){
 				let notificacionContenedor = document.createElement('div');
+				notificacionContenedor.classList = "flex";
+
+				let notificacionRuta = document.createElement('img');
+				notificacionRuta.setAttribute('id',notificacion.idusuario)
+				notificacionRuta.setAttribute('src',notificacion.ruta)
+				notificacionRuta.classList = "w-6 h-6 rounded-full mr-2 cursor-pointer hover:scale-125 transition duration-200 ease-in-out";
+				notificacionRuta.addEventListener('click',IrAPerfil);
+				notificacionContenedor.append(notificacionRuta);
+				
+				let notificacionTexto = document.createElement('span');
+				notificacionTexto.classList = "bg-blue-300 rounded-lg pl-2";
+				notificacionTexto.textContent = notificacion.texto;
+				notificacionContenedor.append(notificacionTexto);
+
+				if (notificacion.imagen != null){
+					let notificacionImagen = document.createElement('span');
+					notificacionImagen.setAttribute('id',notificacion.imagen);
+					notificacionImagen.textContent = "imagen";
+					notificacionImagen.classList = "cursor-pointer ml-1 pr-2 hover:text-blue-500 hover:scale-105 font-semibold transition duration-200 ease-in-out";
+					notificacionImagen.addEventListener('click',irAImagen);
+					notificacionTexto.append(notificacionImagen);
+				}
 
 				let notificacionBotones = document.createElement('div');
-				notificacionBotones.classList = "inline mr-2";
+				notificacionBotones.classList = "flex justify-center w-6 items-center ml-auto bg-blue-300 rounded-full  hover:scale-150 transition duration-200 ease-in-out";
 				notificacionContenedor.append(notificacionBotones);
 
 				let notificacionEliminar = document.createElement('i');
 				notificacionEliminar.setAttribute('id','botonEliminar_'+notificacion.id);
 				notificacionEliminar.setAttribute('title','Eliminar notificación');
-				notificacionEliminar.classList = "fa fa-x fa-xl cursor-pointer";
+				notificacionEliminar.classList = "fa fa-x fa-md cursor-pointer";
 				notificacionBotones.append(notificacionEliminar);
-
-				let notificacionUsuario = document.createElement('button');
-				
-
-				let notificacionTexto = document.createElement('span');
-				notificacionTexto.textContent = notificacion.texto;
-				notificacionContenedor.append(notificacionTexto);
 
 				
 
@@ -103,6 +146,15 @@ function irAImagen(event) {
 	
 };
 
+function IrAPerfil(event){
+	// Cogemos el id del usuario
+	let idperfil = (event.currentTarget.id);
+
+
+	sessionStorage.setItem('idPerfil',idperfil);
+	window.location.assign('./perfil.html');
+}
+
 // ASIGNACIÓN DE EVENTOS
 $("#botonDesplegarMenu").click(function () {
 	if (menuOpcionesHome == 'cerrado') abrirMenu();
@@ -119,4 +171,4 @@ $("#botonCerrarSesion").click(function () {
 });
 
 
-iniciarAlbum();
+iniciarNotificaciones();

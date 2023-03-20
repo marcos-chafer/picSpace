@@ -13,6 +13,20 @@ else $funcion = "guardarAlbumImagenServidor";
 // Comprobamos la función a realizar
 switch ($funcion) {
 	case 'guardarAlbumImagenServidor':
+		// Si no nos viene archivo de imagen, modificamos
+		if (!array_key_exists('file',$_FILES)){
+			$nombrealbum = $_POST['nombrealbum'];
+			$idusuario = $_POST['idUsuario'];
+			$tags = $_POST['tags'];
+
+			echo guardarAlbum($nombrealbum,$idusuario,$tags);
+
+			// Creamos la carpeta del album si no existe
+			if (!file_exists("/XAMPP/htdocs/picspace/media/".$idusuario."/".$nombrealbum)){
+				mkdir("/XAMPP/htdocs/picspace/media/".$idusuario."/".$nombrealbum,777);
+			}
+			break;
+		}
 		// Cogemos el nombre del archivo
 		$nombrearchivo = $_FILES['file']['full_path'];
 		$nombreexplotado = explode(".",$nombrearchivo);
@@ -70,7 +84,7 @@ switch ($funcion) {
 
 // FUNCIONES
 
-function guardarAlbum($nombre,$idusuario,$tags,$ruta){
+function guardarAlbum($nombre,$idusuario,$tags,$ruta = null){
 // Registra un album en BBDD usando los params
 // TODO securizar más esto
 

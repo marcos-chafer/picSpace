@@ -11,6 +11,13 @@ function abrirMenu() {
 
 function cerrarSesion() {
 	localStorage.removeItem('usuarioLogin');
+	localStorage.removeItem('idPerfil');
+	localStorage.removeItem('idUsuario');
+	localStorage.removeItem('usuarioRuta');
+	sessionStorage.removeItem('idPerfil');
+	sessionStorage.removeItem('idImagen');
+	sessionStorage.removeItem('nombreImagen');
+
 	window.location.replace('./index.html');
 }
 
@@ -46,7 +53,27 @@ function iniciarAlbum() {
 	//Limpiamos noti una vez controlada
 	sessionStorage.removeItem('noti');
 
+	// Cargamos foto perfil del usuario para el menú lateral
+	$("#usuarioFotoPerfil").prop('src',localStorage.getItem('usuarioRuta'));
 
+	// Comprobar notificaciones del usuario
+	$.ajax({
+		url: "http://192.168.1.137/picSpace/src/server/usuario.php", async: false, type: "post", dataType: "json",
+		data: { funcion: "obtenerNotificaciones", idusuario: localStorage.getItem('idUsuario')},
+		success: function (result) {
+			console.log(result[0]);
+			if (result[0]!= undefined){
+				$("#notificacionesAlerta").addClass("animate-pulse text-blue-700");
+				// Contamos las notificaciones para mostrar un número en el icono
+				let contNotificaciones = 0;
+				result.forEach(function(notificacion){
+					contNotificaciones++;
+				})
+				$("#notificacionesAlerta").text(" "+contNotificaciones);
+
+			}
+		}
+	});
 
 	$.ajax({
 		url: "http://192.168.1.137/picSpace/src/server/album.php", async: false, type: "post", dataType: "json",
@@ -79,12 +106,12 @@ function iniciarAlbum() {
 
 				albumImagen.append(albumRuta);
 
-				// añadimos elementos al div de albumes
+				// añadimos elementos al div de albums
 				album.append(albumTitulo);
 				album.append(albumImagen);
 				$("#albums").append(album);
 			}
-			// Cuando se hayan recorrido todos los albumes...
+			// Cuando se hayan recorrido todos los albums...
 			let colMas = document.createElement("div");
 			colMas.classList = "lg:h-48";
 
@@ -92,14 +119,14 @@ function iniciarAlbum() {
 			botonMas.setAttribute('id', 'botonMas');
 			botonMas.addEventListener('click', crearAlbum);
 			botonMas.style = "cursor: pointer;";
-			botonMas.classList = "bg-indigo-300 rounded-full p-5 w-fit centrarHorizontal mt-16 hover:bg-indigo-500 hover:scale-110 transition duration-200 ease-in-out";
+			botonMas.classList = "bg-blue-300 rounded-full p-5 w-fit centrarHorizontal mt-16 hover:bg-blue-500 hover:scale-110 transition duration-200 ease-in-out";
 
 
 
 			let i = document.createElement('i');
 			i.classList = "fa-solid fa-plus fa-2xl";
 
-			// añadimos elementos despues de los albumes
+			// añadimos elementos despues de los albums
 			botonMas.append(i);
 			colMas.append(botonMas);
 

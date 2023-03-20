@@ -2,6 +2,7 @@ import { noti } from "./noti.js";
 let n = new noti();
 
 var menuOpcionesHome = "cerrado";
+var idusuario;
 
 function abrirMenu() {
 	$("#opcionesHome").show();
@@ -14,6 +15,13 @@ function abrirMenu() {
 
 function cerrarSesion() {
 	localStorage.removeItem('usuarioLogin');
+	localStorage.removeItem('idPerfil');
+	localStorage.removeItem('idUsuario');
+	localStorage.removeItem('usuarioRuta');
+	sessionStorage.removeItem('idPerfil');
+	sessionStorage.removeItem('idImagen');
+	sessionStorage.removeItem('nombreImagen');
+
 	window.location.replace('./index.html');
 }
 
@@ -28,7 +36,7 @@ function cerrarMenu() {
 function iniciarPerfil() {
 // Cargaremos el perfil segun la variable sessionStorage idPerfil, si no hay ninguna, se cargará la del usuario logueado actualmente
 
-	var idusuario = sessionStorage.getItem('idPerfil');
+	idusuario = sessionStorage.getItem('idPerfil');
 	// Cogemos siempres nuestro propio perfil para una futura comprobación de seguimiento
 	var idseguidor = localStorage.getItem('idUsuario');
 
@@ -36,6 +44,28 @@ function iniciarPerfil() {
 	if (idusuario=="" || idusuario==null){
 		idusuario = localStorage.getItem('idUsuario');
 	}
+	
+	// Cargamos foto perfil del usuario para el menú lateral
+	$("#usuarioFotoPerfil").prop('src',localStorage.getItem('usuarioRuta'));
+
+	// Comprobar notificaciones del usuario
+	$.ajax({
+		url: "http://192.168.1.137/picSpace/src/server/usuario.php", async: false, type: "post", dataType: "json",
+		data: { funcion: "obtenerNotificaciones", idusuario: localStorage.getItem('idUsuario')},
+		success: function (result) {
+			console.log(result[0]);
+			if (result[0]!= undefined){
+				$("#notificacionesAlerta").addClass("animate-pulse text-blue-700");
+				// Contamos las notificaciones para mostrar un número en el icono
+				let contNotificaciones = 0;
+				result.forEach(function(notificacion){
+					contNotificaciones++;
+				})
+				$("#notificacionesAlerta").text(" "+contNotificaciones);
+
+			}
+		}
+	});
 
 	// Controlamos notis
 	let noti = sessionStorage.getItem('noti');
@@ -59,63 +89,82 @@ function iniciarPerfil() {
 		url: "http://192.168.1.137/picSpace/src/server/usuario.php", async: false, type: "post", dataType: "json",
 		data: { funcion: "obtenerUsuario", idusuario: idusuario, idseguidor:idseguidor},
 		success: function (result) {
-			console.log(result);
 			let perfil = result[0];
-			// Transformamos el json de albumes en un objeto para más comodidad
-			let albumes = JSON.parse(result.albumes);
+			// Transformamos el json de albums en un objeto para más comodidad
+			let albums = JSON.parse(result.albums);
 
-			$("#usuarioNombre").html(perfil.nombre);
+			$("#usuarioIdentificador").html(perfil.identificador);
 			$("#usuarioDatosNombre").html(perfil.nombre);
-			$("#usuarioDatosIdentificador").html("@"+perfil.identificador);
+			// $("#usuarioDatosIdentificador").html("@"+perfil.identificador);
+			$("#usuarioDatosDescripcion").html(perfil.descripcion);
 			$("#usuarioSiguiendo").html(result.seguidos+" siguiendo");
 			$("#usuarioSeguidores").html(result.seguidores+" seguidores");
 			
 			let imagenPerfil = document.createElement('img');
 			if (perfil.ruta == null) imagenPerfil.setAttribute('src',"./../assets/img/iconousuario.svg");
 			else imagenPerfil.setAttribute('src',perfil.ruta);
-			imagenPerfil.classList = "w-32 h-32 rounded-full"
+			imagenPerfil.classList = "w-32 h-32  rounded-full"
 
 			$("#usuarioImagen").append(imagenPerfil);
 
-			albumes.forEach(function(album) {
-				let usuarioAlbum = document.createElement('div');
-				usuarioAlbum.setAttribute('id',album.id);
-				usuarioAlbum.setAttribute('nombre',album.nombre);
-				usuarioAlbum.addEventListener('click',irAAlbum);
-				usuarioAlbum.style = "cursor: pointer;";
-				usuarioAlbum.classList = "albumCard w-40";
+			// Contamos numalbums
+			let usuarioNumAlbums = 0;
+
+			albums.forEach(function(album) {
+				// asignamos variables con los datos
+				let id = album.id;
+				let nombre = album.nombre;
+				let fecha = album.fecha;
+				let ruta = album.ruta;
+
+				// creamos los elementos
+				let albumCard = document.createElement("div");
+				albumCard.setAttribute('id', id);
+				albumCard.setAttribute('nombre', nombre);
+				albumCard.addEventListener('click', irAAlbum);
+				albumCard.style = "cursor: pointer;";
+				albumCard.classList = "albumCard";
 
 				let albumTitulo = document.createElement("div");
-				albumTitulo.textContent = album.nombre;
+				albumTitulo.textContent = nombre;
 
 				let albumImagen = document.createElement('div');
-				albumImagen.classList = "h-32";
+				albumImagen.classList = "albumCardImagen";
 
-				// añadimos elementos al div de albumes
-				usuarioAlbum.append(albumTitulo);
-				usuarioAlbum.append(albumImagen);
-				$("#usuarioAlbums").append(usuarioAlbum);
+				let albumRuta = document.createElement('img');
+				albumRuta.setAttribute('src', ruta)
+
+				albumImagen.append(albumRuta);
+
+				// añadimos elementos al div de albums
+				albumCard.append(albumTitulo);
+				albumCard.append(albumImagen);
+				$("#usuarioAlbums").append(albumCard);
+				
+				usuarioNumAlbums++;
 			});
+
+			$("#usuarioNumAlbums").html(usuarioNumAlbums+" albums");
 
 			// Controlamos botón seguir
 			if (idusuario!=localStorage.getItem('idUsuario')){
 
-				if (result.seSiguen == "false"){
+				if (result.seSiguen == false){
 					let botonSeguir = document.createElement('button');
-					botonSeguir.setAttribute('id',perfil.id);
-					botonSeguir.classList = "boton  hover:scale-125 transition duration-300 ease-in-out";
+					botonSeguir.setAttribute('id',"botonSeguir_"+perfil.id);
+					botonSeguir.classList = "boton  hover:scale-105 transition duration-300 ease-in-out";
 					botonSeguir.addEventListener('click',seguir);
 					botonSeguir.textContent = "Seguir";
 	
 	
 					$("#infoPerfil").append(botonSeguir)
 				}
-				else if (result.seSiguen == "true"){
+				else if (result.seSiguen == true){
 					let botonSeguido = document.createElement('button');
-					botonSeguido.setAttribute('id',perfil.id);
-					botonSeguido.classList = "boton hover:scale-125 hover:bg-red-800 transition duration-300 ease-in-out";
+					botonSeguido.setAttribute('id',"botonNoSeguir_"+perfil.id);
+					botonSeguido.classList = "boton hover:scale-105 hover:bg-red-800 transition duration-300 ease-in-out";
 					botonSeguido.addEventListener('click',noSeguir);
-					botonSeguido.textContent = "Seguido";
+					botonSeguido.textContent = "Siguiendo";
 	
 	
 					$("#infoPerfil").append(botonSeguido)
@@ -146,15 +195,16 @@ function irAAlbum(event) {
 
 function seguir(event) {
 	// Cogemos el id a seguir y nuestro id
-	let idusuario = (event.currentTarget.id);
+	let idtarget = (event.currentTarget.id);
+	let idusuario = idtarget.split('_')[1];
 	var idseguidor = localStorage.getItem('idUsuario');
+	var identificador = localStorage.getItem('usuarioLogin');
 
 	$.ajax({
 		url: "http://192.168.1.137/picSpace/src/server/usuario.php", async: false, type: "post", dataType: "json",
-		data: { funcion: "seguirUsuario", idusuario: idusuario, idseguidor:idseguidor},
+		data: { funcion: "seguirUsuario", idusuario: idusuario, identificador:identificador, idseguidor:idseguidor},
 		success: function (result) {
 			sessionStorage.setItem('noti','usuarioSeguido');
-			console.log(result);
 			window.location.reload();
 		
 
@@ -165,7 +215,8 @@ function seguir(event) {
 
 function noSeguir(event) {
 	// Cogemos el id a seguir y nuestro id
-	let idusuario = (event.currentTarget.id);
+	let idtarget = (event.currentTarget.id);
+	let idusuario = idtarget.split('_')[1];
 	var idseguidor = localStorage.getItem('idUsuario');
 
 	$.ajax({
@@ -173,7 +224,6 @@ function noSeguir(event) {
 		data: { funcion: "noSeguirUsuario", idusuario: idusuario, idseguidor:idseguidor},
 		success: function (result) {
 			sessionStorage.setItem('noti','usuarioNoSeguido');
-			console.log(result);
 			window.location.reload();
 		
 
@@ -193,12 +243,18 @@ $("#IrAMiPerfil").click(function() {
 	window.location.assign("./perfil.html");
 })
 
-$("#usuarioAjustes").click(function(){
-	window.location.assign("./ajustesperfil.html");
-})
-
 $("#botonCerrarSesion").click(function () {
 	cerrarSesion();
 });
 
 iniciarPerfil();
+
+$("#botonNoSeguir_"+idusuario).hover(
+	function(){
+		$(this).text('Dejar de seguir');
+	},
+	function(){
+		$(this).text('Siguiendo');
+	}
+);
+

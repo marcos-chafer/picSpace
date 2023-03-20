@@ -15,6 +15,13 @@ function abrirMenu() {
 
 function cerrarSesion() {
 	localStorage.removeItem('usuarioLogin');
+	localStorage.removeItem('idPerfil');
+	localStorage.removeItem('idUsuario');
+	localStorage.removeItem('usuarioRuta');
+	sessionStorage.removeItem('idPerfil');
+	sessionStorage.removeItem('idImagen');
+	sessionStorage.removeItem('nombreImagen');
+
 	window.location.replace('./index.html');
 }
 
@@ -26,50 +33,22 @@ function cerrarMenu() {
 	menuOpcionesHome = "cerrado";
 }
 
-function comprobarEliminacionAlbum() {
+function comprobarEliminacionCuenta() {
 
-	// Comprobamos si el álbum está vacío
-	var idalbum = sessionStorage.getItem('idAlbum')
-
-	$.ajax({
-		url: "http://192.168.1.137/picSpace/src/server/imagen.php", async: false, type: "post", dataType: "json",
-		data: { funcion: "obtenerImagenes", idalbum: idalbum },
-		success: function (result) {
-			// Si el álbum no contiene imagenes, mostramos un mensaje
-			if (result.length == 0) {
-				// Usamos una notificación custom sin usar noti ya que necesitamos que utilice funciones de esta página
-				iziToast.show({
-					title: "¿Está seguro de que desea eliminar el álbum?",
-					timeout: 5000,
-					position: 'topCenter',
-					icon: 'fa-solid fa-info',
-					color: 'red',
-					buttons: [
-						['<button>Eliminar</button>', function () {
-							eliminarAlbum();
-						}],
-					],
-				});
-			}
-			// Si nos llega con imágenes
-			else{
-				// Usamos una notificación custom sin usar noti ya que necesitamos que utilice funciones de esta página
-				iziToast.show({
-					title: "El álbum contiene imágenes",
-					message:'¿Está seguro de que desea eliminar el álbum?',
-					timeout: 5000,
-					position: 'topCenter',
-					icon: 'fa-solid fa-warning',
-					color: 'red',
-					buttons: [
-						['<button>Eliminar</button>', function () {
-							eliminarAlbum();
-						}],
-					],
-				});
-			}
-		}
-	})
+	// Usamos una notificación custom sin usar noti ya que necesitamos que utilice funciones de esta página
+	iziToast.show({
+		title: "Eliminación de su cuenta de picSpace",
+		message:'¿Está seguro de que desea eliminar su cuenta? Se borrarán todos los álbumes, imágenes y datos del perfil de picSpace',
+		timeout: 5000,
+		position: 'topCenter',
+		icon: 'fa-solid fa-warning',
+		color: 'red',
+		buttons: [
+			['<button>Eliminar</button>', function () {
+				eliminarCuenta();
+			}],
+		],
+	});
 
 }
 
@@ -80,34 +59,31 @@ function comprobarTags(){
 	let tags = ($("#tagsAlbum").val().split(","))
 	tags.forEach(function(tag) {
 		let tagContenedor = document.createElement('div');
-		tagContenedor.classList = "bg-indigo-800  hover:bg-indigo-400 text-white font-semibold rounded-xl py-1 px-2 mr-2 w-fit inline";
+		tagContenedor.classList = "bg-blue-800  hover:bg-blue-400 text-white font-semibold rounded-xl py-1 px-2 mr-2 w-fit inline";
 		tagContenedor.textContent = tag;
 		$("#tagsIntroducidos").append(tagContenedor);
 	});
 }
 
-function eliminarAlbum() {
+function eliminarCuenta() {
 
-	let idalbum = sessionStorage.getItem('idAlbum');
-	let nombrealbum = sessionStorage.getItem('nombreAlbum');
-
+	let idusuario = localStorage.getItem('idUsuario');
 
 	$.ajax({
-		url: "http://192.168.1.137/picSpace/src/server/album.php", async: false, type: "post", dataType: "json",
-		data: { funcion: "eliminarAlbum", idusuario: idusuario, idalbum: idalbum, nombrealbum: nombrealbum },
+		url: "http://192.168.1.137/picSpace/src/server/usuario.php", async: false, type: "post", dataType: "json",
+		data: { funcion: "eliminarCuenta", idusuario: idusuario},
 		success: function (result) {
 			// nos viene json con exito = true si se hizo correctamente
-			let respuesta = result.exito;
-			// Cuando nos viene exito a true
-			if (respuesta == true) {
-				// limpiamos items de session
-				sessionStorage.removeItem('idAlbum');
-				sessionStorage.removeItem('nombreAlbum');
-				// Añadimos noti de eliminarAlbum
-				sessionStorage.setItem('noti', 'eliminarAlbum');
-				// Nos vamos a albums
-				window.location.replace("./albums.html");
-			};
+			sessionStorage.setItem('noti','cuentaEliminada');
+			localStorage.removeItem('usuarioLogin');
+			localStorage.removeItem('idPerfil');
+			localStorage.removeItem('idUsuario');
+			localStorage.removeItem('usuarioRuta');
+			sessionStorage.removeItem('idPerfil');
+			sessionStorage.removeItem('idImagen');
+			sessionStorage.removeItem('nombreImagen');
+		
+			window.location.replace('./index.html');
 		}
 	});
 
@@ -118,11 +94,35 @@ function iniciarAjustes() {
 
 	// Obtenemos los datos del perfil
 	let idusuario = localStorage.getItem('idUsuario');
+
+	// Cargamos foto perfil del usuario para el menú lateral
+	$("#usuarioFotoPerfil").prop('src',localStorage.getItem('usuarioRuta'));
+
+	// Comprobar notificaciones del usuario
+	$.ajax({
+		url: "http://192.168.1.137/picSpace/src/server/usuario.php", async: false, type: "post", dataType: "json",
+		data: { funcion: "obtenerNotificaciones", idusuario: localStorage.getItem('idUsuario')},
+		success: function (result) {
+			console.log(result[0]);
+			if (result[0]!= undefined){
+				$("#notificacionesAlerta").addClass("animate-pulse text-blue-700");
+				// Contamos las notificaciones para mostrar un número en el icono
+				let contNotificaciones = 0;
+				result.forEach(function(notificacion){
+					contNotificaciones++;
+				})
+				$("#notificacionesAlerta").text(" "+contNotificaciones);
+
+			}
+		}
+	});
+	
 	$.ajax({
 		url: "http://192.168.1.137/picSpace/src/server/usuario.php", async: false, type: "post", dataType: "json",
 		data: { funcion: "obtenerUsuario", idusuario: idusuario },
 		success: function (result) {
 			let usuario = result[0];
+			console.log(usuario);
 			console.log(usuario);
 			$("#nombrePerfil").val(usuario.nombre);
 			$("#descripcionPerfil").val(usuario.descripcion);
@@ -186,6 +186,11 @@ function modificarUsuario() {
 		$("#descripcionPerfil").val("");
 		return;
 	}
+	else if (tags.length > 255) {
+		n.notiError("Demasiados tags");
+		$("#tagsPerfil").val("");
+		return;
+	}
 
 	let idusuario = localStorage.getItem('idUsuario');
 
@@ -210,20 +215,12 @@ function modificarUsuario() {
 		dataType: "text",
 		success: function(result) {
 
-			sessionStorage.setItem('noti','modificarUsuario');
-			window.location.replace('./perfil.html');
-
+			setTimeout(function(){
+				sessionStorage.setItem('noti','modificarUsuario');
+				window.location.replace('./perfil.html');	
+			},700)
 		}
 	});
-
-	// $.ajax({
-	// 	url: "http://192.168.1.137/picSpace/src/server/usuario.php", async: false, type: "post", dataType: "json",
-	// 	data: { funcion: "modificarUsuario", idusuario: idusuario, nombre: nombre, contrasenya: contrasenya, descripcion:descripcion, tags:tags },
-	// 	success: function (result) {
-	// 		console.log(result);
-
-	// 	}
-	// });
 }
 
 
@@ -247,7 +244,7 @@ $("#botonCambiar").click(function () {
 })
 
 $("#botonEliminar").click(function () {
-	comprobarEliminacionAlbum();
+	comprobarEliminacionCuenta();
 })
 
 $("#tagsAlbum").on('keyup',function(e){

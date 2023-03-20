@@ -89,7 +89,7 @@ function comprobarTags(){
 	let tags = ($("#tagsImagen").val().split(","))
 	tags.forEach(function(tag) {
 		let tagContenedor = document.createElement('div');
-		tagContenedor.classList = "bg-indigo-800  hover:bg-indigo-400 text-white font-semibold rounded-xl py-1 px-2 mr-2 w-fit inline";
+		tagContenedor.classList = "bg-blue-800  hover:bg-blue-400 text-white font-semibold rounded-xl py-1 px-2 mr-2 w-fit inline";
 		tagContenedor.textContent = tag;
 		$("#tagsIntroducidos").append(tagContenedor);
 	});
@@ -121,4 +121,26 @@ $("#tagsImagen").on('keyup',function(e){
 // Hay que poner tambien el ultimo tag
 $("#tagsImagen").on('focusout',function(){
 	comprobarTags();
+});
+
+// Cargamos foto perfil del usuario para el menú lateral
+$("#usuarioFotoPerfil").prop('src',localStorage.getItem('usuarioRuta'));
+
+// Comprobar notificaciones del usuario
+$.ajax({
+	url: "http://192.168.1.137/picSpace/src/server/usuario.php", async: false, type: "post", dataType: "json",
+	data: { funcion: "obtenerNotificaciones", idusuario: localStorage.getItem('idUsuario')},
+	success: function (result) {
+		console.log(result[0]);
+		if (result[0]!= undefined){
+			$("#notificacionesAlerta").addClass("animate-pulse text-blue-700");
+			// Contamos las notificaciones para mostrar un número en el icono
+			let contNotificaciones = 0;
+			result.forEach(function(notificacion){
+				contNotificaciones++;
+			})
+			$("#notificacionesAlerta").text(" "+contNotificaciones);
+
+		}
+	}
 });

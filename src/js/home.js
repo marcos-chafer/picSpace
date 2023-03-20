@@ -23,10 +23,31 @@ function cerrarMenu(){
 
 
 function iniciarHome() {
-	// alert("usuarioLogin es: "+identificador);
 
 	// Declaracion de variables
 	this.menuOpcionesHome = "cerrado";
+
+	// Cargamos foto perfil del usuario para el menú lateral
+	$("#usuarioFotoPerfil").prop('src',localStorage.getItem('usuarioRuta'));
+
+	// Comprobar notificaciones del usuario
+	$.ajax({
+		url: "http://192.168.1.137/picSpace/src/server/usuario.php", async: false, type: "post", dataType: "json",
+		data: { funcion: "obtenerNotificaciones", idusuario: localStorage.getItem('idUsuario')},
+		success: function (result) {
+			console.log(result[0]);
+			if (result[0]!= undefined){
+				$("#notificacionesAlerta").addClass("animate-pulse text-blue-700");
+				// Contamos las notificaciones para mostrar un número en el icono
+				let contNotificaciones = 0;
+				result.forEach(function(notificacion){
+					contNotificaciones++;
+				})
+				$("#notificacionesAlerta").text(" "+contNotificaciones);
+
+			}
+		}
+	});
 
 	obtenerIdUsuario();
 	let idusuario = localStorage.getItem('idUsuario');

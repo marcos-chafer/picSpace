@@ -2,31 +2,46 @@
 @tailwind components;
 @tailwind utilities;
 
+/* Importando la fuente */
+@font-face {
+    font-family: 'Montserrat';
+    src: url('../assets/fonts/Montserrat/Montserrat-VariableFont_wght.ttf');
+}
+/* Aquí aplicamos a todo el html (toda la web) la fuente custom (que en este caso es la familia Montserrat) */
+@layer base {
+    html {
+      @apply font-custom;
+    }
+  }
+
 
 /* general */
 
 /* clase que se usa para el registro e introducción de album e imagen */
 .registroCaja {
-	@apply text-center w-96 bg-white lg:border lg:border-indigo-800 lg:rounded-lg lg:shadow-lg lg:shadow-indigo-800/30 ;
+	@apply text-center w-96 bg-white lg:border lg:border-gray-200 lg:rounded-lg lg:shadow-lg lg:shadow-gray-900/30 ;
 };
 .centrarHorizontal{
     @apply mx-auto;
 }
 .inputText {
-    @apply border border-indigo-800 rounded-xl px-1 drop-shadow focus:outline-none focus:ring-2 focus:ring-indigo-500 placeholder:text-slate-400 placeholder:text-xs placeholder:top-0;
+    @apply border border-blue-800 rounded-xl px-1 drop-shadow focus:outline-none focus:ring-2 focus:ring-blue-500 placeholder:text-slate-400 placeholder:text-xs placeholder:top-0;
+}
+.imagenPerfilLateral {
+    @apply h-20 w-20 rounded-full mt-2 mx-auto;
 }
 .textArea {
-    @apply border border-indigo-800 rounded-lg px-1 drop-shadow focus:outline-none focus:ring-2 focus:ring-indigo-500;
+    @apply border border-blue-800 rounded-lg px-1 drop-shadow focus:outline-none focus:ring-2 focus:ring-blue-500;
 }
 .cajaTags {
-    @apply border border-indigo-800 rounded-lg py-2 drop-shadow;
+    @apply border border-blue-800 rounded-lg py-2 drop-shadow;
 }
 .boton {
-    @apply bg-indigo-700  hover:bg-indigo-800 text-white font-semibold rounded-xl py-1 px-2 hover:scale-110 transition duration-200 ease-in-out;
+    @apply bg-blue-700  hover:bg-blue-800 text-white font-semibold rounded-xl py-1 px-2 hover:scale-110 transition duration-200 ease-in-out;
 }
 
 .menuOpciones {
-	@apply grid lg:col-span-1 lg:h-screen border border-indigo-800 border-t-0;
+	@apply grid lg:col-span-1 lg:h-screen border border-blue-800 border-t-0;
 }
 
 /* landing */
@@ -42,20 +57,25 @@
 
 /* menu lateral */
 
+.opcionesHome {
+    @apply hidden lg:flex lg:flex-col lg:gap-y-2 lg:relative lg:row-span-6;
+}
+
 .botonOpciones {
-    @apply flex items-center mt-2 mx-14 hover:bg-indigo-400 rounded-full hover:scale-110 transition duration-200 ease-in-out;
+    @apply flex items-center cursor-pointer mt-2 mx-14 text-lg rounded-full hover:bg-blue-400 hover:font-semibold hover:scale-110 transition duration-200 ease-in-out;
 }
 .botonOpciones i{
-    @apply ml-2;
+    @apply ml-2 w-12;
 }
-.botonOpciones button{
-    @apply w-full text-center;
+
+.botonOpcionesSeleccionado {
+    @apply bg-blue-400 scale-110 font-semibold;
 }
  
 /* cards */
 
 .albumCard {
-    @apply bg-indigo-300 flex flex-col justify-center mb-4 items-center rounded-md w-80 lg:h-48 hover:bg-indigo-500 text-center hover:scale-110 transition duration-200 ease-in-out;
+    @apply bg-blue-400 flex flex-col justify-center items-center rounded-md w-80 lg:h-48 hover:bg-blue-600 text-center hover:scale-105 transition duration-200 ease-in-out;
 }
 
 .albumCardImagen{
@@ -70,6 +90,13 @@
 }
 
 .imagenCard {
-    @apply text-center bg-indigo-300 w-44 mx-10 mb-32 h-56 rounded-md flex flex-col hover:bg-indigo-500 hover:scale-110 transition duration-200 ease-in-out;
+    @apply text-center bg-blue-300 w-64 lg:h-48 rounded-md flex flex-col hover:bg-blue-500 hover:scale-110 transition duration-200 ease-in-out;
+}
+
+.imagenCard img{
+    @apply rounded-t-3xl;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
 }
 

@@ -14,6 +14,10 @@ switch ($funcion) {
 		$identificador = $_POST["identificador"];
 		echo buscarIdentificador($identificador);
 		break;
+	case 'eliminarCuenta':
+		$idusuario = $_POST['idusuario'];
+		echo eliminarCuenta($idusuario);
+		break;
 	case 'eliminarNotificacion':
 		$idusuario = $_POST['idusuario'];
 		$idnotificacion = $_POST['idnotificacion'];
@@ -75,7 +79,13 @@ switch ($funcion) {
 		else{
 
 		}
-		break;		
+		break;
+	case 'obtenerEstadisticas':
+		echo obtenerEstadisticas();
+		break;
+	case 'obtenerEstadisticasUsuarios':
+		echo obtenerEstadisticasUsuarios();
+		break;
 	case 'obtenerIdUsuario':
 		$identificador = $_POST["identificador"];
 		echo obtenerIdUsuario($identificador);
@@ -94,17 +104,24 @@ switch ($funcion) {
 		break;
 	case 'obtenerUsuario':
 		$idusuario = $_POST['idusuario'];
-		$idseguidor = $_POST['idseguidor'];
-		echo obtenerUsuario($idusuario,$idseguidor);
-		break;
+		if (!array_key_exists('idseguidor',$_POST)){
+			echo obtenerUsuario($idusuario);
+			break;
+		}
+		else{
+			$idseguidor = $_POST['idseguidor'];
+			echo obtenerUsuario($idusuario,$idseguidor);
+			break;
+		}
 	case 'obtenerUsuarioContrasenya':
 		$idusuario = $_POST['idusuario'];
 		echo obtenerUsuarioContrasenya($idusuario);
 		break;
 	case 'seguirUsuario':
 		$idusuario = $_POST['idusuario'];
+		$identificador = $_POST['identificador'];
 		$idseguidor = $_POST['idseguidor'];
-		echo seguirUsuario($idusuario,$idseguidor);
+		echo seguirUsuario($idusuario,$identificador,$idseguidor);
 		break;
 	case 'noSeguirUsuario':
 		$idusuario = $_POST['idusuario'];
@@ -120,6 +137,14 @@ function buscarIdentificador($identificador){
 	$objUsuario = new datUsuario();
 
 	$result = $objUsuario->buscarIdentificador($identificador);
+
+	return $result;
+}
+
+function eliminarCuenta($idusuario){
+	$objUsuario = new datUsuario();
+
+	$result = $objUsuario->eliminarCuenta($idusuario);
 
 	return $result;
 }
@@ -173,6 +198,22 @@ function modificarUsuario($idusuario,$nombre,$contrasenya,$descripcion,$tags,$ru
 
 };
 
+function obtenerEstadisticas() {
+	$objUsuario = new datUsuario();
+
+	$result = $objUsuario->obtenerEstadisticas();
+
+	return $result;
+}
+
+function obtenerEstadisticasUsuarios() {
+	$objUsuario = new datUsuario();
+
+	$result = $objUsuario->obtenerEstadisticasUsuarios();
+
+	return $result;
+}
+
 function obtenerIdUsuario($identificador) {
 	$objUsuario = new datUsuario();
 
@@ -205,18 +246,18 @@ function obtenerSeguidos($idusuario) {
 	return $result;
 }
 
-function obtenerUsuario($idusuario,$idseguidor) {
+function obtenerUsuario($idusuario, $idseguidor = null) {
 
 	$objUsuario = new datUsuario();
+	$result = null;
 
-	if ($idusuario==$idseguidor){
-		$result = $objUsuario->obtenerUsuario($idusuario);
+	if ($idusuario == $idseguidor || $idseguidor == null) {
+	    $result = $objUsuario->obtenerUsuario($idusuario);
+	} else {
+	    $result = $objUsuario->obtenerUsuario($idusuario, $idseguidor);
 	}
-
-	$result = $objUsuario->obtenerUsuario($idusuario,$idseguidor);
-
 	return $result;
-}
+    }
 
 function obtenerUsuarioContrasenya($idusuario) {
 	$objUsuario = new datUsuario();
@@ -226,10 +267,10 @@ function obtenerUsuarioContrasenya($idusuario) {
 	return $result;
 }
 
-function seguirUsuario($idusuario,$idseguidor) {
+function seguirUsuario($idusuario,$identificador,$idseguidor) {
 	$objUsuario = new datUsuario();
 
-	$result = $objUsuario->seguirUsuario($idusuario,$idseguidor);
+	$result = $objUsuario->seguirUsuario($idusuario,$identificador,$idseguidor);
 
 	return $result;
 }

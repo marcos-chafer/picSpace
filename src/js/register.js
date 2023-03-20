@@ -32,6 +32,11 @@ function comprobarCampos(){
 		$("#identificadorUsuario").val("");
 		return;
 	}
+	else if (identificador == "admin"){
+		n.notiError("Identificador no se puede usar");
+		$("#identificadorUsuario").val("");
+		return;
+	}
 
 	// Debemos comprobar que el identificador no esté en uso
 	let respuesta = comprobarIdentificador(identificador);
@@ -119,7 +124,7 @@ function comprobarTags(){
 	let tags = ($("#tagsUsuario").val().split(","))
 	tags.forEach(function(tag) {
 		let tagContenedor = document.createElement('div');
-		tagContenedor.classList = "bg-indigo-800  hover:bg-indigo-400 text-white font-semibold rounded-xl py-1 px-2 mr-2 w-fit inline";
+		tagContenedor.classList = "bg-blue-800  hover:bg-blue-400 text-white font-semibold rounded-xl py-1 px-2 mr-2 w-fit inline";
 		tagContenedor.textContent = tag;
 		$("#tagsIntroducidos").append(tagContenedor);
 	});

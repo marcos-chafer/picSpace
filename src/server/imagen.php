@@ -17,8 +17,9 @@ switch ($funcion) {
 	case 'comentarImagen':
 		$idimagen = $_POST['idimagen'];
 		$idusuario = $_POST['idusuario'];
+		$identificador = $_POST['identificador'];
 		$comentarioTexto = $_POST['comentarioTexto'];
-		echo comentarImagen($idimagen,$idusuario,$comentarioTexto);
+		echo comentarImagen($idimagen,$idusuario,$identificador,$comentarioTexto);
 		break;
 	case 'comprobarPunto':
 		$idimagen = $_POST['idimagen'];
@@ -85,7 +86,12 @@ switch ($funcion) {
 		$idimagen = $_POST['idimagen'];
 		$idusuario = $_POST['idusuario'];
 		$punto = $_POST['punto'];
-		echo puntuarImagen($idimagen,$idusuario,$punto);
+		if (!array_key_exists('identificador',$_POST)){
+			echo puntuarImagen($idimagen,$idusuario,$identificador = null,$punto);
+			break;
+		}
+		$identificador = $_POST['identificador'];
+		echo puntuarImagen($idimagen,$idusuario,$identificador,$punto);
 		break;
 	case 'obtenerInicio':
 		$idusuario = $_POST['idusuario'];
@@ -105,13 +111,13 @@ function buscarTags($tags){
 	return $result;
 }
 
-function comentarImagen($idimagen,$idusuario,$comentarioTexto){
+function comentarImagen($idimagen,$idusuario,$identificador,$comentarioTexto){
 // Registra comentario en BBDD usando los params
 
 	$fecha = date("Y-m-d");
 	$objImagen = new datImagen();
 	
-	$result = $objImagen->comentarImagen($idimagen,$idusuario,$comentarioTexto,$fecha);
+	$result = $objImagen->comentarImagen($idimagen,$idusuario,$identificador,$comentarioTexto,$fecha);
 
 	return $result;
 }
@@ -197,14 +203,18 @@ function obtenerTendencias(){
 	return $result;
 }
 
-function puntuarImagen($idimagen,$idusuario,$punto){
-// Funcion que decide si puntuar o quitar el punto a una imagen
+function puntuarImagen($idimagen, $idusuario, $identificador = null, $punto) {
 	$objImagen = new datImagen();
+	$result = null;
 
-	$result = $objImagen->puntuarImagen($idimagen,$idusuario,$punto);
-
+	if ($identificador == null) {
+	    $result = $objImagen->puntuarImagen($idimagen, $idusuario,$identificador = null, $punto);
+	} else {
+	    $result = $objImagen->puntuarImagen($idimagen, $idusuario, $identificador, $punto);
+	}
 	return $result;
-}
+    }
+    
 
 function obtenerInicio($idusuario) {
 	$objImagen = new datImagen();

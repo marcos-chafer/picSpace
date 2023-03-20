@@ -12,6 +12,13 @@ function abrirMenu() {
 
 function cerrarSesion() {
 	localStorage.removeItem('usuarioLogin');
+	localStorage.removeItem('idPerfil');
+	localStorage.removeItem('idUsuario');
+	localStorage.removeItem('usuarioRuta');
+	sessionStorage.removeItem('idPerfil');
+	sessionStorage.removeItem('idImagen');
+	sessionStorage.removeItem('nombreImagen');
+
 	window.location.replace('./index.html');
 }
 
@@ -27,6 +34,7 @@ function comentarImagen() {
 // Guarda en BBDD un comentario en la imagen actual
 	var idimagen = sessionStorage.getItem('idImagen');
 	var idusuario = localStorage.getItem('idUsuario');
+	var identificador = localStorage.getItem('usuarioLogin');
 	var comentarioTexto = $("#imagenComentarioTexto").val().trim();
 
 	if (comentarioTexto.length>245){
@@ -40,7 +48,7 @@ function comentarImagen() {
 
 	$.ajax({
 		url: "http://192.168.1.137/picSpace/src/server/imagen.php", async: false, type: "post", dataType: "json",
-		data: { funcion: "comentarImagen", idimagen: idimagen, idusuario: idusuario, comentarioTexto: comentarioTexto},
+		data: { funcion: "comentarImagen", idimagen: idimagen, idusuario: idusuario, identificador:identificador, comentarioTexto: comentarioTexto},
 		// Cuando lleguen los datos...
 		success: function (result) {
 			// Si todo ha ido bien, notificamos al usuario
@@ -110,8 +118,7 @@ function iniciarImagen() {
 	// Comprobamos si debemos colorear el corazón
 	comprobarPunto();
 
-
-
+	// Cargamos imagen
 	$.ajax({
 		url: "http://192.168.1.137/picSpace/src/server/imagen.php", async: false, type: "post", dataType: "json",
 		data: { funcion: "obtenerImagen", idimagen: idimagen },
@@ -119,6 +126,12 @@ function iniciarImagen() {
 		success: function (result) {
 			console.log(result);
 			let imagen = result[0];
+
+			// Comprobamos si debemos mostrar el botón ajustes de perfil
+			if (imagen.id_usuario == localStorage.getItem('idUsuario')){
+				$("#botonAjustesImagen").show();
+			}
+
 			// Nos quedamos solo con el nombre y no con la extensión
 			imagen.titulo = imagen.titulo.split(".")[0];
 
@@ -147,7 +160,7 @@ function iniciarImagen() {
 			tags.forEach(function(tag) {
 				let tagContenedor = document.createElement('div');
 				tagContenedor.setAttribute('id',tag);
-				tagContenedor.classList = "bg-indigo-800  hover:bg-indigo-400 text-white font-semibold rounded-xl py-1 px-2 mr-2 w-fit inline cursor-pointer hover:scale-105 transition duration-200 ease-in-out";
+				tagContenedor.classList = "bg-blue-800  hover:bg-blue-400 text-white font-semibold rounded-xl py-1 px-2 mr-2 w-fit inline cursor-pointer hover:scale-105 transition duration-200 ease-in-out";
 				tagContenedor.addEventListener('click',IrATag);
 				tagContenedor.textContent = tag;
 				$("#imagenTags").append(tagContenedor);
@@ -169,18 +182,16 @@ function iniciarImagen() {
 			result.forEach(function(comentario) {
 				console.log(comentario);
 				let comentarioContenedor = document.createElement('div');
-				comentarioContenedor.classList = "flex";
+				comentarioContenedor.classList = "flex mt-2";
 
 				let comentarioImagen = document.createElement('img');
-				comentarioImagen.classList = "mr-[20px]";
-				comentarioImagen.style.width = "10px";
-				comentarioImagen.style.height = "10px";
-				comentarioContenedor.append(comentarioImagen);
+				comentarioImagen.classList = "w-6 h-6 self-center mr-2 rounded-full hover:scale-150 transition duration-100 ease-in-out";
+				comentarioImagen.setAttribute('src',comentario.ruta);
 
 				// TODO Redirigir al perfil del usuario al clickar en el nombre
 				let comentarioUsuario = document.createElement('span');
 				comentarioUsuario.textContent = comentario.nombre+": ";
-				comentarioUsuario.classList = "w-fit font-semibold cursor-pointer hover:text-indigo-800 hover:underline hover:scale-105 transition duration-100 ease-in-out";
+				comentarioUsuario.classList = "w-fit mr-1 font-semibold cursor-pointer hover:text-blue-800 hover:underline hover:scale-105 transition duration-100 ease-in-out";
 				comentarioUsuario.addEventListener('click',function(){
 					IrAPerfil(comentario.idusuario)
 				})
@@ -191,15 +202,16 @@ function iniciarImagen() {
 				let comentarioComentario = document.createElement('div');
 				// Comprobamos si el comentario es del usuario logueado, entonces lo movemos a la derecha
 				let usuarioLogin = localStorage.getItem('usuarioLogin');
-				if (comentario.nombre == usuarioLogin) comentarioComentario.classList = "text-right mr-2 ml-auto";
-				else comentarioComentario.classList = "text-left mr-2 m";
+				if (comentario.nombre == usuarioLogin) comentarioComentario.classList = "flex text-right mr-2 ml-2 ml-auto";
+				else comentarioComentario.classList = "flex text-left ml-2 mr-2";
+				comentarioComentario.append(comentarioImagen);
 				comentarioComentario.append(comentarioUsuario);
 				comentarioComentario.append(comentarioTexto);
 				comentarioContenedor.append(comentarioComentario);
 
 
 				let comentarioFecha = document.createElement('div');
-				comentarioFecha.classList = " self-end";
+				comentarioFecha.classList = "mr-2 self-end";
 				comentarioFecha.textContent = " "+comentario.fecha;
 				comentarioFecha.style.color = "gray";
 				comentarioFecha.style.fontSize = "10px";
@@ -234,6 +246,7 @@ function puntuarImagen() {
 
 	var idimagen = sessionStorage.getItem('idImagen');
 	var idusuario = localStorage.getItem('idUsuario');
+	var identificador = localStorage.getItem('usuarioLogin');
 
 	// Si hay voto del usuario, hay que quitar el punto
 	if ($("#imagenPuntuar").css('color') == 'rgb(255, 0, 0)'){
@@ -251,7 +264,7 @@ function puntuarImagen() {
 
 		$.ajax({
 			url: "http://192.168.1.137/picSpace/src/server/imagen.php", async: false, type: "post", dataType: "json",
-			data: { funcion: "puntuarImagen", idimagen: idimagen, idusuario: idusuario, punto:"poner" },
+			data: { funcion: "puntuarImagen", idimagen: idimagen, idusuario: idusuario, identificador:identificador, punto:"poner" },
 			// Cuando lleguen los datos...
 			success: function (result) {
 				window.location.reload();

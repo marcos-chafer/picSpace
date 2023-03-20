@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta charset="UTF-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<!-- Favicon -->
+	<link rel="shortcut icon" href="../assets/img/logo_picspace_nuevo_icono_blanco_relleno.png" type="image/x-icon">
+	<!-- FontAwesome -->
+	<link rel="stylesheet" href="../assets/fontawesome/css/all.css">
+	<!-- TailwindCSS -->
+	<link rel="stylesheet" href="./output.css">
+	<!-- izitoast -->
+	<link rel="stylesheet" href="./iziToast.min.css">
+	<script src="./js/iziToast.min.js"></script>
+	<script type="module" src="./js/noti.js"></script>
+	<!-- jQuery -->
+	<script src="./js/jquery-3.6.1.min.js"></script>
+	<script defer src="./js/adminHome.js"></script>
+	<title>picSpace - Administración</title>
+</head>
+
+<body class="overflow-x-hidden">
+	<div class="grid lg:grid-cols-6">
+		<!-- Perfil y opciones -->
+		<div id="menuOpcionesHome" class="grid lg:col-span-1 lg:h-screen border border-r-blue-800">
+			<div class="grid grid-cols-3 lg:grid-cols-1">
+			<a href="./home.html" class="p-3 rounded-full mt-4 ml-2 lg:hidden h-fit w-fit hover:bg-blue-800">
+				<i class="fa fa-arrow-left fa-2xl"></i>
+			</a>
+				<!-- TODO  Aqui ira la foto de perfil del usuario -->
+				<img id="usuarioFotoPerfil" src="../assets/img/logo_picspace_nuevo_icono_blanco_relleno.png" class="imagenPerfilLateral" alt="Logo picSpace">
+			</div>
+			<div id="opcionesHome" class="opcionesHome">
+				<a href="./adminHome.html" class="botonOpciones botonOpcionesSeleccionado">
+					<i class="fa-solid fa-dashboard"></i>
+					<button class="">Inicio</button>
+				</a>
+				<a href="./adminUsuarios.html" class="botonOpciones">
+					<i class="fa-solid fa-users"></i>
+					<button class="text-sm">Gestión de usuarios</button>
+				</a>
+
+				<button id="botonCerrarSesion" class="boton block centrarHorizontal lg:absolute lg:bottom-4 lg:right-20 lg:left-20">Cerrar sesión</button>
+			</div>
+			<div class="lg:hidden">
+				<button id="botonDesplegarMenu" class="block centrarHorizontal">
+					<i class="fa-solid fa-arrow-down"></i>
+				</button>
+			</div>
+		</div>
+		<!-- Fin Perfil y opciones -->
+		<!-- info -->
+		<div id="info" class="lg:col-span-5 w-full flex flex-col items-center">
+			<h2 class="font-bold text-3xl">Administración</h2>
+			<div class="flex flex-col items-center mt-6 border border-gray-300 rounded-3xl w-[90%] h-[90%] shadow-lg shadow-gray-700/30">
+				<h2 class="text-2xl font-semibold mt-2">Estadísticas</h2>
+				<div class="w-[80%] h-[20%] mt-6 flex flex-wrap justify-center gap-x-4 gap-y-4 p-4">
+					<div class="w-full lg:w-60 flex flex-col items-center rounded-3xl border border-slate-400 shadow-md shadow-gray-700/50">
+						<h4 class="font-semibold">Usuarios</h4>
+						<span id="numUsuarios" class="mt-5"></span>
+					</div>
+					<div class="w-full lg:w-60 flex flex-col items-center rounded-3xl border border-slate-400 shadow-md shadow-gray-700/50">
+						<h4 class="font-semibold">Albums</h4>
+						<span id="numAlbums" class="mt-5"></span>
+					</div>
+					<div class="w-full lg:w-60 flex flex-col items-center rounded-3xl border border-slate-400 shadow-md shadow-gray-700/50">
+						<h4 class="font-semibold">Imágenes</h4>
+						<span id="numImagenes" class="mt-5"></span>
+					</div>
+					<div class="w-full lg:w-60 flex flex-col items-center rounded-3xl border border-slate-400 shadow-md shadow-gray-700/50">
+						<h4 class="font-semibold">Comentarios</h4>
+						<span id="numComentarios" class="mt-5"></span>
+					</div>
+				</div>
+			</div>
+		</div>
+		<!-- Fin info -->
+	</div>
+</body>
+
+</html>

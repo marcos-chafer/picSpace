@@ -24,24 +24,24 @@
 <body class="overflow-x-hidden">
 	<div class="grid lg:grid-cols-6">
 		<!-- Perfil y opciones -->
-		<div id="menuOpcionesHome" class="grid lg:col-span-1 lg:h-screen border border-x-indigo-800">
+		<div id="menuOpcionesHome" class="grid lg:col-span-1 lg:h-screen border border-r-blue-800">
 			<div class="grid grid-cols-3 lg:grid-cols-1">
-			<a href="./home.html" class="p-3 rounded-full mt-4 ml-2 lg:hidden h-fit w-fit hover:bg-indigo-800">
+			<a href="./home.html" class="p-3 rounded-full mt-4 ml-2 lg:hidden h-fit w-fit hover:bg-blue-800">
 				<i class="fa fa-arrow-left fa-2xl"></i>
 			</a>
 				<!-- TODO  Aqui ira la foto de perfil del usuario -->
-				<img src="../assets/img/logo_picspace_nuevo_icono_blanco_relleno.png" class="h-14 centrarHorizontal mt-2" alt="Logo picSpace">
+				<img id="usuarioFotoPerfil" src="../assets/img/logo_picspace_nuevo_icono_blanco_relleno.png" class="imagenPerfilLateral " alt="Logo picSpace">
 			</div>
-			<div id="opcionesHome" class="hidden lg:block lg:relative lg:row-span-6 text-center">
+			<div id="opcionesHome" class="opcionesHome">
 				<a href="./home.html" class="botonOpciones">
 					<i class="fa-solid fa-house"></i>
 					<button class="">Inicio</button>
 				</a>
 				<a href="./notificaciones.html" class="botonOpciones">
-					<i class="fa-solid fa-bell"></i>
+					<i id="notificacionesAlerta" class="fa-solid fa-bell"></i>
 					<button>Notificaciones</button>
 				</a>
-				<a id="IrAMiPerfil" class="botonOpciones cursor-pointer">
+				<a id="IrAMiPerfil" class="botonOpciones">
 					<i class="fa-solid fa-user"></i>
 					<button>Perfil</button>
 				</a>
@@ -53,7 +53,7 @@
 					<i class="fa-solid fa-people-arrows"></i>
 					<button>Siguiendo</button>
 				</a>
-				<a href="./albums.html" class="botonOpciones">
+				<a href="./albums.html" class="botonOpciones botonOpcionesSeleccionado">
 					<i class="fa-solid fa-book"></i>
 					<button>Mis albums</button>
 				</a>
@@ -80,15 +80,12 @@
 		</div>
 		<!-- Fin Perfil y opciones -->
 		<!-- Mis albums -->
-		<div id="albums" class="lg:col-span-5 flex mt-10 h-[70%]  flex-wrap lg:mt-5 gap-x-2 lg:gap-x-5 gap-y-4 lg:gap-y-0 mx-2 lg:mx-4">
-			<!-- TODO debe ir al perfil anterior -->
-			<a href="./home.html" class="p-3 hidden lg:block rounded-full mt-2 ml-2 w-fit h-fit hover:bg-indigo-800">
-				<i class="fa fa-arrow-left fa-2xl"></i>
-			</a>
+		<div id="albums" class="lg:col-span-5 flex mt-10 h-[70%] justify-center flex-wrap lg:mt-5 gap-x-2 lg:gap-x-5 gap-y-4 lg:gap-y-0 mx-2 lg:mx-4">
+			<div></div>
+			<div id="espacioCarrusel" class="flex justify-center order-2 fixed bottom-0 right-0 w-[83%]"></div>
 		</div>
 		<!-- Fin Mis albums -->
 	</div>
-	<div id="espacioCarrusel" class="w-full"></div>
 
 </body>
 

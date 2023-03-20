@@ -24,24 +24,24 @@
 <body class="overflow-x-hidden">
 	<div class="grid lg:grid-cols-6">
 		<!-- Perfil y opciones -->
-		<div id="menuOpcionesHome" class="grid lg:col-span-1 lg:h-screen border border-indigo-800">
+		<div id="menuOpcionesHome" class="grid lg:col-span-1 lg:h-screen border border-blue-800">
 			<div class="grid grid-cols-3 lg:grid-cols-1">
-				<a href="./album.html" class="p-3 rounded-full mt-4 ml-2 lg:hidden h-fit w-fit hover:bg-indigo-800">
+				<a href="./album.html" class="p-3 rounded-full mt-4 ml-2 lg:hidden h-fit w-fit hover:bg-blue-800">
 					<i class="fa fa-arrow-left fa-2xl"></i>
 				</a>
 				<!-- TODO  Aqui ira la foto de perfil del usuario -->
-				<img src="../assets/img/logo_picspace_nuevo_icono_blanco_relleno.png" class="h-14 mt-2 centrarHorizontal" alt="Logo picSpace">
+				<img id="usuarioFotoPerfil" src="../assets/img/logo_picspace_nuevo_icono_blanco_relleno.png" class="imagenPerfilLateral " alt="Logo picSpace">
 			</div>
-			<div id="opcionesHome" class="hidden lg:block lg:relative lg:row-span-6 text-center">
+			<div id="opcionesHome" class="opcionesHome">
 				<a href="./home.html" class="botonOpciones">
 					<i class="fa-solid fa-house"></i>
 					<button class="">Inicio</button>
 				</a>
 				<a href="./notificaciones.html" class="botonOpciones">
-					<i class="fa-solid fa-bell"></i>
+					<i id="notificacionesAlerta" class="fa-solid fa-bell"></i>
 					<button>Notificaciones</button>
 				</a>
-				<a id="IrAMiPerfil" class="botonOpciones cursor-pointer">
+				<a id="IrAMiPerfil" class="botonOpciones">
 					<i class="fa-solid fa-user"></i>
 					<button>Perfil</button>
 				</a>
@@ -83,7 +83,7 @@
 		<div  class="mt-2 lg:col-span-5">
 			
 			<div class="grid grid-cols-1 lg:grid-cols-3 text-center text-2xl font-semibold">
-				<a href="./imagen.html" class="p-3 hidden lg:block rounded-full mt-2 ml-2 w-fit hover:bg-indigo-400">
+				<a href="./imagen.html" class="p-3 hidden lg:block rounded-full mt-2 ml-2 w-fit hover:bg-blue-400">
 					<i class="fa fa-arrow-left fa-2xl"></i>
 				</a>
 				<h1>Ajustes de imagen</h1>
@@ -108,7 +108,7 @@
 				
 			</div>
 			<div class="mt-4 flex justify-center">
-				<button id="botonCambiar" class="bg-indigo-800  hover:bg-indigo-400 text-white font-semibold rounded-xl py-1 px-2">Cambiar</button>
+				<button id="botonCambiar" class="bg-blue-800  hover:bg-blue-400 text-white font-semibold rounded-xl py-1 px-2">Cambiar</button>
 			</div>
 			<div class="flex justify-center mt-20">
 				<button id="botonEliminar" class="bg-red-800  hover:bg-red-400 text-white font-semibold rounded-xl py-1 px-2">

@@ -24,24 +24,23 @@
 <body class="overflow-x-hidden">
 	<div class="grid lg:grid-cols-6">
 		<!-- Perfil y opciones -->
-		<div id="menuOpcionesHome" class="grid lg:col-span-1 lg:h-screen border border-indigo-800">
+		<div id="menuOpcionesHome" class="grid lg:col-span-1 lg:h-screen border border-blue-800">
 			<div class="grid grid-cols-3 lg:grid-cols-1">
-				<a href="./album.html" class="p-3 rounded-full mt-4 ml-2 lg:hidden h-fit w-fit hover:bg-indigo-800">
+				<a href="./album.html" class="p-3 rounded-full mt-4 ml-2 lg:hidden h-fit w-fit hover:bg-blue-800">
 					<i class="fa fa-arrow-left fa-2xl"></i>
 				</a>
-				<!-- TODO  Aqui ira la foto de perfil del usuario -->
-				<img src="../assets/img/logo_picspace_nuevo_icono_blanco_relleno.png" class="h-14 mt-2 centrarHorizontal" alt="Logo picSpace">
+				<img id="usuarioFotoPerfil" src="../assets/img/logo_picspace_nuevo_icono_blanco_relleno.png" class="imagenPerfilLateral " alt="Logo picSpace">
 			</div>
-			<div id="opcionesHome" class="hidden lg:block lg:relative lg:row-span-6 text-center">
+			<div id="opcionesHome" class="opcionesHome">
 				<a href="./home.html" class="botonOpciones">
 					<i class="fa-solid fa-house"></i>
 					<button class="">Inicio</button>
 				</a>
 				<a href="./notificaciones.html" class="botonOpciones">
-					<i class="fa-solid fa-bell"></i>
+					<i id="notificacionesAlerta" class="fa-solid fa-bell"></i>
 					<button>Notificaciones</button>
 				</a>
-				<a id="IrAMiPerfil" class="botonOpciones cursor-pointer">
+				<a id="IrAMiPerfil" class="botonOpciones botonOpcionesSeleccionado">
 					<i class="fa-solid fa-user"></i>
 					<button>Perfil</button>
 				</a>
@@ -81,22 +80,23 @@
 		<!-- Fin Perfil y opciones -->
 		<!-- Perfil de usuario -->
 		<div  class="mt-2 lg:col-span-5">
-			<h1 id="usuarioNombre" class="text-center font-bold text-3xl"></h1>
-			<div class="grid lg:grid-cols-4 lg:h-32 mt-6 items-center text-center">
-				<div id="usuarioImagen" class="col-start-2">
+			<h1 id="usuarioIdentificador" class="text-center font-bold text-3xl"></h1>
+			<div class="w-[40%] mt-6 mx-auto border border-gray-200 rounded-3xl shadow-sm shadow-gray-900/30 ">
+				<div class="flex mt-4 justify-evenly lg:h-32 items-center text-center">
+					<div id="usuarioImagen" class="flex w-full justify-center gap-6 items-center">
+						<span id="usuarioDatosNombre" class="font-semibold w-1/4"></span>
+						<span id="usuarioDatosDescripcion" class="order-3 w-1/4"></span>
+					</div>
 				</div>
-				<div id="usuarioDatos">
-					<span id="usuarioDatosNombre"></span>
-					<span id="usuarioDatosIdentificador"></span>
+				<div class="flex my-6 justify-evenly gap-4" id="infoPerfil">
+					<span id="usuarioSiguiendo">siguiendo</span>
+					<span id="usuarioNumAlbums">siguiendo</span>					
+					<span id="usuarioSeguidores">seguidores</span>
 				</div>
-			</div>
-			<div class="flex mt-6 justify-evenly" id="infoPerfil">
-				<span id="usuarioSiguiendo">siguiendo</span>
-				<span id="usuarioSeguidores">seguidores</span>
 			</div>
 			<h1 class="text-center font-bold text-2xl mt-8">Albums:</h1>
 
-			<div id="usuarioAlbums" class="flex gap-4 ml-10 mt-16">
+			<div id="usuarioAlbums" class="flex flex-wrap justify-center gap-4 mt-16">
 
 			</div>
 	

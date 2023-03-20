@@ -1,3 +1,6 @@
+import { noti } from "./noti.js";
+let n = new noti();
+
 function cambiarImagen(modo){
 	if (modo == "anterior"){
 		let imagen = $("#imagenPresentacion").prop('src').split("/");
@@ -60,8 +63,14 @@ function comprobarUsuario() {
 					position:'topRight',
 				});	
 			}
-			if (result.login==true){
-				localStorage.setItem('usuarioLogin',user);
+			// Cuando se loguee el administrador
+			if (result.login==true && user=="admin"){
+				window.location.replace("./adminHome.html");
+			}
+			else if (result.login==true){
+				localStorage.setItem('usuarioLogin',result.usuario.identificador);
+				localStorage.setItem('idUsuario',result.usuario.id);
+				localStorage.setItem('usuarioRuta',result.usuario.ruta);
 				window.location.replace("./home.html");
 			};
 		}
@@ -107,6 +116,18 @@ $("#botonImagenAnterior").click(function(){
 $("#botonImagenSiguiente").click(function(){
 	cambiarImagen("siguiente");
 })
+
+// Controlamos notis
+let notif = sessionStorage.getItem('noti');
+switch (notif) {
+	case "cuentaEliminada":
+		n.notiInfo("Cuenta eliminada con éxito");
+		break;
+	default:
+		break;
+}
+//Limpiamos noti una vez controlada
+sessionStorage.removeItem('noti');
 
 comprobarLogin();
 iniciarCarrusel();

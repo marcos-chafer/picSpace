@@ -19,14 +19,15 @@ class datImagen {
 
 		// Iteramos sobre el array de tags y construimos la cláusula para cada uno
 		foreach ($tags_array as $tag) {
-			$find_in_set_tags[] = "FIND_IN_SET('$tag', i.tags) > 0";
+			$find_in_set_tags[] = "i.titulo LIKE '$tag' OR FIND_IN_SET('$tag', i.tags) > 0";
     		}
 
 		// Unimos todas las cláusulas con el operador OR
 		$find_in_set_consulta = implode(" OR ", $find_in_set_tags);
 
 		// montamos la consulta
-		$inicio = "SELECT i.id as idimagen, i.id_album, i.titulo, i.fecha, i.puntos, i.descripcion, i.ruta, i.tags, u.id as idusuario, u.nombre FROM imagen i LEFT JOIN usuario  u ON u.id = i.id_usuario ";
+		$inicio = "SELECT i.id as idimagen, i.id_album, i.titulo, i.fecha, i.puntos, i.descripcion, i.ruta, i.tags, u.id as idusuario, u.nombre FROM imagen i 
+		 LEFT JOIN usuario  u ON u.id = i.id_usuario ";
 		$where = " WHERE ".$find_in_set_consulta;
 		$sql = $inicio.$where;
 
@@ -46,7 +47,7 @@ class datImagen {
 
 	}
 
-	public function comentarImagen($idimagen,$idusuario,$comentarioTexto,$fecha){
+	public function comentarImagen($idimagen,$idusuario,$identificador,$comentarioTexto,$fecha){
 		// montamos la consulta
 		$inicio = "INSERT INTO imagen_comentario (`idimagen`, `idusuario`, `texto`, `fecha`) ";
 		$values = " VALUES ('".$idimagen."','".$idusuario."','".$comentarioTexto."','".$fecha."') ";
@@ -56,6 +57,26 @@ class datImagen {
 		$result = $this->conn->query($sql);
 		// Si el resultado es true está bien
 		if ($result == TRUE) {
+			// Registramos notificación
+
+			// Obtenemos el id del usuario al cual pertenece la notificación
+			$datosImagen = obtenerImagen($idimagen);
+			$datosImagenDecode = json_decode($datosImagen);
+			$idnotificado = $datosImagenDecode[0]->id_usuario;
+			// Si el idnotificado es igual al idusuario, no guardamos la notificación
+			if ($idnotificado==$idusuario){
+				return json_encode(array('exito'=>true));
+			}
+			
+			// Montamos la consulta
+			$inicio = "INSERT INTO notificacion (`idusuario`, `idnotificado`, `imagen`, `texto`) ";
+			$values = " VALUES ('".$idusuario."','".$idnotificado."','".$idimagen."','$identificador ha comentado tu ') ";
+			$sql = $inicio.$values;
+
+			// ejecutamos consulta
+			$result = $this->conn->query($sql);
+
+	
 			return json_encode(array('exito'=>true));
 		}
 		// si no hay ningun resultado
@@ -163,7 +184,7 @@ class datImagen {
 
 	public function obtenerComentarios($idimagen){
 		// motamos la consulta
-		$inicio = "SELECT ic.id,ic.idimagen,ic.idusuario,ic.texto,ic.fecha,u.nombre FROM imagen_comentario AS ic LEFT JOIN usuario as u ON ic.idusuario=u.id";
+		$inicio = "SELECT ic.id,ic.idimagen,ic.idusuario,ic.texto,ic.fecha,u.nombre,u.ruta FROM imagen_comentario AS ic LEFT JOIN usuario as u ON ic.idusuario=u.id";
 		$where = " WHERE ic.idimagen = '".$idimagen."' ORDER BY ic.fecha ASC";
 		$sql = $inicio.$where;
 
@@ -243,7 +264,7 @@ class datImagen {
 		return json_encode($jsondata);		
 	}
 
-	public function puntuarImagen($idimagen,$idusuario,$punto){
+	public function puntuarImagen($idimagen,$idusuario,$identificador = null,$punto){
 
 
 		if ($punto=='quitar'){
@@ -300,6 +321,25 @@ class datImagen {
 			$inicio = "INSERT INTO imagen_punto (idimagen, idusuario)";
 			$where = " VALUES ('".$idimagen."','".$idusuario."')";
 			$sql = $inicio.$where;
+
+			// ejecutamos consulta
+			$result = $this->conn->query($sql);
+
+			// Registramos notificación
+
+			// Obtenemos el id del usuario al cual pertenece la notificación
+			$datosImagen = obtenerImagen($idimagen);
+			$datosImagenDecode = json_decode($datosImagen);
+			$idnotificado = $datosImagenDecode[0]->id_usuario;
+			// Si el idnotificado es igual al idusuario, no guardamos la notificación
+			if ($idnotificado==$idusuario){
+				return json_encode(array('exito'=>true));
+			}
+			
+			// Montamos la consulta
+			$inicio = "INSERT INTO notificacion (`idusuario`, `idnotificado`, `imagen`, `texto`) ";
+			$values = " VALUES ('".$idusuario."','".$idnotificado."','".$idimagen."','A $identificador le ha gustado tu ') ";
+			$sql = $inicio.$values;
 
 			// ejecutamos consulta
 			$result = $this->conn->query($sql);

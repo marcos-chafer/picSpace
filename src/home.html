@@ -23,21 +23,21 @@
 <body class="">
 	<div class="grid lg:grid-cols-6">
 		<!-- Perfil y opciones -->
-		<div id="menuOpcionesHome" class="grid lg:col-span-1 lg:h-screen border border-x-indigo-800">	<!-- TODO cambiar todo esto por la clase menuOpciones-->
+		<div id="menuOpcionesHome" class="grid lg:col-span-1 lg:h-screen border border-r-blue-800">	<!-- TODO cambiar todo esto por la clase menuOpciones-->
 			<div>
 				<!-- TODO  Aqui ira la foto de perfil del usuario -->
-				<img src="../assets/img/logo_picspace_nuevo_icono_blanco_relleno.png" class="h-14 centrarHorizontal mt-2" alt="Logo picSpace">
+				<img id="usuarioFotoPerfil" src="../assets/img/logo_picspace_nuevo_icono_blanco_relleno.png" class="imagenPerfilLateral " alt="Logo picSpace">
 			</div>
-			<div id="opcionesHome" class="hidden lg:block lg:relative lg:row-span-6 text-center">
-				<a href="./home.html" class="botonOpciones">
+			<div id="opcionesHome" class="opcionesHome">
+				<a href="./home.html" class="botonOpciones botonOpcionesSeleccionado">
 					<i class="fa-solid fa-house"></i>
 					<button class="">Inicio</button>
 				</a>
 				<a href="./notificaciones.html" class="botonOpciones">
-					<i class="fa-solid fa-bell"></i>
+					<i id="notificacionesAlerta" class="fa-solid fa-bell"></i>
 					<button>Notificaciones</button>
 				</a>
-				<a id="IrAMiPerfil" class="botonOpciones cursor-pointer">
+				<a id="IrAMiPerfil" class="botonOpciones">
 					<i class="fa-solid fa-user"></i>
 					<button>Perfil</button>
 				</a>
