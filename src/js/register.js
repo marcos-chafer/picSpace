@@ -81,7 +81,7 @@ function comprobarCampos(){
 	var idusuario;
 
 	$.ajax({
-		url: "http://http://picspace.epizy.com/picSpace/src/server/usuario.php", async: false, type: "post", dataType: "json",
+		url: "http://picspace.epizy.com/picSpace/src/server/usuario.php", async: false, type: "post", dataType: "json",
 		data: {funcion:"guardarUsuario",nombre:nombre,identificador:identificador,contrasenya:contrasenya,email:email ,tags:tags},
 		success: function(result) {
 			// nos viene json con exito = true si se hizo correctamente
@@ -106,7 +106,7 @@ function comprobarIdentificador(identificador){
 	// Inicializamos la respuesta
 	let respuesta="";
 	$.ajax({
-		url: "http://http://picspace.epizy.com/picSpace/src/server/usuario.php", async: false, type: "post", dataType: "json",
+		url: "http://picspace.epizy.com/picSpace/src/server/usuario.php", async: false, type: "post", dataType: "json",
 		data: {funcion:"buscarIdentificador",identificador:identificador},
 		success: function(result) {
 			// nos viene json con identificadorExiste igual a true o false, le asignamos el valor a la respuesta

@@ -51,7 +51,7 @@ function comprobarUsuario() {
 	} 
 
 	$.ajax({
-		url: "http://http://picspace.epizy.com/picSpace/src/server/usuario.php", async: true, type: "post", dataType: "json", data: {funcion:"login",usuario:user,contrasenya:passw},
+		url: "http://picspace.epizy.com/picSpace/src/server/usuario.php", async: true, type: "post", dataType: "json", data: {funcion:"login",usuario:user,contrasenya:passw},
 		success: function(result) {
 			// nos viene json con login igual a true o false.
 			if (result.login==false) {
@@ -70,7 +70,9 @@ function comprobarUsuario() {
 			else if (result.login==true){
 				localStorage.setItem('usuarioLogin',result.usuario.identificador);
 				localStorage.setItem('idUsuario',result.usuario.id);
-				localStorage.setItem('usuarioRuta',result.usuario.ruta);
+				if (result.usuario.ruta != null){
+					localStorage.setItem('usuarioRuta',result.usuario.ruta);
+				}
 				window.location.replace("./home.html");
 			};
 		}

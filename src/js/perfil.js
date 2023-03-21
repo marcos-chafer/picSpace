@@ -45,12 +45,10 @@ function iniciarPerfil() {
 		idusuario = localStorage.getItem('idUsuario');
 	}
 	
-	// Cargamos foto perfil del usuario para el menú lateral
-	$("#usuarioFotoPerfil").prop('src',localStorage.getItem('usuarioRuta'));
 
 	// Comprobar notificaciones del usuario
 	$.ajax({
-		url: "http://http://picspace.epizy.com/picSpace/src/server/usuario.php", async: false, type: "post", dataType: "json",
+		url: "http://picspace.epizy.com/picSpace/src/server/usuario.php", async: false, type: "post", dataType: "json",
 		data: { funcion: "obtenerNotificaciones", idusuario: localStorage.getItem('idUsuario')},
 		success: function (result) {
 			if (result[0]!= undefined){
@@ -68,7 +66,7 @@ function iniciarPerfil() {
 				})
 				// Marcamos notificaciones como vistas
 				$.ajax({
-					url: "http://http://picspace.epizy.com/picSpace/src/server/usuario.php", async: false, type: "post", dataType: "json",
+					url: "http://picspace.epizy.com/picSpace/src/server/usuario.php", async: false, type: "post", dataType: "json",
 					data: { funcion: "avistarNotificaciones", idusuario: localStorage.getItem('idUsuario')},
 					success: function (result) {
 						console.log(result);
@@ -83,6 +81,7 @@ function iniciarPerfil() {
 	let noti = sessionStorage.getItem('noti');
 	switch (noti) {
 		case "modificarUsuario":
+			localStorage.setItem('usuarioRuta','http://picspace.epizy.com/picSpace/media/'+localStorage.getItem('idUsuario')+"/_perfil.");
 			n.notiInfo("Perfil modificado con éxito");
 			break;
 		case "usuarioSeguido":
@@ -97,8 +96,12 @@ function iniciarPerfil() {
 	//Limpiamos noti una vez controlada
 	sessionStorage.removeItem('noti');
 
+	// Cargamos foto perfil del usuario para el menú lateral
+	$("#usuarioFotoPerfil").prop('src',localStorage.getItem('usuarioRuta'));
+
+
 	$.ajax({
-		url: "http://http://picspace.epizy.com/picSpace/src/server/usuario.php", async: false, type: "post", dataType: "json",
+		url: "http://picspace.epizy.com/picSpace/src/server/usuario.php", async: false, type: "post", dataType: "json",
 		data: { funcion: "obtenerUsuario", idusuario: idusuario, idseguidor:idseguidor},
 		success: function (result) {
 			let perfil = result[0];
@@ -115,7 +118,7 @@ function iniciarPerfil() {
 			let imagenPerfil = document.createElement('img');
 			if (perfil.ruta == null) imagenPerfil.setAttribute('src',"./../assets/img/iconousuario.svg");
 			else imagenPerfil.setAttribute('src',perfil.ruta);
-			imagenPerfil.classList = "w-32 h-32  rounded-full"
+			imagenPerfil.classList = "w-32 h-32 rounded-full"
 
 			$("#usuarioImagen").append(imagenPerfil);
 
@@ -214,7 +217,7 @@ function seguir(event) {
 	var identificador = localStorage.getItem('usuarioLogin');
 
 	$.ajax({
-		url: "http://http://picspace.epizy.com/picSpace/src/server/usuario.php", async: false, type: "post", dataType: "json",
+		url: "http://picspace.epizy.com/picSpace/src/server/usuario.php", async: false, type: "post", dataType: "json",
 		data: { funcion: "seguirUsuario", idusuario: idusuario, identificador:identificador, idseguidor:idseguidor},
 		success: function (result) {
 			sessionStorage.setItem('noti','usuarioSeguido');
@@ -233,7 +236,7 @@ function noSeguir(event) {
 	var idseguidor = localStorage.getItem('idUsuario');
 
 	$.ajax({
-		url: "http://http://picspace.epizy.com/picSpace/src/server/usuario.php", async: false, type: "post", dataType: "json",
+		url: "http://picspace.epizy.com/picSpace/src/server/usuario.php", async: false, type: "post", dataType: "json",
 		data: { funcion: "noSeguirUsuario", idusuario: idusuario, idseguidor:idseguidor},
 		success: function (result) {
 			sessionStorage.setItem('noti','usuarioNoSeguido');

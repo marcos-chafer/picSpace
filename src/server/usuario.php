@@ -59,24 +59,25 @@ switch ($funcion) {
 		
 		$idusuario = $_POST['idUsuario'];
 		$nombre = $_POST['nombre'];
+		$identificador = $_POST['identificador'];
 		$contrasenya = $_POST['contrasenya'];
 		$descripcion = $_POST['descripcion'];
 		$tags = $_POST['tags'];
-		// El nombre del archivo será nombre_perfil.extensionarchivo
-		$titulo = $nombre."_perfil.".$nombreexplotado[1];
+		// El nombre del archivo será identificador_perfil.extensionarchivo
+		$titulo = $identificador."_perfil.".$nombreexplotado[1];
 
-		$ruta = "/XAMPP/htdocs/picspace/media/".$idusuario."/".$titulo;
+		$ruta = "/home/vol10_2/epizy.com/epiz_33830609/htdocs/picSpace/media/".$idusuario."/".$titulo;
 
 
-		// Creamos la carpeta del album si no existe
-		if (!file_exists("/XAMPP/htdocs/picspace/media/".$idusuario)){
-			mkdir("/XAMPP/htdocs/picspace/media/".$idusuario,777);
+		// Creamos la carpeta del usuario si no existe
+		if (!file_exists("/home/vol10_2/epizy.com/epiz_33830609/htdocs/picSpace/media/".$idusuario)){
+			mkdir("/home/vol10_2/epizy.com/epiz_33830609/htdocs/picSpace/media/".$idusuario,755);
 		}
 		//Guardamos el archivo en la ruta seleccionada
 		if(move_uploaded_file($_FILES['file']['tmp_name'],$ruta)){
 			// Si todo va bien, guardamos imagen en BBDD
 			// Ponemos la ruta de la imagen
-			$ruta = "/picspace/media/".$idusuario."/".$titulo;
+			$ruta = "http://picspace.epizy.com/picSpace/media/".$idusuario."/".$titulo;
 			// Llamamos a modificar usuario para guardarlo en BBDD
 			echo modificarUsuario($idusuario,$nombre,$contrasenya,$descripcion,$tags,$ruta);
 		}
@@ -172,6 +173,7 @@ function eliminarNotificacion($idusuario,$idnotificacion){
 function guardarUsuario($nombre,$identificador,$contrasenya,$email,$tags){
 // Registra usuario en BBDD usando los params
 // TODO securizar más esto
+	
 	$objUsuario = new datUsuario();
 	// Guardamos el usuario en BBDD
 	$result = $objUsuario->guardarUsuario($nombre,$identificador,$contrasenya,$email,$tags);
@@ -182,10 +184,14 @@ function guardarUsuario($nombre,$identificador,$contrasenya,$email,$tags){
 	$result_decode = json_decode($result);
 	$result_decode->id = $idusuario;
 	$result = json_encode($result_decode);
-	// $result['idusuario'] = $idusuario;
-	
+
 	// Creamos estructura de carpetas del usuario
-	mkdir('/XAMPP/htdocs/picspace/media/'.$idusuario."/",0777,true);
+	try {
+		mkdir('/home/vol10_2/epizy.com/epiz_33830609/htdocs/picSpace/media/'.$idusuario."/",0755,true);
+	} catch (Exception $e) {
+		echo $e->getMessage();
+	}
+	
 
 	return $result;
 }
@@ -294,6 +300,5 @@ function noSeguirUsuario($idusuario,$idseguidor) {
 
 	return $result;
 }
-// TODO eliminar usuario (eliminando estructura de archivos)
 
 ?>

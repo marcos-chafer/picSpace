@@ -122,7 +122,7 @@ class datImagen {
 		$result = $this->conn->query($sql);
 		// Si el resultado es true está bien
 		if ($result == TRUE) {
-			$ruta = "/XAMPP/htdocs/picspace/media/".$idusuario."/".$nombrealbum;
+			$ruta = "/home/vol10_2/epizy.com/epiz_33830609/htdocs/picSpace/media/".$idusuario."/".$nombrealbum;
 			// Cogemos todos los archivos de la ruta
 			$archivos = glob($ruta . '/*');
 			$arrayprueba = array ();
@@ -141,7 +141,7 @@ class datImagen {
 
 	public function guardarImagenBBDD($idusuario,$idalbum,$nombrealbum,$titulo,$ruta,$descripcion,$tags,$fecha){
 
-		$ruta = "/picspace/media/".$idusuario."/".$nombrealbum."/".$titulo;
+		$ruta = "http://picspace.epizy.com/picSpace/media/".$idusuario."/".$nombrealbum."/".$titulo;
 
 		// No queremos guardar la extensión de la imagen, así que la descartamos
 		$titulo = explode(".",$titulo);

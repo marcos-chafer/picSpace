@@ -1,5 +1,7 @@
 import { noti } from "./noti.js";
 let n = new noti();
+var menuOpcionesHome = "cerrado";
+
 
 
 function abrirMenu() {
@@ -35,7 +37,7 @@ function eliminarUsuario(id){
 	let idusuario = id;
 
 	$.ajax({
-		url: "http://http://picspace.epizy.com/picSpace/src/server/usuario.php", async: false, type: "post", dataType: "json",
+		url: "http://picspace.epizy.com/picSpace/src/server/usuario.php", async: false, type: "post", dataType: "json",
 		data: { funcion: "eliminarCuenta", idusuario: idusuario },
 		// Cuando lleguen los datos...
 		success: function (result) {
@@ -67,7 +69,7 @@ function iniciarInicioAdmin() {
 
 	// Obtenemos estadísticas
 	$.ajax({
-		url: "http://http://picspace.epizy.com/picSpace/src/server/usuario.php", async: false, type: "post", dataType: "json",
+		url: "http://picspace.epizy.com/picSpace/src/server/usuario.php", async: false, type: "post", dataType: "json",
 		data: { funcion: "obtenerEstadisticasUsuarios"},
 		success: function (result) {
 			// Recorremos los usuarios que nos llegan

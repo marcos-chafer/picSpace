@@ -1,3 +1,5 @@
+var menuOpcionesHome = "cerrado";
+
 function abrirMenu() {
 	$("#opcionesHome").show();
 	$("#botonDesplegarMenu i").removeClass();
@@ -38,7 +40,7 @@ function eliminarNotificacion(id){
 
 
 	$.ajax({
-		url: "http://http://picspace.epizy.com/picSpace/src/server/usuario.php", async: false, type: "post", dataType: "json",
+		url: "http://picspace.epizy.com/picSpace/src/server/usuario.php", async: false, type: "post", dataType: "json",
 		data: { funcion: "eliminarNotificacion", idusuario: idusuario, idnotificacion: id },
 		// Cuando lleguen los datos...
 		success: function (result) {
@@ -63,7 +65,7 @@ function iniciarSeguidores() {
 
 	// Comprobar notificaciones del usuario
 	$.ajax({
-		url: "http://http://picspace.epizy.com/picSpace/src/server/usuario.php", async: false, type: "post", dataType: "json",
+		url: "http://picspace.epizy.com/picSpace/src/server/usuario.php", async: false, type: "post", dataType: "json",
 		data: { funcion: "obtenerNotificaciones", idusuario: localStorage.getItem('idUsuario')},
 		success: function (result) {
 			if (result[0]!= undefined){
@@ -81,7 +83,7 @@ function iniciarSeguidores() {
 				})
 				// Marcamos notificaciones como vistas
 				$.ajax({
-					url: "http://http://picspace.epizy.com/picSpace/src/server/usuario.php", async: false, type: "post", dataType: "json",
+					url: "http://picspace.epizy.com/picSpace/src/server/usuario.php", async: false, type: "post", dataType: "json",
 					data: { funcion: "avistarNotificaciones", idusuario: localStorage.getItem('idUsuario')},
 					success: function (result) {
 						console.log(result);
@@ -93,7 +95,7 @@ function iniciarSeguidores() {
 	});
 
 	$.ajax({
-		url: "http://http://picspace.epizy.com/picSpace/src/server/usuario.php", async: false, type: "post", dataType: "json",
+		url: "http://picspace.epizy.com/picSpace/src/server/usuario.php", async: false, type: "post", dataType: "json",
 		data: { funcion: "obtenerSeguidores", idusuario: idusuario },
 		// Cuando lleguen los datos...
 		success: function (result) {

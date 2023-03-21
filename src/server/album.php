@@ -22,8 +22,9 @@ switch ($funcion) {
 			echo guardarAlbum($nombrealbum,$idusuario,$tags);
 
 			// Creamos la carpeta del album si no existe
-			if (!file_exists("/XAMPP/htdocs/picspace/media/".$idusuario."/".$nombrealbum)){
-				mkdir("/XAMPP/htdocs/picspace/media/".$idusuario."/".$nombrealbum,777);
+			if (!file_exists("/home/vol10_2/epizy.com/epiz_33830609/htdocs/picSpace/media/".$idusuario."/".$nombrealbum)){
+				mkdir("/home/vol10_2/epizy.com/epiz_33830609/htdocs/picSpace/media/".$idusuario."/".$nombrealbum);
+				chmod("/home/vol10_2/epizy.com/epiz_33830609/htdocs/picSpace/media/".$idusuario."/".$nombrealbum, 0755);
 			}
 			break;
 		}
@@ -37,18 +38,19 @@ switch ($funcion) {
 		// El nombre del archivo será nombrealbum_cover.extensionarchivo
 		$titulo = $nombrealbum."_cover.".$nombreexplotado[1];
 
-		$ruta = "/XAMPP/htdocs/picspace/media/".$idusuario."/".$nombrealbum."/".$titulo;
-
+		$ruta = "/home/vol10_2/epizy.com/epiz_33830609/htdocs/picSpace/media/".$idusuario."/".$nombrealbum."/".$titulo;
 
 		// Creamos la carpeta del album si no existe
-		if (!file_exists("/XAMPP/htdocs/picspace/media/".$idusuario."/".$nombrealbum)){
-			mkdir("/XAMPP/htdocs/picspace/media/".$idusuario."/".$nombrealbum,777);
+		if (!file_exists("/home/vol10_2/epizy.com/epiz_33830609/htdocs/picSpace/media/".$idusuario."/".$nombrealbum)){
+			mkdir("/home/vol10_2/epizy.com/epiz_33830609/htdocs/picSpace/media/".$idusuario."/".$nombrealbum);
+			chmod("/home/vol10_2/epizy.com/epiz_33830609/htdocs/picSpace/media/".$idusuario."/".$nombrealbum, 0755);
 		}
+
 		//Guardamos el archivo en la ruta seleccionada
 		if(move_uploaded_file($_FILES['file']['tmp_name'],$ruta)){
 			// Si todo va bien, guardamos imagen en BBDD
 			// Ponemos la ruta de la imagen
-			$ruta = "/picspace/media/".$idusuario."/".$nombrealbum."/".$titulo;
+			$ruta = "http://picspace.epizy.com/picSpace/media/".$idusuario."/".$nombrealbum."/".$titulo;
 			// Llamamos a guardar album para guardarlo en BBDD
 			echo guardarAlbum($nombrealbum,$idusuario,$tags,$ruta);
 		}
@@ -134,26 +136,6 @@ function obteneralbumes($identificador){
 
 	return $result;
 }
-
-
-
-// function login($identificador, $contrasenya) {
-// // Funcion que comprueba si el usuario y la contraseña pasados por parametro estan en BBDD
-// 	$objUsuario = new datUsuario();
-
-// 	$result = $objUsuario->login($identificador, $contrasenya);
-
-// 	return $result;
-
-// };
-
-// function obtenerInicio($identificador) {
-// 	$objUsuario = new datUsuario();
-
-// 	$result = $objUsuario->obtenerInicio($identificador);
-
-// 	return $result;
-// }
 
 
 ?>

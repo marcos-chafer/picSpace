@@ -1,3 +1,4 @@
+var menuOpcionesHome = "cerrado";
 
 
 function abrirMenu() {
@@ -28,11 +29,12 @@ function iniciarHome() {
 	this.menuOpcionesHome = "cerrado";
 
 	// Cargamos foto perfil del usuario para el menú lateral
-	$("#usuarioFotoPerfil").prop('src', localStorage.getItem('usuarioRuta'));
+	if (localStorage.getItem('usuarioRuta') != "null") $("#usuarioFotoPerfil").prop('src', localStorage.getItem('usuarioRuta'));
+	else  $("#usuarioFotoPerfil").prop('src', 'http://picspace.epizy.com/picSpace/assets/img/iconousuario.svg');
 
 	// Comprobar notificaciones del usuario
 	$.ajax({
-		url: "http://http://picspace.epizy.com/picSpace/src/server/usuario.php", async: false, type: "post", dataType: "json",
+		url: "http://picspace.epizy.com/picSpace/src/server/usuario.php", async: false, type: "post", dataType: "json",
 		data: { funcion: "obtenerNotificaciones", idusuario: localStorage.getItem('idUsuario') },
 		success: function (result) {
 			if (result[0] != undefined) {
@@ -50,10 +52,9 @@ function iniciarHome() {
 				})
 				// Marcamos notificaciones como vistas
 				$.ajax({
-					url: "http://http://picspace.epizy.com/picSpace/src/server/usuario.php", async: false, type: "post", dataType: "json",
+					url: "http://picspace.epizy.com/picSpace/src/server/usuario.php", async: false, type: "post", dataType: "json",
 					data: { funcion: "avistarNotificaciones", idusuario: localStorage.getItem('idUsuario') },
 					success: function (result) {
-						console.log(result);
 					}
 				});
 				if (contNotificaciones != 0) $("#notificacionesAlerta").text(" " + contNotificaciones);
@@ -65,9 +66,10 @@ function iniciarHome() {
 	let idusuario = localStorage.getItem('idUsuario');
 
 	$.ajax({
-		url: "http://http://picspace.epizy.com/picSpace/src/server/imagen.php", async: true, type: "post", dataType: "json",
+		url: "http://picspace.epizy.com/picSpace/src/server/imagen.php", async: true, type: "post", dataType: "json",
 		data: { funcion: "obtenerInicio", idusuario: idusuario },
 		success: function (result) {
+			console.log(result);
 			postIniciarHome(result)
 		}
 	})
@@ -98,7 +100,7 @@ function obtenerIdUsuario() {
 	let identificador = localStorage.getItem('usuarioLogin');
 
 	$.ajax({
-		url: "http://http://picspace.epizy.com/picSpace/src/server/usuario.php", async: true, type: "post", dataType: "json",
+		url: "http://picspace.epizy.com/picSpace/src/server/usuario.php", async: true, type: "post", dataType: "json",
 		data: { funcion: "obtenerIdUsuario", identificador: identificador },
 		success: function (result) {
 			localStorage.setItem('idUsuario', result[0].id);
@@ -109,25 +111,25 @@ function obtenerIdUsuario() {
 
 function postIniciarHome(datos) {
 	console.log(datos);
-	if (datos.length == 0) {
-		let postContenedor = document.createElement('div');
-		postContenedor.classList = "h-[60%] w-[60%] bg-blue-600 flex flex-col items-center justify-center gap-y-20 py-20 text-white rounded-3xl mx-auto self-center";
-		let postTexto = document.createElement('div');
-		postTexto.classList = "font-semibold text-6xl text-center";
-		postTexto.textContent = "¿Todavía no sigues a nadie?";
-		let postTexto2 = document.createElement('div');
-		postTexto2.classList = "font-semibold text-3xl text-center px-20";
-		postTexto2.textContent = "Empieza a usar picSpace buscando contenido que te guste";
+	// if (datos.length == 0) {
+	// 	let postContenedor = document.createElement('div');
+	// 	postContenedor.classList = "h-[60%] w-[60%] bg-blue-600 flex flex-col items-center justify-center gap-y-20 py-20 text-white rounded-3xl mx-auto self-center";
+	// 	let postTexto = document.createElement('div');
+	// 	postTexto.classList = "font-semibold text-6xl text-center";
+	// 	postTexto.textContent = "¿Todavía no sigues a nadie?";
+	// 	let postTexto2 = document.createElement('div');
+	// 	postTexto2.classList = "font-semibold text-3xl text-center px-20";
+	// 	postTexto2.textContent = "Empieza a usar picSpace buscando contenido que te guste";
 
-		postContenedor.append(postTexto);
-		postContenedor.append(postTexto2);
-		$("#inicioHome").append(postContenedor);
+	// 	postContenedor.append(postTexto);
+	// 	postContenedor.append(postTexto2);
+	// 	$("#inicioHome").append(postContenedor);
 
-		$("#buscarBoton").addClass('animate-pulse text-blue-600');
-		$("#tendenciasBoton").addClass('animate-pulse text-blue-600');
+	// 	$("#buscarBoton").addClass('animate-pulse text-blue-600');
+	// 	$("#tendenciasBoton").addClass('animate-pulse text-blue-600');
 
-	}
-	else {
+	// }
+	// else {
 		datos.forEach(function (post) {
 			console.log(post);
 			let postContenedor = document.createElement('div');
@@ -179,7 +181,7 @@ function postIniciarHome(datos) {
 
 
 		})
-	}
+	// }
 
 
 }

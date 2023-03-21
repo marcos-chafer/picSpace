@@ -1,5 +1,7 @@
 import { noti } from "./noti.js";
 let n = new noti();
+var menuOpcionesHome = "cerrado";
+
 
 function abrirMenu() {
 	$("#opcionesHome").show();
@@ -58,7 +60,7 @@ function iniciarAlbum() {
 
 	// Comprobar notificaciones del usuario
 	$.ajax({
-		url: "http://http://picspace.epizy.com/picSpace/src/server/usuario.php", async: false, type: "post", dataType: "json",
+		url: "http://picspace.epizy.com/picSpace/src/server/usuario.php", async: false, type: "post", dataType: "json",
 		data: { funcion: "obtenerNotificaciones", idusuario: localStorage.getItem('idUsuario')},
 		success: function (result) {
 			if (result[0]!= undefined){
@@ -76,7 +78,7 @@ function iniciarAlbum() {
 				})
 				// Marcamos notificaciones como vistas
 				$.ajax({
-					url: "http://http://picspace.epizy.com/picSpace/src/server/usuario.php", async: false, type: "post", dataType: "json",
+					url: "http://picspace.epizy.com/picSpace/src/server/usuario.php", async: false, type: "post", dataType: "json",
 					data: { funcion: "avistarNotificaciones", idusuario: localStorage.getItem('idUsuario')},
 					success: function (result) {
 						console.log(result);
@@ -88,7 +90,7 @@ function iniciarAlbum() {
 	});
 
 	$.ajax({
-		url: "http://http://picspace.epizy.com/picSpace/src/server/album.php", async: false, type: "post", dataType: "json",
+		url: "http://picspace.epizy.com/picSpace/src/server/album.php", async: false, type: "post", dataType: "json",
 		data: { funcion: "obteneralbumes", identificador: identificador },
 		// Cuando lleguen los datos...
 		success: function (result) {
@@ -177,7 +179,7 @@ function iniciarAlbum() {
 
 	var imagenes = new Array();
 	$.ajax({
-		url: "http://http://picspace.epizy.com/picSpace/src/server/imagen.php", async: false, type: "post", dataType: "json",
+		url: "http://picspace.epizy.com/picSpace/src/server/imagen.php", async: false, type: "post", dataType: "json",
 		data: { funcion: "obtenerTendencias" },
 		// Cuando lleguen los datos...
 		success: function (result) {

@@ -70,7 +70,7 @@ function eliminarCuenta() {
 	let idusuario = localStorage.getItem('idUsuario');
 
 	$.ajax({
-		url: "http://http://picspace.epizy.com/picSpace/src/server/usuario.php", async: false, type: "post", dataType: "json",
+		url: "http://picspace.epizy.com/picSpace/src/server/usuario.php", async: false, type: "post", dataType: "json",
 		data: { funcion: "eliminarCuenta", idusuario: idusuario},
 		success: function (result) {
 			// nos viene json con exito = true si se hizo correctamente
@@ -96,11 +96,12 @@ function iniciarAjustes() {
 	let idusuario = localStorage.getItem('idUsuario');
 
 	// Cargamos foto perfil del usuario para el menú lateral
-	$("#usuarioFotoPerfil").prop('src',localStorage.getItem('usuarioRuta'));
+	if (localStorage.getItem('usuarioRuta') != "null") $("#usuarioFotoPerfil").prop('src', localStorage.getItem('usuarioRuta'));
+	else  $("#usuarioFotoPerfil").prop('src', 'http://picspace.epizy.com/picSpace/assets/img/iconousuario.svg');
 
 	// Comprobar notificaciones del usuario
 	$.ajax({
-		url: "http://http://picspace.epizy.com/picSpace/src/server/usuario.php", async: false, type: "post", dataType: "json",
+		url: "http://picspace.epizy.com/picSpace/src/server/usuario.php", async: false, type: "post", dataType: "json",
 		data: { funcion: "obtenerNotificaciones", idusuario: localStorage.getItem('idUsuario')},
 		success: function (result) {
 			if (result[0]!= undefined){
@@ -118,7 +119,7 @@ function iniciarAjustes() {
 				})
 				// Marcamos notificaciones como vistas
 				$.ajax({
-					url: "http://http://picspace.epizy.com/picSpace/src/server/usuario.php", async: false, type: "post", dataType: "json",
+					url: "http://picspace.epizy.com/picSpace/src/server/usuario.php", async: false, type: "post", dataType: "json",
 					data: { funcion: "avistarNotificaciones", idusuario: localStorage.getItem('idUsuario')},
 					success: function (result) {
 						console.log(result);
@@ -130,7 +131,7 @@ function iniciarAjustes() {
 	});
 	
 	$.ajax({
-		url: "http://http://picspace.epizy.com/picSpace/src/server/usuario.php", async: false, type: "post", dataType: "json",
+		url: "http://picspace.epizy.com/picSpace/src/server/usuario.php", async: false, type: "post", dataType: "json",
 		data: { funcion: "obtenerUsuario", idusuario: idusuario },
 		success: function (result) {
 			let usuario = result[0];
@@ -143,7 +144,7 @@ function iniciarAjustes() {
 	});
 	// Obtenemos la contrasenya del usuario
 	$.ajax({
-		url: "http://http://picspace.epizy.com/picSpace/src/server/usuario.php", async: false, type: "post", dataType: "json",
+		url: "http://picspace.epizy.com/picSpace/src/server/usuario.php", async: false, type: "post", dataType: "json",
 		data: { funcion: "obtenerUsuarioContrasenya", idusuario: idusuario },
 		success: function (result) {
 			let usuario = result[0];
@@ -166,14 +167,14 @@ function irAAlbum(idalbum, nombrealbum) {
 };
 
 function modificarUsuario() {
+	let idusuario = localStorage.getItem('idUsuario');
+	let identificador = localStorage.getItem('usuarioLogin');
 	var nombre = $("#nombrePerfil").val();
 	var contrasenya = $("#contrasenyaPerfil").val();
 	var descripcion = $("#descripcionPerfil").val();
 	let tags = $("#tagsPerfil").val();
 	// Cogemos el archivo del input
 	let archivo = $("#imagenPerfil").prop('files')[0];
-
-
 
 	if (nombre == "") {
 		n.notiError("Nombre vacío");
@@ -204,7 +205,6 @@ function modificarUsuario() {
 		return;
 	}
 
-	let idusuario = localStorage.getItem('idUsuario');
 
 	//Creamos un objeto FormData donde irán los datos del archivo
 	let formData = new FormData();
@@ -212,13 +212,14 @@ function modificarUsuario() {
 	// NECESARIO UN FILENAME
 	formData.append('filename', nombre);
 	formData.append('nombre', nombre);
+	formData.append('identificador', identificador);
 	formData.append('contrasenya', contrasenya);
 	formData.append('descripcion', descripcion);
 	formData.append('tags', tags);
 	formData.append('idUsuario', idusuario);
 
 	$.ajax({
-		url: "http://http://picspace.epizy.com/picSpace/src/server/usuario.php",
+		url: "http://picspace.epizy.com/picSpace/src/server/usuario.php",
 		async: false,
 		type: "post",
 		data: formData,

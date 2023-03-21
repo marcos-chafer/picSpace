@@ -1,3 +1,5 @@
+var menuOpcionesHome = "cerrado";
+
 function abrirMenu() {
 	$("#opcionesHome").show();
 	$("#botonDesplegarMenu i").removeClass();
@@ -33,7 +35,7 @@ function iniciarInicioAdmin() {
 
 	// Obtenemos estadísticas
 	$.ajax({
-		url: "http://http://picspace.epizy.com/picSpace/src/server/usuario.php", async: false, type: "post", dataType: "json",
+		url: "http://picspace.epizy.com/picSpace/src/server/usuario.php", async: false, type: "post", dataType: "json",
 		data: { funcion: "obtenerEstadisticas"},
 		success: function (result) {
 			// Ponemos los resultados en los contenedores

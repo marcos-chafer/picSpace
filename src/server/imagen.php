@@ -40,19 +40,21 @@ switch ($funcion) {
 		
 		$titulo = $_POST['filename'].".".$nombreexplotado[1];
 		// Separamos el titulo para obtener la extensión
+
 		$idusuario = $_POST['idUsuario'];
 		$idalbum = $_POST['idAlbum'];
 		$nombrealbum = $_POST['nombreAlbum'];
 		$descripcion = $_POST['descripcion'];
 		$tags = $_POST['tags'];
 
-		$ruta = "/XAMPP/htdocs/picspace/media/".$idusuario."/".$nombrealbum."/".$titulo;
+		$ruta = "/home/vol10_2/epizy.com/epiz_33830609/htdocs/picSpace/media/".$idusuario."/".$nombrealbum."/".$titulo;
 
 		//Guardamos el archivo en la ruta seleccionada
 		if(move_uploaded_file($_FILES['file']['tmp_name'],$ruta)){
+
 			// Si todo va bien, guardamos imagen en BBDD
 			// Ponemos la ruta de la imagen
-			$ruta = "/picspace/media/".$idusuario."/".$nombrealbum."/".$titulo;
+			$ruta = "http://picspace.epizy.com/picSpace/media/".$idusuario."/".$nombrealbum."/".$titulo;
 
 			echo guardarImagenBBDD($idusuario,$idalbum,$nombrealbum,$titulo,$ruta,$descripcion,$tags);
 		}

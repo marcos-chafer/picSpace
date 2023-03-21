@@ -44,7 +44,7 @@ class datAlbum {
 		$result = $this->conn->query($sql);
 		// Si el resultado es true está bien
 		if ($result == TRUE) {
-			$ruta = "/XAMPP/htdocs/picspace/media/".$idusuario."/".$nombrealbum;
+			$ruta = "/home/vol10_2/epizy.com/epiz_33830609/htdocs/picSpace/media/".$idusuario."/".$nombrealbum;
 			// Cogemos todos los archivos de la ruta
 			$archivos = glob($ruta . '/*');
 			foreach ($archivos as $archivo) {
