@@ -19,7 +19,7 @@ class datImagen {
 
 		// Iteramos sobre el array de tags y construimos la cláusula para cada uno
 		foreach ($tags_array as $tag) {
-			$find_in_set_tags[] = "i.titulo LIKE '$tag' OR FIND_IN_SET('$tag', i.tags) > 0";
+			$find_in_set_tags[] = "i.titulo LIKE '$tag' OR i.titulo LIKE ' $tag' OR FIND_IN_SET('$tag', i.tags) > 0 OR FIND_IN_SET(' $tag', i.tags) > 0";
     		}
 
 		// Unimos todas las cláusulas con el operador OR
@@ -69,7 +69,7 @@ class datImagen {
 			}
 			
 			// Montamos la consulta
-			$inicio = "INSERT INTO notificacion (`idusuario`, `idnotificado`, `imagen`, `texto`) ";
+			$inicio = "INSERT INTO notificacion (`idusuario`, `idnotificado`,`imagen`, `texto`) ";
 			$values = " VALUES ('".$idusuario."','".$idnotificado."','".$idimagen."','$identificador ha comentado tu ') ";
 			$sql = $inicio.$values;
 
@@ -86,7 +86,7 @@ class datImagen {
 	}
 
 	public function comprobarPunto($idimagen,$idusuario){
-		// motamos la consulta
+		// montamos la consulta
 		// Comprobamos si hay registro de esta imagen con este usuario
 		$inicio = "SELECT * FROM imagen_punto AS ip";
 		$where = " WHERE ip.idimagen = '".$idimagen."' AND ip.idusuario = '".$idusuario."'";
@@ -183,7 +183,7 @@ class datImagen {
 	}
 
 	public function obtenerComentarios($idimagen){
-		// motamos la consulta
+		// montamos la consulta
 		$inicio = "SELECT ic.id,ic.idimagen,ic.idusuario,ic.texto,ic.fecha,u.nombre,u.ruta FROM imagen_comentario AS ic LEFT JOIN usuario as u ON ic.idusuario=u.id";
 		$where = " WHERE ic.idimagen = '".$idimagen."' ORDER BY ic.fecha ASC";
 		$sql = $inicio.$where;
@@ -205,7 +205,7 @@ class datImagen {
 	}
 
 	public function obtenerImagen($idimagen){
-		// motamos la consulta
+		// montamos la consulta
 		$inicio = "SELECT i.*, u.nombre FROM imagen AS i JOIN usuario u ON u.id = i.id_usuario ";
 		$where = " WHERE i.id = '".$idimagen."'";
 		$sql = $inicio.$where;
@@ -227,8 +227,8 @@ class datImagen {
 	}
 
 	public function obtenerImagenes($idalbum){
-		// motamos la consulta
-		$inicio = "SELECT i.id, i.titulo, i.fecha, i.ruta FROM imagen AS i JOIN album AS a ON a.id = i.id_album ";
+		// montamos la consulta
+		$inicio = "SELECT i.id, i.titulo, i.fecha, i.ruta, a.id_usuario FROM imagen AS i JOIN album AS a ON a.id = i.id_album";
 		$where = " WHERE a.id = '".$idalbum."'";
 		$sql = $inicio.$where;
 
@@ -247,7 +247,7 @@ class datImagen {
 
 	public function obtenerTendencias(){
 		// montamos la consulta
-		$inicio = "SELECT *, i.ruta as ruta FROM imagen i JOIN album a ON a.id = i.id_album ";
+		$inicio = "SELECT *, i.id as iddelaimagen, a.id as iddelalbum,i.ruta as ruta FROM imagen i JOIN album a ON a.id = i.id_album ";
 		$where = " ORDER BY i.puntos DESC LIMIT 20";
 		$sql = $inicio.$where;
 
@@ -289,7 +289,7 @@ class datImagen {
 
 		}
 
-		// motamos la consulta
+		// montamos la consulta
 		// Comprobamos si hay registro de esta imagen con este usuario
 		$inicio = "SELECT * FROM imagen_punto AS ip";
 		$where = " WHERE ip.idimagen = '".$idimagen."' AND ip.idusuario = '".$idusuario."'";
@@ -307,7 +307,7 @@ class datImagen {
 		}
 		// Si el resultado va vacío, significa que el usuario no ha puntuado esta imagen, le subimos un punto
 		if (empty($jsondata)) {
-			// motamos la consulta
+			// montamos la consulta
 			$inicio = "UPDATE imagen SET puntos = puntos + 1";
 			$where = " WHERE id = '".$idimagen."'";
 			$sql = $inicio.$where;
@@ -317,7 +317,7 @@ class datImagen {
 
 			// Añadimos relacion en imagen_punto
 
-			// motamos la consulta
+			// montamos la consulta
 			$inicio = "INSERT INTO imagen_punto (idimagen, idusuario)";
 			$where = " VALUES ('".$idimagen."','".$idusuario."')";
 			$sql = $inicio.$where;
@@ -337,7 +337,7 @@ class datImagen {
 			}
 			
 			// Montamos la consulta
-			$inicio = "INSERT INTO notificacion (`idusuario`, `idnotificado`, `imagen`, `texto`) ";
+			$inicio = "INSERT INTO notificacion (`idusuario`, `idnotificado`,`imagen`, `texto`) ";
 			$values = " VALUES ('".$idusuario."','".$idnotificado."','".$idimagen."','A $identificador le ha gustado tu ') ";
 			$sql = $inicio.$values;
 

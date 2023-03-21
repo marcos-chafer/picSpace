@@ -118,6 +118,36 @@ function iniciarImagen() {
 	// Comprobamos si debemos colorear el corazón
 	comprobarPunto();
 
+	// Comprobar notificaciones del usuario
+	$.ajax({
+		url: "http://192.168.1.137/picSpace/src/server/usuario.php", async: false, type: "post", dataType: "json",
+		data: { funcion: "obtenerNotificaciones", idusuario: localStorage.getItem('idUsuario')},
+		success: function (result) {
+			if (result[0]!= undefined){
+				$("#notificacionesAlerta").addClass("text-blue-700");
+				// Contamos las notificaciones para mostrar un número en el icono
+				let contNotificaciones = 0;
+				result.forEach(function(notificacion){
+					if (notificacion.vista==null){
+						$("#notificacionesAlerta").addClass("animate-pulse");
+						contNotificaciones++;
+
+						if (notificacion.imagen != null) n.notiInfo(notificacion.texto+" imagen");
+						else n.notiInfo(notificacion.texto);
+					}
+				})
+				// Marcamos notificaciones como vistas
+				$.ajax({
+					url: "http://192.168.1.137/picSpace/src/server/usuario.php", async: false, type: "post", dataType: "json",
+					data: { funcion: "avistarNotificaciones", idusuario: localStorage.getItem('idUsuario')},
+					success: function (result) {
+					}
+				});
+				if(contNotificaciones!=0) $("#notificacionesAlerta").text(" "+contNotificaciones);
+			}
+		}
+	});
+
 	// Cargamos imagen
 	$.ajax({
 		url: "http://192.168.1.137/picSpace/src/server/imagen.php", async: false, type: "post", dataType: "json",

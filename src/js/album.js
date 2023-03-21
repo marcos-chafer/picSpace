@@ -62,16 +62,28 @@ function iniciarAlbum() {
 		url: "http://192.168.1.137/picSpace/src/server/usuario.php", async: false, type: "post", dataType: "json",
 		data: { funcion: "obtenerNotificaciones", idusuario: localStorage.getItem('idUsuario')},
 		success: function (result) {
-			console.log(result[0]);
 			if (result[0]!= undefined){
-				$("#notificacionesAlerta").addClass("animate-pulse text-blue-700");
+				$("#notificacionesAlerta").addClass("text-blue-700");
 				// Contamos las notificaciones para mostrar un número en el icono
 				let contNotificaciones = 0;
 				result.forEach(function(notificacion){
-					contNotificaciones++;
-				})
-				$("#notificacionesAlerta").text(" "+contNotificaciones);
+					if (notificacion.vista==null){
+						$("#notificacionesAlerta").addClass("animate-pulse");
+						contNotificaciones++;
 
+						if (notificacion.imagen != null) n.notiInfo(notificacion.texto+" imagen");
+						else n.notiInfo(notificacion.texto);
+					}
+				})
+				// Marcamos notificaciones como vistas
+				$.ajax({
+					url: "http://192.168.1.137/picSpace/src/server/usuario.php", async: false, type: "post", dataType: "json",
+					data: { funcion: "avistarNotificaciones", idusuario: localStorage.getItem('idUsuario')},
+					success: function (result) {
+						console.log(result);
+					}
+				});
+				if(contNotificaciones!=0) $("#notificacionesAlerta").text(" "+contNotificaciones);
 			}
 		}
 	});
@@ -81,7 +93,10 @@ function iniciarAlbum() {
 		data: { funcion: "obtenerImagenes", idalbum: idalbum },
 		// Cuando lleguen los datos...
 		success: function (result) {
+			console.log(result);
+			var mismoUsuario = false;
 			for (let i = 0; i < result.length; i++) {
+
 				// asignamos variables con los datos
 				let id = result[i].id;
 				let titulo = result[i].titulo;
@@ -103,7 +118,7 @@ function iniciarAlbum() {
 				imagenTitulo.textContent = titulo;
 
 				let imagenImagen = document.createElement('div');
-				imagenImagen.classList = "h-32";
+				imagenImagen.classList = "imagenCardImagen";
 
 				let imagenRuta = document.createElement('img')
 				imagenRuta.setAttribute('src', ruta)
@@ -114,27 +129,17 @@ function iniciarAlbum() {
 				imagen.append(imagenTitulo);
 				imagen.append(imagenImagen);
 				$("#imagenes").append(imagen);
+
+				// Checkeamos si la imagen es del mismo usuario que esttá logueado
+				if (result[i].id_usuario == localStorage.getItem('idUsuario')){
+					mismoUsuario = true;
+				}
+
 			}
 			// Cuando se hayan recorrido todos los imagenes...
-			let colMas = document.createElement("div");
-			colMas.classList = "lg:h-48";
+			// Decidimos si mostramos la colummna de ajustes de album
+			if (mismoUsuario) $("#infoAlbum").show();
 
-			let botonMas = document.createElement("button");
-			botonMas.setAttribute('id', 'botonMas');
-			botonMas.addEventListener('click',crearImagen);
-			botonMas.style = "cursor: pointer;";
-			botonMas.classList = "bg-blue-300 rounded-full p-5 w-fit centrarHorizontal mt-16 hover:bg-blue-500 hover:scale-110 transition duration-200 ease-in-out";
-
-
-
-			let i = document.createElement('i');
-			i.classList = "fa-solid fa-plus fa-2xl";
-
-			// añadimos elementos despues de los albumes
-			botonMas.append(i);
-			colMas.append(botonMas);
-
-			$("#imagenes").append(colMas);
 		}
 	})
 }
@@ -166,6 +171,10 @@ $("#IrAMiPerfil").click(function() {
 $("#botonCerrarSesion").click(function () {
 	cerrarSesion();
 });
+
+$("#botonMas").click(function(){
+	crearImagen();
+})
 
 
 iniciarAlbum();

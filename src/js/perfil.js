@@ -53,16 +53,28 @@ function iniciarPerfil() {
 		url: "http://192.168.1.137/picSpace/src/server/usuario.php", async: false, type: "post", dataType: "json",
 		data: { funcion: "obtenerNotificaciones", idusuario: localStorage.getItem('idUsuario')},
 		success: function (result) {
-			console.log(result[0]);
 			if (result[0]!= undefined){
-				$("#notificacionesAlerta").addClass("animate-pulse text-blue-700");
+				$("#notificacionesAlerta").addClass("text-blue-700");
 				// Contamos las notificaciones para mostrar un número en el icono
 				let contNotificaciones = 0;
 				result.forEach(function(notificacion){
-					contNotificaciones++;
-				})
-				$("#notificacionesAlerta").text(" "+contNotificaciones);
+					if (notificacion.vista==null){
+						$("#notificacionesAlerta").addClass("animate-pulse");
+						contNotificaciones++;
 
+						if (notificacion.imagen != null) n.notiInfo(notificacion.texto+" imagen");
+						else n.notiInfo(notificacion.texto);
+					}
+				})
+				// Marcamos notificaciones como vistas
+				$.ajax({
+					url: "http://192.168.1.137/picSpace/src/server/usuario.php", async: false, type: "post", dataType: "json",
+					data: { funcion: "avistarNotificaciones", idusuario: localStorage.getItem('idUsuario')},
+					success: function (result) {
+						console.log(result);
+					}
+				});
+				if(contNotificaciones!=0) $("#notificacionesAlerta").text(" "+contNotificaciones);
 			}
 		}
 	});
@@ -126,6 +138,7 @@ function iniciarPerfil() {
 				albumCard.classList = "albumCard";
 
 				let albumTitulo = document.createElement("div");
+				albumTitulo.classList= "pt-2"
 				albumTitulo.textContent = nombre;
 
 				let albumImagen = document.createElement('div');
@@ -152,7 +165,7 @@ function iniciarPerfil() {
 				if (result.seSiguen == false){
 					let botonSeguir = document.createElement('button');
 					botonSeguir.setAttribute('id',"botonSeguir_"+perfil.id);
-					botonSeguir.classList = "boton  hover:scale-105 transition duration-300 ease-in-out";
+					botonSeguir.classList = "w-1/3 lg:w-1/6 boton hover:scale-105 transition duration-300 ease-in-out";
 					botonSeguir.addEventListener('click',seguir);
 					botonSeguir.textContent = "Seguir";
 	
@@ -162,7 +175,7 @@ function iniciarPerfil() {
 				else if (result.seSiguen == true){
 					let botonSeguido = document.createElement('button');
 					botonSeguido.setAttribute('id',"botonNoSeguir_"+perfil.id);
-					botonSeguido.classList = "boton hover:scale-105 hover:bg-red-800 transition duration-300 ease-in-out";
+					botonSeguido.classList = "w-1/3 lg:w-1/6 boton hover:scale-105 hover:bg-red-800 transition duration-300 ease-in-out";
 					botonSeguido.addEventListener('click',noSeguir);
 					botonSeguido.textContent = "Siguiendo";
 	

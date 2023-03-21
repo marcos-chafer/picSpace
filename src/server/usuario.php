@@ -10,6 +10,10 @@ else $funcion = "guardarUsuarioImagenServidor";
 
 
 switch ($funcion) {
+	case 'avistarNotificaciones':
+		$idusuario = $_POST["idusuario"];
+		echo avistarNotificaciones($idusuario);
+		break;
 	case 'buscarIdentificador':
 		$identificador = $_POST["identificador"];
 		echo buscarIdentificador($identificador);
@@ -131,6 +135,14 @@ switch ($funcion) {
 	default:
 		break;
 };
+
+function avistarNotificaciones($idusuario){
+	$objUsuario = new datUsuario();
+
+	$result = $objUsuario->avistarNotificaciones($idusuario);
+
+	return $result;
+}
 
 function buscarIdentificador($identificador){
 // Funcion que comprueba si existe el identificador pasado por parametro

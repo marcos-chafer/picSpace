@@ -29,7 +29,6 @@
 				<a href="./albumes.html" class="p-3 rounded-full mt-4 ml-2 lg:hidden h-fit w-fit hover:bg-blue-400">
 					<i class="fa fa-arrow-left fa-2xl"></i>
 				</a>
-				<!-- TODO  Aqui ira la foto de perfil del usuario -->
 				<img id="usuarioFotoPerfil" src="../assets/img/logo_picspace_nuevo_icono_blanco_relleno.png" class="imagenPerfilLateral " alt="Logo picSpace">
 				<a href="./ajustesalbum.html" class="p-3 rounded-full mt-4 ml-2 lg:hidden h-fit w-fit centrarHorizontal hover:bg-blue-400">
 					<i class="fa fa-gear fa-2xl"></i>
@@ -73,7 +72,7 @@
 					<button>Configuración</button>
 				</a>
 
-				<button id="botonCerrarSesion" class="boton block centrarHorizontal lg:absolute lg:bottom-4 lg:right-20 lg:left-20">Cerrar sesión</button>
+				<button id="botonCerrarSesion" class="boton botonCerrarSesion">Cerrar sesión</button>
 			</div>
 			<div class="lg:hidden">
 				<button id="botonDesplegarMenu" class="block centrarHorizontal">
@@ -83,18 +82,20 @@
 		</div>
 		<!-- Fin Perfil y opciones -->
 		<!-- Mis albumes -->
-		<!-- <div class="mt-2 text-center font-bold lg:hidden">
-			<h1 id="nombreAlbum">
-			</h1>
-			<span></span>
-		</div> -->
-		<div id="imagenes" class="flex lg:col-span-4 mt-10 lg:mt-5 gap-x-2 lg:gap-x-2 gap-y-4 lg:gap-y-1 mx-2 lg:mx-2">
-			<a href="./albumes.html" class="p-3 hidden lg:block rounded-full mt-2 ml-2 w-fit h-fit hover:bg-blue-400">
+		<div id="panelImagenes" class="lg:col-span-4 flex">
+			<a href="./albumes.html" class="p-3 hidden lg:inline rounded-full mt-2 ml-2 w-fit h-fit hover:bg-blue-400">
 				<i class="fa fa-arrow-left fa-2xl"></i>
-			</a>
+			</a>	
+			<div id="imagenes" class="flex justify-center flex-wrap gap-10 h-fit w-full mx-auto mt-10">
+				<div class="flex flex-col items-center order-1 w-full h-fit">
+					<button id="botonMas" class="botonMas">
+						<i class="fa-solid fa-plus fa-2xl"></i>
+					</button>
+				</div>
+			</div>	
 		</div>
 		<!-- Columna info album -->
-		<div class="mt-2 text-center font-bold row-start-2 lg:row-start-auto lg:block lg:h-fit ">
+		<div id="infoAlbum" class="mt-2 hidden text-center font-bold row-start-2 lg:row-start-auto lg:h-fit ">
 			<h1 id="nombreAlbum">
 			</h1>
 			<a href="./ajustesalbum.html" class="p-3 rounded-full mt-4 ml-2 hidden lg:block h-fit w-fit centrarHorizontal hover:bg-blue-400">

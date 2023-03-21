@@ -14,7 +14,23 @@ class datUsuario {
 		}
 	}
 
+	public function avistarNotificaciones($idusuario){
+		// montamos la consulta
+		$inicio = "UPDATE notificacion SET vista = 1 ";
+		$where = " WHERE idnotificado = '$idusuario'";
+		$sql = $inicio.$where;
 
+		// ejecutamos consulta
+		$result = $this->conn->query($sql);
+		// Si nos vienen resultados significa que existe
+		if ($result == TRUE ) {
+			return json_encode(array('exito'=>true));
+		}
+		// si no hay ningun resultado
+		else {
+			return json_encode(array('exito'=>false));
+		}
+	}
 	
 	public function buscarIdentificador($identificador){
 		// montamos la consulta
@@ -353,7 +369,7 @@ class datUsuario {
 		if ($result == TRUE) {
 			// Registramos notificación			
 			// Montamos la consulta
-			$inicio = "INSERT INTO notificacion (`idusuario`, `idnotificado`, `texto`) ";
+			$inicio = "INSERT INTO notificacion (`idusuario`, `idnotificado`,`texto`) ";
 			$values = " VALUES ('".$idseguidor."','".$idusuario."','$identificador te ha seguido') ";
 			$sql = $inicio.$values;
 

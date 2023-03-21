@@ -24,11 +24,8 @@
 <body class="overflow-x-hidden">
 	<div class="grid lg:grid-cols-6">
 		<!-- Perfil y opciones -->
-		<div id="menuOpcionesHome" class="grid lg:col-span-1 lg:h-screen border border-blue-800">
-			<div class="grid grid-cols-3 lg:grid-cols-1">
-				<a href="./album.html" class="p-3 rounded-full mt-4 ml-2 lg:hidden h-fit w-fit hover:bg-blue-800">
-					<i class="fa fa-arrow-left fa-2xl"></i>
-				</a>
+		<div id="menuOpcionesHome" class="menuOpciones">
+			<div>
 				<img id="usuarioFotoPerfil" src="../assets/img/logo_picspace_nuevo_icono_blanco_relleno.png" class="imagenPerfilLateral " alt="Logo picSpace">
 			</div>
 			<div id="opcionesHome" class="opcionesHome">
@@ -68,8 +65,7 @@
 					<i class="fa-solid fa-gear"></i>
 					<button>Configuración</button>
 				</a>
-
-				<button id="botonCerrarSesion" class="boton block centrarHorizontal lg:absolute lg:bottom-4 lg:right-20 lg:left-20">Cerrar sesión</button>
+				<button id="botonCerrarSesion" class="boton botonCerrarSesion">Cerrar sesión</button>
 			</div>
 			<div class="lg:hidden">
 				<button id="botonDesplegarMenu" class="block centrarHorizontal">
@@ -81,22 +77,22 @@
 		<!-- Perfil de usuario -->
 		<div  class="mt-2 lg:col-span-5">
 			<h1 id="usuarioIdentificador" class="text-center font-bold text-3xl"></h1>
-			<div class="w-[40%] mt-6 mx-auto border border-gray-200 rounded-3xl shadow-sm shadow-gray-900/30 ">
+			<div class="w-[90%] lg:w-[40%] mt-6 mx-auto border border-gray-200 rounded-3xl shadow-sm shadow-gray-900/30 ">
 				<div class="flex mt-4 justify-evenly lg:h-32 items-center text-center">
-					<div id="usuarioImagen" class="flex w-full justify-center gap-6 items-center">
-						<span id="usuarioDatosNombre" class="font-semibold w-1/4"></span>
-						<span id="usuarioDatosDescripcion" class="order-3 w-1/4"></span>
+					<div id="usuarioImagen" class="flex flex-col lg:flex-row w-full justify-center gap-6 items-center">
+						<span id="usuarioDatosNombre" class="font-semibold order-2 lg:order-none w-full lg:w-1/4"></span>
+						<span id="usuarioDatosDescripcion" class="order-3 w-full lg:w-1/4"></span>
 					</div>
 				</div>
-				<div class="flex my-6 justify-evenly gap-4" id="infoPerfil">
+				<div class="flex flex-wrap my-6 justify-evenly gap-4" id="infoPerfil">
 					<span id="usuarioSiguiendo">siguiendo</span>
 					<span id="usuarioNumalbumes">siguiendo</span>					
 					<span id="usuarioSeguidores">seguidores</span>
 				</div>
 			</div>
-			<h1 class="text-center font-bold text-2xl mt-8">albumes:</h1>
+			<h1 class="text-center font-bold text-2xl mt-8">Albumes:</h1>
 
-			<div id="usuarioalbumes" class="flex flex-wrap justify-center gap-4 mt-16">
+			<div id="usuarioalbumes" class="flex flex-wrap justify-center gap-10 mt-16">
 
 			</div>
 	

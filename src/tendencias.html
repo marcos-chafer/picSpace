@@ -21,12 +21,11 @@
 	<title>picSpace - Tendencias</title>
 </head>
 
-<body class="overflow-x-hidden">
+<body class="">
 	<div class="grid lg:grid-cols-6">
 		<!-- Perfil y opciones -->
-		<div id="menuOpcionesHome" class="grid lg:col-span-1 lg:h-screen lg:fixed lg:w-1/6 border border-r-blue-800">
-			<div class="grid grid-cols-3 lg:grid-cols-1">
-				<!-- TODO  Aqui ira la foto de perfil del usuario -->
+		<div id="menuOpcionesHome" class="menuOpciones">
+			<div>
 				<img id="usuarioFotoPerfil" src="../assets/img/logo_picspace_nuevo_icono_blanco_relleno.png" class="imagenPerfilLateral " alt="Logo picSpace">
 			</div>
 			<div id="opcionesHome" class="opcionesHome">
@@ -66,8 +65,7 @@
 					<i class="fa-solid fa-gear"></i>
 					<button>Configuración</button>
 				</a>
-
-				<button id="botonCerrarSesion" class="boton block centrarHorizontal lg:absolute lg:bottom-4 lg:right-20 lg:left-20">Cerrar sesión</button>
+				<button id="botonCerrarSesion" class="boton botonCerrarSesion">Cerrar sesión</button>
 			</div>
 			<div class="lg:hidden">
 				<button id="botonDesplegarMenu" class="block centrarHorizontal">
@@ -80,7 +78,7 @@
 		<div id="tendencias" class="grid lg:col-span-5 lg:col-start-2 grid-cols-3 lg:grid-cols-8 mt-10 lg:mt-5 gap-x-2 lg:gap-x-5 gap-y-4 lg:gap-y-0 mx-2 lg:mx-4">
 			<div class="col-span-8">
 				<h2 class="font-bold text-3xl mb-24 text-center">Tendencias</h2>
-				<div id="cajaTendencias" class="flex flex-row flex-wrap justify-center">
+				<div id="cajaTendencias" class="flex justify-center flex-wrap gap-10 h-fit w-[90%] mx-auto mt-10">
 
 				</div>
 			</div>

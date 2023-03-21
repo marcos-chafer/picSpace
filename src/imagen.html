@@ -21,7 +21,7 @@
 	<title>picSpace - Imagen</title>
 </head>
 
-<body class="overflow-x-hidden">
+<body class="overflow-hidden">
 	<div class="grid lg:grid-cols-6">
 		<!-- Perfil y opciones -->
 		<div id="menuOpcionesHome" class="grid lg:col-span-1 lg:h-screen border lg:border-r-blue-800">
@@ -73,7 +73,7 @@
 					<button>Configuración</button>
 				</a>
 
-				<button id="botonCerrarSesion" class="boton block centrarHorizontal lg:absolute lg:bottom-4 lg:right-20 lg:left-20">Cerrar sesión</button>
+				<button id="botonCerrarSesion" class="boton botonCerrarSesion">Cerrar sesión</button>
 			</div>
 			<div class="lg:hidden">
 				<button id="botonDesplegarMenu" class="block centrarHorizontal">
@@ -83,11 +83,11 @@
 		</div>
 		<!-- Fin Perfil y opciones -->
 		<!-- IMAGEN -->
-		<div id="imagenImagen" class="col-span-3 border border-black h-screen">
+		<div id="imagenImagen" class="col-span-3 border-r border-blue-700 h-full">
 			<a href="./album.html" class="p-3 hidden lg:block rounded-full mt-2 ml-2 w-fit h-fit hover:bg-blue-400">
 				<i class="fa fa-arrow-left fa-2xl"></i>
 			</a>
-			<div id="imagenRuta" class="flex justify-center border py-2 border-gray-300 rounded-3xl" style="height: 600px; margin-left: 20px; margin-right: 20px;">
+			<div id="imagenRuta" class="flex justify-center mt-[5%] h-[60%] border mx-5  border-gray-300 rounded-3xl overflow-hidden">
 			</div>
 			<div id="imagenDatos" class="flex justify-around py-2 mt-5 mx-5 border border-gray-300 rounded-3xl">
 				<div id="imagenInfo" class="flex flex-col gap-1 justify-center">
@@ -108,7 +108,7 @@
 		</div>
 		<!-- Fin IMAGEN -->
 		<!-- Columna info album -->
-		<div class="mt-2 text-center row-start-2 lg:row-start-auto lg:block lg:h-fit lg:col-span-2">
+		<div class="mt-2 text-center row-start-2 lg:row-start-auto lg:block lg:h-full lg:col-span-2">
 			<h2 id="nombreAlbum" class="text-gray-600">
 			</h2>
 			<h1 id="nombreImagen" class="font-bold">
@@ -118,7 +118,7 @@
 			</button>
 			<div id="imagenComentarios" class="h-full mt-4">
 				<h1 class="font-semibold">Comentarios</h1>
-				<div id="imagenComentariosCaja" class="cajaTags mx-5 h-[500px]">
+				<div id="imagenComentariosCaja" class="cajaTags mx-5 h-1/2">
 				</div>
 				<input type="text" id="imagenComentarioTexto" class="inputText  mt-2 w-[90%]" placeholder="Escribe tu comentario..." />
 				<button id="imagenComentariosEnviar">
