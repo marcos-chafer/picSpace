@@ -101,7 +101,7 @@ class datAlbum {
 	}
 
 	
-	public function obtenerAlbums($identificador){
+	public function obteneralbumes($identificador){
 		// motamos la consulta
 		$inicio = "SELECT a.id, a.id_usuario, a.nombre, a.fecha, a.tags, a.ruta FROM album AS a LEFT JOIN usuario AS u ON a.id_usuario = u.id ";
 		$where = " WHERE u.identificador = '".$identificador."'";

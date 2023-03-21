@@ -36,7 +36,7 @@ function crearAlbum() {
 function iniciarAlbum() {
 	// Declaracion de variables
 	let identificador = localStorage.getItem('usuarioLogin');
-	albums.menuOpcionesHome = "cerrado";
+	albumes.menuOpcionesHome = "cerrado";
 
 	// Controlamos notis
 	let noti = sessionStorage.getItem('noti');
@@ -77,7 +77,7 @@ function iniciarAlbum() {
 
 	$.ajax({
 		url: "http://192.168.1.137/picSpace/src/server/album.php", async: false, type: "post", dataType: "json",
-		data: { funcion: "obtenerAlbums", identificador: identificador },
+		data: { funcion: "obteneralbumes", identificador: identificador },
 		// Cuando lleguen los datos...
 		success: function (result) {
 			for (let i = 0; i < result.length; i++) {
@@ -106,12 +106,12 @@ function iniciarAlbum() {
 
 				albumImagen.append(albumRuta);
 
-				// añadimos elementos al div de albums
+				// añadimos elementos al div de albumes
 				album.append(albumTitulo);
 				album.append(albumImagen);
-				$("#albums").append(album);
+				$("#albumes").append(album);
 			}
-			// Cuando se hayan recorrido todos los albums...
+			// Cuando se hayan recorrido todos los albumes...
 			let colMas = document.createElement("div");
 			colMas.classList = "lg:h-48";
 
@@ -126,11 +126,11 @@ function iniciarAlbum() {
 			let i = document.createElement('i');
 			i.classList = "fa-solid fa-plus fa-2xl";
 
-			// añadimos elementos despues de los albums
+			// añadimos elementos despues de los albumes
 			botonMas.append(i);
 			colMas.append(botonMas);
 
-			$("#albums").append(colMas);
+			$("#albumes").append(colMas);
 		}
 	})
 

@@ -38,7 +38,7 @@ function iniciarInicioAdmin() {
 		success: function (result) {
 			// Ponemos los resultados en los contenedores
 			$("#numUsuarios").html(result.num_usuarios);
-			$("#numAlbums").html(result.num_albums);
+			$("#numalbumes").html(result.num_albumes);
 			$("#numImagenes").html(result.num_imagenes);
 			$("#numComentarios").html(result.num_comentarios);
 		}

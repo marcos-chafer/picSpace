@@ -72,9 +72,9 @@ switch ($funcion) {
 		$idalbum = $_POST["idalbum"];
 		echo obtenerAlbum($idalbum);
 		break;
-	case 'obtenerAlbums':
+	case 'obteneralbumes':
 		$identificador = $_POST["identificador"];
-		echo obtenerAlbums($identificador);
+		echo obteneralbumes($identificador);
 		break;
 	default:
 		break;
@@ -126,11 +126,11 @@ function obtenerAlbum($idalbum){
 	return $result;
 }
 
-function obtenerAlbums($identificador){
+function obteneralbumes($identificador){
 // Funcion que obtiene todos los álbums asignados a un usuario
 	$objAlbum = new datAlbum();
 
-	$result = $objAlbum->obtenerAlbums($identificador);
+	$result = $objAlbum->obteneralbumes($identificador);
 
 	return $result;
 }

@@ -54,7 +54,7 @@ function crearAlbum(){
 			// Cuando nos viene exito a true
 			if (respuesta==true){
 				sessionStorage.setItem('noti','guardarAlbum');
-				window.location.replace('./albums.html');
+				window.location.replace('./albumes.html');
 			}
 		}
 	});

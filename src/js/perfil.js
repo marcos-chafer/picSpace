@@ -90,8 +90,8 @@ function iniciarPerfil() {
 		data: { funcion: "obtenerUsuario", idusuario: idusuario, idseguidor:idseguidor},
 		success: function (result) {
 			let perfil = result[0];
-			// Transformamos el json de albums en un objeto para más comodidad
-			let albums = JSON.parse(result.albums);
+			// Transformamos el json de albumes en un objeto para más comodidad
+			let albumes = JSON.parse(result.albumes);
 
 			$("#usuarioIdentificador").html(perfil.identificador);
 			$("#usuarioDatosNombre").html(perfil.nombre);
@@ -107,10 +107,10 @@ function iniciarPerfil() {
 
 			$("#usuarioImagen").append(imagenPerfil);
 
-			// Contamos numalbums
-			let usuarioNumAlbums = 0;
+			// Contamos numalbumes
+			let usuarioNumalbumes = 0;
 
-			albums.forEach(function(album) {
+			albumes.forEach(function(album) {
 				// asignamos variables con los datos
 				let id = album.id;
 				let nombre = album.nombre;
@@ -136,15 +136,15 @@ function iniciarPerfil() {
 
 				albumImagen.append(albumRuta);
 
-				// añadimos elementos al div de albums
+				// añadimos elementos al div de albumes
 				albumCard.append(albumTitulo);
 				albumCard.append(albumImagen);
-				$("#usuarioAlbums").append(albumCard);
+				$("#usuarioalbumes").append(albumCard);
 				
-				usuarioNumAlbums++;
+				usuarioNumalbumes++;
 			});
 
-			$("#usuarioNumAlbums").html(usuarioNumAlbums+" albums");
+			$("#usuarioNumalbumes").html(usuarioNumalbumes+" albumes");
 
 			// Controlamos botón seguir
 			if (idusuario!=localStorage.getItem('idUsuario')){

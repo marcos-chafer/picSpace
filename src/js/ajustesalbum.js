@@ -113,8 +113,8 @@ function eliminarAlbum() {
 				sessionStorage.removeItem('nombreAlbum');
 				// Añadimos noti de eliminarAlbum
 				sessionStorage.setItem('noti', 'eliminarAlbum');
-				// Nos vamos a albums
-				window.location.replace("./albums.html");
+				// Nos vamos a albumes
+				window.location.replace("./albumes.html");
 			};
 		}
 	});

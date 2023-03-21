@@ -130,7 +130,7 @@ function iniciarAlbum() {
 			let i = document.createElement('i');
 			i.classList = "fa-solid fa-plus fa-2xl";
 
-			// añadimos elementos despues de los albums
+			// añadimos elementos despues de los albumes
 			botonMas.append(i);
 			colMas.append(botonMas);
 

@@ -24,7 +24,7 @@
 <body class="overflow-x-hidden">
 	<div class="grid lg:grid-cols-6">
 		<!-- Perfil y opciones -->
-		<div id="menuOpcionesHome" class="grid lg:col-span-1 lg:h-screen border border-r-blue-800">
+		<div id="menuOpcionesHome" class="menuOpciones">
 			<div class="grid grid-cols-3 lg:grid-cols-1">
 			<a href="./home.html" class="p-3 rounded-full mt-4 ml-2 lg:hidden h-fit w-fit hover:bg-blue-800">
 				<i class="fa fa-arrow-left fa-2xl"></i>
@@ -52,9 +52,9 @@
 					<i class="fa-solid fa-people-arrows"></i>
 					<button>Siguiendo</button>
 				</a>
-				<a href="./albums.html" class="botonOpciones">
+				<a href="./albumes.html" class="botonOpciones">
 					<i class="fa-solid fa-book"></i>
-					<button>Mis albums</button>
+					<button>Mis albumes</button>
 				</a>
 				<a href="./buscar.html" class="botonOpciones">
 					<i class="fa-solid fa-magnifying-glass"></i>
@@ -78,15 +78,15 @@
 			</div>
 		</div>
 		<!-- Fin Perfil y opciones -->
-		<!-- Mis albums -->
-		<div id="albums" class="grid lg:col-span-5 grid-cols-3 lg:grid-cols-8 mt-10 lg:mt-5 gap-x-2 lg:gap-x-5 gap-y-4 lg:gap-y-0 mx-2 lg:mx-4">
-			<div class="col-span-8">
+		<!-- Mis albumes -->
+		<div id="albumes" class="grid lg:col-span-5 grid-cols-3 lg:grid-cols-8 mt-10 lg:mt-5 gap-x-2 lg:gap-x-5 gap-y-4 lg:gap-y-0 mx-2 lg:mx-4">
+			<div class="col-span-8 flex items-center flex-col">
 				<h2 class="font-bold text-3xl mb-24 text-center">Notificaciones</h2>
-				<div id="cajaNotificaciones" class="flex flex-col gap-y-3">
+				<div id="cajaNotificaciones" class="flex flex-col w-[30%] gap-y-3">
 				</div>
 			</div>
 		</div>
-		<!-- Fin Mis albums -->
+		<!-- Fin Mis albumes -->
 	</div>
 </body>
 

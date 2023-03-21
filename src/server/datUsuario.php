@@ -149,12 +149,12 @@ class datUsuario {
 		$result_imagen_comentario = $this->conn->query($sql);
 
 		$num_usuarios = mysqli_fetch_array($result_usuario)[0];
-		$num_albums = mysqli_fetch_array($result_album)[0];
+		$num_albumes = mysqli_fetch_array($result_album)[0];
 		$num_imagenes = mysqli_fetch_array($result_imagen)[0];
 		$num_comentarios = mysqli_fetch_array($result_imagen_comentario)[0];
 
 		// Creamos array donde iran los resultados
-		$jsondata = array('num_usuarios'=>$num_usuarios,'num_albums'=>$num_albums,'num_imagenes'=>$num_imagenes,'num_comentarios'=>$num_comentarios);
+		$jsondata = array('num_usuarios'=>$num_usuarios,'num_albumes'=>$num_albumes,'num_imagenes'=>$num_imagenes,'num_comentarios'=>$num_comentarios);
 		
 		// Devolvemos el array codificado en json
 		return json_encode($jsondata);
@@ -313,12 +313,12 @@ class datUsuario {
 		$num_seguidos = $row['num_seguidos'];
 		$jsondata['seguidos'] = $num_seguidos;
 
-		//Necesitamos saber datos sobre los albums, así que preguntamos a album.php
+		//Necesitamos saber datos sobre los albumes, así que preguntamos a album.php
 		$objAlbum = new datAlbum();
 		// Buscamos por el identificador
-		$albums = $objAlbum->obtenerAlbums($jsondata[0]->identificador);
-		// Añadimos los albums a los datos
-		$jsondata['albums'] = $albums;
+		$albumes = $objAlbum->obteneralbumes($jsondata[0]->identificador);
+		// Añadimos los albumes a los datos
+		$jsondata['albumes'] = $albumes;
 
 		// Devolvemos el array codificado en json
 		return json_encode($jsondata);
