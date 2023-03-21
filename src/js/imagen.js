@@ -47,7 +47,7 @@ function comentarImagen() {
 	}
 
 	$.ajax({
-		url: "http://192.168.1.137/picSpace/src/server/imagen.php", async: false, type: "post", dataType: "json",
+		url: "http://http://picspace.epizy.com/picSpace/src/server/imagen.php", async: false, type: "post", dataType: "json",
 		data: { funcion: "comentarImagen", idimagen: idimagen, idusuario: idusuario, identificador:identificador, comentarioTexto: comentarioTexto},
 		// Cuando lleguen los datos...
 		success: function (result) {
@@ -74,7 +74,7 @@ function comprobarPunto(){
 
 
 	$.ajax({
-		url: "http://192.168.1.137/picSpace/src/server/imagen.php", async: false, type: "post", dataType: "json",
+		url: "http://http://picspace.epizy.com/picSpace/src/server/imagen.php", async: false, type: "post", dataType: "json",
 		data: { funcion: "comprobarPunto", idimagen: idimagen, idusuario: idusuario },
 		// Cuando lleguen los datos...
 		success: function (result) {
@@ -120,7 +120,7 @@ function iniciarImagen() {
 
 	// Comprobar notificaciones del usuario
 	$.ajax({
-		url: "http://192.168.1.137/picSpace/src/server/usuario.php", async: false, type: "post", dataType: "json",
+		url: "http://http://picspace.epizy.com/picSpace/src/server/usuario.php", async: false, type: "post", dataType: "json",
 		data: { funcion: "obtenerNotificaciones", idusuario: localStorage.getItem('idUsuario')},
 		success: function (result) {
 			if (result[0]!= undefined){
@@ -138,7 +138,7 @@ function iniciarImagen() {
 				})
 				// Marcamos notificaciones como vistas
 				$.ajax({
-					url: "http://192.168.1.137/picSpace/src/server/usuario.php", async: false, type: "post", dataType: "json",
+					url: "http://http://picspace.epizy.com/picSpace/src/server/usuario.php", async: false, type: "post", dataType: "json",
 					data: { funcion: "avistarNotificaciones", idusuario: localStorage.getItem('idUsuario')},
 					success: function (result) {
 					}
@@ -150,7 +150,7 @@ function iniciarImagen() {
 
 	// Cargamos imagen
 	$.ajax({
-		url: "http://192.168.1.137/picSpace/src/server/imagen.php", async: false, type: "post", dataType: "json",
+		url: "http://http://picspace.epizy.com/picSpace/src/server/imagen.php", async: false, type: "post", dataType: "json",
 		data: { funcion: "obtenerImagen", idimagen: idimagen },
 		// Cuando lleguen los datos...
 		success: function (result) {
@@ -205,7 +205,7 @@ function iniciarImagen() {
 
 	// Obtenemos comentarios
 	$.ajax({
-		url: "http://192.168.1.137/picSpace/src/server/imagen.php", async: false, type: "post", dataType: "json",
+		url: "http://http://picspace.epizy.com/picSpace/src/server/imagen.php", async: false, type: "post", dataType: "json",
 		data: { funcion: "obtenerComentarios", idimagen: idimagen },
 		// Cuando lleguen los datos...
 		success: function (result) {
@@ -282,7 +282,7 @@ function puntuarImagen() {
 	if ($("#imagenPuntuar").css('color') == 'rgb(255, 0, 0)'){
 
 		$.ajax({
-			url: "http://192.168.1.137/picSpace/src/server/imagen.php", async: false, type: "post", dataType: "json",
+			url: "http://http://picspace.epizy.com/picSpace/src/server/imagen.php", async: false, type: "post", dataType: "json",
 			data: { funcion: "puntuarImagen", idimagen: idimagen, idusuario: idusuario, punto:"quitar" },
 			// Cuando lleguen los datos...
 			success: function (result) {
@@ -293,7 +293,7 @@ function puntuarImagen() {
 	else{
 
 		$.ajax({
-			url: "http://192.168.1.137/picSpace/src/server/imagen.php", async: false, type: "post", dataType: "json",
+			url: "http://http://picspace.epizy.com/picSpace/src/server/imagen.php", async: false, type: "post", dataType: "json",
 			data: { funcion: "puntuarImagen", idimagen: idimagen, idusuario: idusuario, identificador:identificador, punto:"poner" },
 			// Cuando lleguen los datos...
 			success: function (result) {

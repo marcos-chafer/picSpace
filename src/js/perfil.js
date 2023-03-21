@@ -50,7 +50,7 @@ function iniciarPerfil() {
 
 	// Comprobar notificaciones del usuario
 	$.ajax({
-		url: "http://192.168.1.137/picSpace/src/server/usuario.php", async: false, type: "post", dataType: "json",
+		url: "http://http://picspace.epizy.com/picSpace/src/server/usuario.php", async: false, type: "post", dataType: "json",
 		data: { funcion: "obtenerNotificaciones", idusuario: localStorage.getItem('idUsuario')},
 		success: function (result) {
 			if (result[0]!= undefined){
@@ -68,7 +68,7 @@ function iniciarPerfil() {
 				})
 				// Marcamos notificaciones como vistas
 				$.ajax({
-					url: "http://192.168.1.137/picSpace/src/server/usuario.php", async: false, type: "post", dataType: "json",
+					url: "http://http://picspace.epizy.com/picSpace/src/server/usuario.php", async: false, type: "post", dataType: "json",
 					data: { funcion: "avistarNotificaciones", idusuario: localStorage.getItem('idUsuario')},
 					success: function (result) {
 						console.log(result);
@@ -98,7 +98,7 @@ function iniciarPerfil() {
 	sessionStorage.removeItem('noti');
 
 	$.ajax({
-		url: "http://192.168.1.137/picSpace/src/server/usuario.php", async: false, type: "post", dataType: "json",
+		url: "http://http://picspace.epizy.com/picSpace/src/server/usuario.php", async: false, type: "post", dataType: "json",
 		data: { funcion: "obtenerUsuario", idusuario: idusuario, idseguidor:idseguidor},
 		success: function (result) {
 			let perfil = result[0];
@@ -214,7 +214,7 @@ function seguir(event) {
 	var identificador = localStorage.getItem('usuarioLogin');
 
 	$.ajax({
-		url: "http://192.168.1.137/picSpace/src/server/usuario.php", async: false, type: "post", dataType: "json",
+		url: "http://http://picspace.epizy.com/picSpace/src/server/usuario.php", async: false, type: "post", dataType: "json",
 		data: { funcion: "seguirUsuario", idusuario: idusuario, identificador:identificador, idseguidor:idseguidor},
 		success: function (result) {
 			sessionStorage.setItem('noti','usuarioSeguido');
@@ -233,7 +233,7 @@ function noSeguir(event) {
 	var idseguidor = localStorage.getItem('idUsuario');
 
 	$.ajax({
-		url: "http://192.168.1.137/picSpace/src/server/usuario.php", async: false, type: "post", dataType: "json",
+		url: "http://http://picspace.epizy.com/picSpace/src/server/usuario.php", async: false, type: "post", dataType: "json",
 		data: { funcion: "noSeguirUsuario", idusuario: idusuario, idseguidor:idseguidor},
 		success: function (result) {
 			sessionStorage.setItem('noti','usuarioNoSeguido');

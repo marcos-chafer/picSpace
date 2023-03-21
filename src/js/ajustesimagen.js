@@ -73,7 +73,7 @@ function eliminarImagen() {
 
 
 	$.ajax({
-		url: "http://192.168.1.137/picSpace/src/server/imagen.php", async: false, type: "post", dataType: "json",
+		url: "http://http://picspace.epizy.com/picSpace/src/server/imagen.php", async: false, type: "post", dataType: "json",
 		data: { funcion: "eliminarImagen", idusuario: idusuario, idimagen: idimagen, nombreimagen: nombreimagen, nombrealbum: nombrealbum },
 		success: function (result) {
 			// nos viene json con exito = true si se hizo correctamente
@@ -106,7 +106,7 @@ function iniciarAjustes() {
 
 	// Comprobar notificaciones del usuario
 	$.ajax({
-		url: "http://192.168.1.137/picSpace/src/server/usuario.php", async: false, type: "post", dataType: "json",
+		url: "http://http://picspace.epizy.com/picSpace/src/server/usuario.php", async: false, type: "post", dataType: "json",
 		data: { funcion: "obtenerNotificaciones", idusuario: localStorage.getItem('idUsuario')},
 		success: function (result) {
 			if (result[0]!= undefined){
@@ -124,7 +124,7 @@ function iniciarAjustes() {
 				})
 				// Marcamos notificaciones como vistas
 				$.ajax({
-					url: "http://192.168.1.137/picSpace/src/server/usuario.php", async: false, type: "post", dataType: "json",
+					url: "http://http://picspace.epizy.com/picSpace/src/server/usuario.php", async: false, type: "post", dataType: "json",
 					data: { funcion: "avistarNotificaciones", idusuario: localStorage.getItem('idUsuario')},
 					success: function (result) {
 						console.log(result);
@@ -136,7 +136,7 @@ function iniciarAjustes() {
 	});
 
 	$.ajax({
-		url: "http://192.168.1.137/picSpace/src/server/imagen.php", async: false, type: "post", dataType: "json",
+		url: "http://http://picspace.epizy.com/picSpace/src/server/imagen.php", async: false, type: "post", dataType: "json",
 		data: { funcion: "obtenerImagen", idimagen: idimagen },
 		// Cuando lleguen los datos...
 		success: function (result) {
@@ -184,7 +184,7 @@ function modificarImagen() {
 
 	let idimagen = sessionStorage.getItem('idImagen');
 	$.ajax({
-		url: "http://192.168.1.137/picSpace/src/server/imagen.php", async: false, type: "post", dataType: "json",
+		url: "http://http://picspace.epizy.com/picSpace/src/server/imagen.php", async: false, type: "post", dataType: "json",
 		data: { funcion: "modificarImagen", idimagen: idimagen, nombre: nombre, descripcion:descripcion, tags:tags },
 		success: function (result) {
 			// nos viene json con exito = true si se hizo correctamente

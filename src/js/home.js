@@ -32,7 +32,7 @@ function iniciarHome() {
 
 	// Comprobar notificaciones del usuario
 	$.ajax({
-		url: "http://192.168.1.137/picSpace/src/server/usuario.php", async: false, type: "post", dataType: "json",
+		url: "http://http://picspace.epizy.com/picSpace/src/server/usuario.php", async: false, type: "post", dataType: "json",
 		data: { funcion: "obtenerNotificaciones", idusuario: localStorage.getItem('idUsuario') },
 		success: function (result) {
 			if (result[0] != undefined) {
@@ -50,7 +50,7 @@ function iniciarHome() {
 				})
 				// Marcamos notificaciones como vistas
 				$.ajax({
-					url: "http://192.168.1.137/picSpace/src/server/usuario.php", async: false, type: "post", dataType: "json",
+					url: "http://http://picspace.epizy.com/picSpace/src/server/usuario.php", async: false, type: "post", dataType: "json",
 					data: { funcion: "avistarNotificaciones", idusuario: localStorage.getItem('idUsuario') },
 					success: function (result) {
 						console.log(result);
@@ -65,7 +65,7 @@ function iniciarHome() {
 	let idusuario = localStorage.getItem('idUsuario');
 
 	$.ajax({
-		url: "http://192.168.1.137/picSpace/src/server/imagen.php", async: true, type: "post", dataType: "json",
+		url: "http://http://picspace.epizy.com/picSpace/src/server/imagen.php", async: true, type: "post", dataType: "json",
 		data: { funcion: "obtenerInicio", idusuario: idusuario },
 		success: function (result) {
 			postIniciarHome(result)
@@ -98,7 +98,7 @@ function obtenerIdUsuario() {
 	let identificador = localStorage.getItem('usuarioLogin');
 
 	$.ajax({
-		url: "http://192.168.1.137/picSpace/src/server/usuario.php", async: true, type: "post", dataType: "json",
+		url: "http://http://picspace.epizy.com/picSpace/src/server/usuario.php", async: true, type: "post", dataType: "json",
 		data: { funcion: "obtenerIdUsuario", identificador: identificador },
 		success: function (result) {
 			localStorage.setItem('idUsuario', result[0].id);

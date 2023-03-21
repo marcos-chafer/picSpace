@@ -40,7 +40,7 @@ function comprobarEliminacionAlbum() {
 	var idalbum = sessionStorage.getItem('idAlbum')
 
 	$.ajax({
-		url: "http://192.168.1.137/picSpace/src/server/imagen.php", async: false, type: "post", dataType: "json",
+		url: "http://http://picspace.epizy.com/picSpace/src/server/imagen.php", async: false, type: "post", dataType: "json",
 		data: { funcion: "obtenerImagenes", idalbum: idalbum },
 		success: function (result) {
 			// Si el álbum no contiene imagenes, mostramos un mensaje
@@ -101,7 +101,7 @@ function eliminarAlbum() {
 
 
 	$.ajax({
-		url: "http://192.168.1.137/picSpace/src/server/album.php", async: false, type: "post", dataType: "json",
+		url: "http://http://picspace.epizy.com/picSpace/src/server/album.php", async: false, type: "post", dataType: "json",
 		data: { funcion: "eliminarAlbum", idusuario: idusuario, idalbum: idalbum, nombrealbum: nombrealbum },
 		success: function (result) {
 			// nos viene json con exito = true si se hizo correctamente
@@ -131,7 +131,7 @@ function iniciarAjustes() {
 
 	// Comprobar notificaciones del usuario
 	$.ajax({
-		url: "http://192.168.1.137/picSpace/src/server/usuario.php", async: false, type: "post", dataType: "json",
+		url: "http://http://picspace.epizy.com/picSpace/src/server/usuario.php", async: false, type: "post", dataType: "json",
 		data: { funcion: "obtenerNotificaciones", idusuario: localStorage.getItem('idUsuario')},
 		success: function (result) {
 			if (result[0]!= undefined){
@@ -149,7 +149,7 @@ function iniciarAjustes() {
 				})
 				// Marcamos notificaciones como vistas
 				$.ajax({
-					url: "http://192.168.1.137/picSpace/src/server/usuario.php", async: false, type: "post", dataType: "json",
+					url: "http://http://picspace.epizy.com/picSpace/src/server/usuario.php", async: false, type: "post", dataType: "json",
 					data: { funcion: "avistarNotificaciones", idusuario: localStorage.getItem('idUsuario')},
 					success: function (result) {
 						console.log(result);
@@ -163,7 +163,7 @@ function iniciarAjustes() {
 	// Obtenemos los datos del album
 	let idalbum = sessionStorage.getItem('idAlbum');
 	$.ajax({
-		url: "http://192.168.1.137/picSpace/src/server/album.php", async: false, type: "post", dataType: "json",
+		url: "http://http://picspace.epizy.com/picSpace/src/server/album.php", async: false, type: "post", dataType: "json",
 		data: { funcion: "obtenerAlbum", idalbum: idalbum },
 		success: function (result) {
 
@@ -199,7 +199,7 @@ function modificarAlbum() {
 
 	let idalbum = sessionStorage.getItem('idAlbum');
 	$.ajax({
-		url: "http://192.168.1.137/picSpace/src/server/album.php", async: false, type: "post", dataType: "json",
+		url: "http://http://picspace.epizy.com/picSpace/src/server/album.php", async: false, type: "post", dataType: "json",
 		data: { funcion: "modificarAlbum", idalbum: idalbum, nombre: nombre, tags:tags },
 		success: function (result) {
 			// nos viene json con exito = true si se hizo correctamente

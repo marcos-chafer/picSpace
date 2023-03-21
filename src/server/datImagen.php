@@ -3,7 +3,7 @@ class datImagen {
 	// definimos constructor, que se ejecutará cada vez que iniciemos un objeto de la clase
 	function __construct()
 	{
-		$this->conn = new mysqli("localhost","hrzn","2488","picspace");
+		$this->conn = new mysqli("sql313.epizy.com","epiz_33830609","PegFXoZZg4V","epiz_33830609_picspace","3306");
 		// Comprobamos conexión
 
 		if ($this->conn->connect_errno) {

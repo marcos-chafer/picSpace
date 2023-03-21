@@ -53,7 +53,7 @@ function crearImagen(){
 	
 
 	$.ajax({
-		url: "http://192.168.1.137/picSpace/src/server/imagen.php",
+		url: "http://http://picspace.epizy.com/picSpace/src/server/imagen.php",
 		async: false,
 		type: "post",
 		data: formData,
@@ -128,7 +128,7 @@ $("#usuarioFotoPerfil").prop('src',localStorage.getItem('usuarioRuta'));
 
 // Comprobar notificaciones del usuario
 $.ajax({
-	url: "http://192.168.1.137/picSpace/src/server/usuario.php", async: false, type: "post", dataType: "json",
+	url: "http://http://picspace.epizy.com/picSpace/src/server/usuario.php", async: false, type: "post", dataType: "json",
 	data: { funcion: "obtenerNotificaciones", idusuario: localStorage.getItem('idUsuario')},
 	success: function (result) {
 		if (result[0]!= undefined){
@@ -146,7 +146,7 @@ $.ajax({
 			})
 			// Marcamos notificaciones como vistas
 			$.ajax({
-				url: "http://192.168.1.137/picSpace/src/server/usuario.php", async: false, type: "post", dataType: "json",
+				url: "http://http://picspace.epizy.com/picSpace/src/server/usuario.php", async: false, type: "post", dataType: "json",
 				data: { funcion: "avistarNotificaciones", idusuario: localStorage.getItem('idUsuario')},
 				success: function (result) {
 					console.log(result);

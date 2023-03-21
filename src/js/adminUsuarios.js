@@ -35,7 +35,7 @@ function eliminarUsuario(id){
 	let idusuario = id;
 
 	$.ajax({
-		url: "http://192.168.1.137/picSpace/src/server/usuario.php", async: false, type: "post", dataType: "json",
+		url: "http://http://picspace.epizy.com/picSpace/src/server/usuario.php", async: false, type: "post", dataType: "json",
 		data: { funcion: "eliminarCuenta", idusuario: idusuario },
 		// Cuando lleguen los datos...
 		success: function (result) {
@@ -67,7 +67,7 @@ function iniciarInicioAdmin() {
 
 	// Obtenemos estadísticas
 	$.ajax({
-		url: "http://192.168.1.137/picSpace/src/server/usuario.php", async: false, type: "post", dataType: "json",
+		url: "http://http://picspace.epizy.com/picSpace/src/server/usuario.php", async: false, type: "post", dataType: "json",
 		data: { funcion: "obtenerEstadisticasUsuarios"},
 		success: function (result) {
 			// Recorremos los usuarios que nos llegan
