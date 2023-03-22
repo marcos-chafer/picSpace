@@ -113,6 +113,10 @@ function iniciarImagen() {
 	//Limpiamos noti una vez controlada
 	sessionStorage.removeItem('noti');
 
+	// Cargamos foto perfil del usuario para el menú lateral
+	if (localStorage.getItem('usuarioRuta') != "null") $("#usuarioFotoPerfil").prop('src', localStorage.getItem('usuarioRuta'));
+	else  $("#usuarioFotoPerfil").prop('src', 'http://picspace.epizy.com/picSpace/assets/img/iconousuario.svg');
+
 	// Limpiamos input de comentario
 	$("#imagenComentarioTexto").val("");
 
@@ -172,7 +176,8 @@ function iniciarImagen() {
 			let imagenRuta = document.createElement('img');
 			imagenRuta.setAttribute('src', imagen.ruta);
 			imagenRuta.style.height = "100%";
-			// imagenRuta.style.width = "100%";
+			imagenRuta.style.width = "100%";
+			imagenRuta.style.objectFit = "contain";
 
 			$("#imagenRuta").append(imagenRuta);
 
@@ -184,6 +189,10 @@ function iniciarImagen() {
 			$("#imagenAutor").click(function(){
 				IrAPerfil(imagen.id_usuario)
 			})
+
+			// Cambiamos album para posible redirección
+			sessionStorage.setItem('idAlbum',imagen.id_album);
+
 
 			// Añadiendo tags
 
@@ -219,7 +228,6 @@ function iniciarImagen() {
 				comentarioImagen.classList = "w-6 h-6 self-center mr-2 rounded-full hover:scale-150 transition duration-100 ease-in-out";
 				comentarioImagen.setAttribute('src',comentario.ruta);
 
-				// TODO Redirigir al perfil del usuario al clickar en el nombre
 				let comentarioUsuario = document.createElement('span');
 				comentarioUsuario.textContent = comentario.nombre+": ";
 				comentarioUsuario.classList = "w-fit mr-1 font-semibold cursor-pointer hover:text-blue-800 hover:underline hover:scale-105 transition duration-100 ease-in-out";
@@ -232,8 +240,8 @@ function iniciarImagen() {
 
 				let comentarioComentario = document.createElement('div');
 				// Comprobamos si el comentario es del usuario logueado, entonces lo movemos a la derecha
-				let usuarioLogin = localStorage.getItem('usuarioLogin');
-				if (comentario.nombre == usuarioLogin) comentarioComentario.classList = "flex text-right mr-2 ml-2 ml-auto";
+				let idusuariologueado = localStorage.getItem('idUsuario');
+				if (comentario.idusuario == idusuariologueado) comentarioComentario.classList = "flex text-right mr-2 ml-2 ml-auto";
 				else comentarioComentario.classList = "flex text-left ml-2 mr-2";
 				comentarioComentario.append(comentarioImagen);
 				comentarioComentario.append(comentarioUsuario);
@@ -318,6 +326,12 @@ $("#IrAMiPerfil").click(function() {
 	window.location.assign("./perfil.html");
 })
 
+$("#IrAMisAlbumes").click(function() {
+	sessionStorage.removeItem('idAlbum');
+	sessionStorage.removeItem('idPerfil');
+	window.location.assign("./albumes.html");
+})
+
 $("#botonAjustesImagen").click(function () {
 	sessionStorage.setItem('nombreImagen',$("#nombreImagen").html());
 	sessionStorage.setItem('descripcionImagen',$("#imagenDescripcion").html());
@@ -335,5 +349,12 @@ $("#imagenPuntuar").click(function () {
 $("#imagenComentariosEnviar").click(function () {
 	comentarImagen();
 })
+
+$("#imagenComentariosEnviar").on('keypress', function(e){
+	if (e.which == 13){
+		comentarImagen();
+	}
+})
+
 
 iniciarImagen();

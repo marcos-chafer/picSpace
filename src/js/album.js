@@ -59,6 +59,9 @@ function iniciarAlbum() {
 	// Cargamos foto perfil del usuario para el menú lateral
 	$("#usuarioFotoPerfil").prop('src',localStorage.getItem('usuarioRuta'));
 
+	// Si el perfil no es el mismo que el usuario, ocultamos boton más
+	if (sessionStorage.getItem('idPerfil') != localStorage.getItem('idUsuario')) $("#botonMas").hide();
+
 	// Comprobar notificaciones del usuario
 	$.ajax({
 		url: "http://picspace.epizy.com/picSpace/src/server/usuario.php", async: false, type: "post", dataType: "json",
@@ -95,9 +98,11 @@ function iniciarAlbum() {
 		data: { funcion: "obtenerImagenes", idalbum: idalbum },
 		// Cuando lleguen los datos...
 		success: function (result) {
-			console.log(result);
-			var mismoUsuario = false;
-			for (let i = 0; i < result.length; i++) {
+			console.log((result[0].idpropietario));
+			console.log((localStorage.getItem('idUsuario')))
+			if ((result[0].idpropietario) == localStorage.getItem('idUsuario'))  $("#infoAlbum").show();
+
+			for (let i = 1; i < result.length; i++) {
 
 				// asignamos variables con los datos
 				let id = result[i].id;
@@ -117,7 +122,12 @@ function iniciarAlbum() {
 				imagen.addEventListener('click',irAImagen);
 
 				let imagenTitulo = document.createElement("div");
+				imagenTitulo.style.display =" flex";
+				imagenTitulo.style.alignItems = "center";
+				imagenTitulo.style.height = "10%";
 				imagenTitulo.textContent = titulo;
+				
+
 
 				let imagenImagen = document.createElement('div');
 				imagenImagen.classList = "imagenCardImagen";
@@ -132,16 +142,7 @@ function iniciarAlbum() {
 				imagen.append(imagenImagen);
 				$("#imagenes").append(imagen);
 
-				// Checkeamos si la imagen es del mismo usuario que esttá logueado
-				if (result[i].id_usuario == localStorage.getItem('idUsuario')){
-					mismoUsuario = true;
-				}
-
 			}
-			// Cuando se hayan recorrido todos los imagenes...
-			// Decidimos si mostramos la colummna de ajustes de album
-			if (mismoUsuario) $("#infoAlbum").show();
-
 		}
 	})
 }
@@ -165,9 +166,31 @@ $("#botonDesplegarMenu").click(function () {
 	else cerrarMenu();
 });
 
-$("#IrAMiPerfil").click(function() {
+$("#IrAMiPerfil").click(function () {
 	sessionStorage.removeItem('idPerfil');
 	window.location.assign("./perfil.html");
+})
+
+$("#IrAMisAlbumes").click(function() {
+	sessionStorage.removeItem('idAlbum');
+	sessionStorage.removeItem('idPerfil');
+	window.location.assign("./albumes.html");
+})
+
+$("#enlaceAlbumes").click(function(){
+	if (sessionStorage.getItem('idPerfil') != localStorage.getItem('idUsuario')){
+		// Significa que estamos en otro perfil y queremos ir a sus albumes
+		window.location.assign('./perfil.html');
+	}
+	else{
+		window.location.assign("./albumes.html");
+	}
+})
+
+$("#IrAMisAlbumes").click(function() {
+	sessionStorage.removeItem('idAlbum');
+	sessionStorage.removeItem('idPerfil');
+	window.location.assign("./albumes.html");
 })
 
 $("#botonCerrarSesion").click(function () {

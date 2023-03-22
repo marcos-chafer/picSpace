@@ -146,7 +146,6 @@ function eliminarImagen($idusuario,$idimagen,$nombreimagen,$nombrealbum){
 
 function guardarImagenBBDD($idusuario,$idalbum,$nombrealbum,$titulo,$ruta,$descripcion,$tags){
 // Registra imagen en BBDD usando los params
-// TODO securizar más esto
 
 	$fecha = date("Y-m-d");
 	$objImagen = new datImagen();
@@ -158,7 +157,6 @@ function guardarImagenBBDD($idusuario,$idalbum,$nombrealbum,$titulo,$ruta,$descr
 
 function modificarImagen($idimagen,$nombre,$descripcion,$tags){
 // Modifica datos de una imagen de BBDD utilizando los params
-// TODO securizar más esto
 
 	$objImagen = new datImagen();
 	

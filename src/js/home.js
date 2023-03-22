@@ -111,29 +111,29 @@ function obtenerIdUsuario() {
 
 function postIniciarHome(datos) {
 	console.log(datos);
-	// if (datos.length == 0) {
-	// 	let postContenedor = document.createElement('div');
-	// 	postContenedor.classList = "h-[60%] w-[60%] bg-blue-600 flex flex-col items-center justify-center gap-y-20 py-20 text-white rounded-3xl mx-auto self-center";
-	// 	let postTexto = document.createElement('div');
-	// 	postTexto.classList = "font-semibold text-6xl text-center";
-	// 	postTexto.textContent = "¿Todavía no sigues a nadie?";
-	// 	let postTexto2 = document.createElement('div');
-	// 	postTexto2.classList = "font-semibold text-3xl text-center px-20";
-	// 	postTexto2.textContent = "Empieza a usar picSpace buscando contenido que te guste";
+	if (datos.length == 0) {
+		let postContenedor = document.createElement('div');
+		postContenedor.classList = "h-[60%] w-[60%] bg-blue-600 flex flex-col items-center justify-center gap-y-20 py-20 text-white rounded-3xl mx-auto self-center";
+		let postTexto = document.createElement('div');
+		postTexto.classList = "font-semibold text-6xl text-center";
+		postTexto.textContent = "¿Todavía no sigues a nadie?";
+		let postTexto2 = document.createElement('div');
+		postTexto2.classList = "font-semibold text-3xl text-center px-20";
+		postTexto2.textContent = "Empieza a usar picSpace buscando contenido que te guste";
 
-	// 	postContenedor.append(postTexto);
-	// 	postContenedor.append(postTexto2);
-	// 	$("#inicioHome").append(postContenedor);
+		postContenedor.append(postTexto);
+		postContenedor.append(postTexto2);
+		$("#inicioHome").append(postContenedor);
 
-	// 	$("#buscarBoton").addClass('animate-pulse text-blue-600');
-	// 	$("#tendenciasBoton").addClass('animate-pulse text-blue-600');
+		$("#buscarBoton").addClass('animate-pulse text-blue-600');
+		$("#tendenciasBoton").addClass('animate-pulse text-blue-600');
 
-	// }
-	// else {
+	}
+	else {
 		datos.forEach(function (post) {
 			console.log(post);
 			let postContenedor = document.createElement('div');
-			postContenedor.classList = "flex flex-col items-center border w-full lg:w-1/3 h-1/3";
+			postContenedor.classList = "flex flex-col items-center rounded-3xl text-white bg-blue-600 mx-2 lg:mx-0 w-full lg:w-1/4";
 
 			let postTexto = document.createElement('div');
 
@@ -154,21 +154,25 @@ function postIniciarHome(datos) {
 			postContenedor.append(postTexto);
 
 			let postImagen = document.createElement('div');
-			postImagen.classList = "flex flex-row mt-4"
+			postImagen.style.height = "50%";
+			postImagen.style.width = "50%";
+			postImagen.classList = "flex flex-row mt-2 justify-center"
 
 			let postRuta = document.createElement('img');
-			postRuta.classList = "w-40 cursor-pointer";
+			postRuta.style.objectFit = "cover";
+			postRuta.classList = "w-full h-full cursor-pointer";
 			postRuta.setAttribute('title', post.titulo);
 			postRuta.setAttribute('src', post.ruta);
 			postRuta.setAttribute('onclick', 'IrAImagen(' + post.id_album + ',"' + post.nombrealbum + '",' + post.idimagen + ')');
 			postImagen.append(postRuta);
 
 			let postImagenPuntuar = document.createElement('i');
-			postImagenPuntuar.classList = "ml-4 fa fa-heart";
+			postImagenPuntuar.style.color = "red";
+			postImagenPuntuar.classList = "ml-2 fa fa-heart h-fit self-center";
 			postImagen.append(postImagenPuntuar);
 
 			let postImagenPuntuacion = document.createElement('span');
-			postImagenPuntuacion.classList = "ml-2";
+			postImagenPuntuacion.classList = "ml-2 h-fit self-center";
 			postImagenPuntuacion.textContent = post.puntos;
 			postImagen.append(postImagenPuntuacion);
 
@@ -179,9 +183,8 @@ function postIniciarHome(datos) {
 			$("#inicioHome").append(postContenedor);
 
 
-
 		})
-	// }
+	}
 
 
 }
@@ -195,6 +198,12 @@ $("#botonDesplegarMenu").click(function () {
 $("#IrAMiPerfil").click(function () {
 	sessionStorage.removeItem('idPerfil');
 	window.location.assign("./perfil.html");
+})
+
+$("#IrAMisAlbumes").click(function() {
+	sessionStorage.removeItem('idAlbum');
+	sessionStorage.removeItem('idPerfil');
+	window.location.assign("./albumes.html");
 })
 
 $("#botonCerrarSesion").click(function () {

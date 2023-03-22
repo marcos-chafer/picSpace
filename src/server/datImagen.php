@@ -1,18 +1,20 @@
 <?php
-class datImagen {
+class datImagen
+{
 	// definimos constructor, que se ejecutará cada vez que iniciemos un objeto de la clase
 	function __construct()
 	{
-		$this->conn = new mysqli("sql313.epizy.com","epiz_33830609","PegFXoZZg4V","epiz_33830609_picspace","3306");
+		$this->conn = new mysqli("sql313.epizy.com", "epiz_33830609", "PegFXoZZg4V", "epiz_33830609_picspace", "3306");
 		// Comprobamos conexión
 
 		if ($this->conn->connect_errno) {
-			echo "Ha fallado la conexión a la base de datos ".$this->conn->connect_error;
+			echo "Ha fallado la conexión a la base de datos " . $this->conn->connect_error;
 			exit();
 		}
 	}
 
-	public function buscarTags($tags){
+	public function buscarTags($tags)
+	{
 
 		// Convertimos la cadena de tags en un array
 		$tags_array = explode(",", $tags);
@@ -20,7 +22,7 @@ class datImagen {
 		// Iteramos sobre el array de tags y construimos la cláusula para cada uno
 		foreach ($tags_array as $tag) {
 			$find_in_set_tags[] = "i.titulo LIKE '$tag' OR i.titulo LIKE ' $tag' OR FIND_IN_SET('$tag', i.tags) > 0 OR FIND_IN_SET(' $tag', i.tags) > 0";
-    		}
+		}
 
 		// Unimos todas las cláusulas con el operador OR
 		$find_in_set_consulta = implode(" OR ", $find_in_set_tags);
@@ -28,30 +30,41 @@ class datImagen {
 		// montamos la consulta
 		$inicio = "SELECT i.id as idimagen, i.id_album, i.titulo, i.fecha, i.puntos, i.descripcion, i.ruta, i.tags, u.id as idusuario, u.nombre FROM imagen i 
 		 LEFT JOIN usuario  u ON u.id = i.id_usuario ";
-		$where = " WHERE ".$find_in_set_consulta;
-		$sql = $inicio.$where;
+		$where = " WHERE " . $find_in_set_consulta;
+		$sql = $inicio . $where;
 
 		// ejecutamos consulta
 		$result = $this->conn->query($sql);
 		// Preparamos array donde iran los resultados
 		$jsondata = array();
 		// Mientras haya resultados, montaremos una row por cada fila, y la transformaremos en un objeto
-		while($row = $result->fetch_object()){
+		while ($row = $result->fetch_object()) {
 			// Añadimos el objeto row al array
-			array_push($jsondata,$row);
+			array_push($jsondata, $row);
 		}
-		// devolvemos los datos como json
-		return json_encode($jsondata);		
+		// Codificando el array manualmente ya que con json_encode da problemas en el hosting con PHP 7.4.8.......
+		$json = '[';
+		foreach ($jsondata as $key => $valor) {
+			$json .= '{';
+			foreach ($valor as $k => $v) {
+				$json .= "\"$k\":\"" . addslashes($v) . "\",";
+			}
+			$json = rtrim($json, ',');
+			$json .= '},';
+		}
+		$json = rtrim($json, ',');
+		$json .= ']';
 
-
-
+		// Devolvemos ya codificado en JSON
+		return $json;
 	}
 
-	public function comentarImagen($idimagen,$idusuario,$identificador,$comentarioTexto,$fecha){
+	public function comentarImagen($idimagen, $idusuario, $identificador, $comentarioTexto, $fecha)
+	{
 		// montamos la consulta
 		$inicio = "INSERT INTO imagen_comentario (`idimagen`, `idusuario`, `texto`, `fecha`) ";
-		$values = " VALUES ('".$idimagen."','".$idusuario."','".$comentarioTexto."','".$fecha."') ";
-		$sql = $inicio.$values;
+		$values = " VALUES ('" . $idimagen . "','" . $idusuario . "','" . $comentarioTexto . "','" . $fecha . "') ";
+		$sql = $inicio . $values;
 
 		// ejecutamos consulta
 		$result = $this->conn->query($sql);
@@ -64,33 +77,34 @@ class datImagen {
 			$datosImagenDecode = json_decode($datosImagen);
 			$idnotificado = $datosImagenDecode[0]->id_usuario;
 			// Si el idnotificado es igual al idusuario, no guardamos la notificación
-			if ($idnotificado==$idusuario){
-				return json_encode(array('exito'=>true));
+			if ($idnotificado == $idusuario) {
+				return json_encode(array('exito' => true));
 			}
-			
+
 			// Montamos la consulta
 			$inicio = "INSERT INTO notificacion (`idusuario`, `idnotificado`,`imagen`, `texto`) ";
-			$values = " VALUES ('".$idusuario."','".$idnotificado."','".$idimagen."','$identificador ha comentado tu ') ";
-			$sql = $inicio.$values;
+			$values = " VALUES ('" . $idusuario . "','" . $idnotificado . "','" . $idimagen . "','$identificador ha comentado tu ') ";
+			$sql = $inicio . $values;
 
 			// ejecutamos consulta
 			$result = $this->conn->query($sql);
 
-	
-			return json_encode(array('exito'=>true));
+
+			return json_encode(array('exito' => true));
 		}
 		// si no hay ningun resultado
 		else {
-			return json_encode(array('exito'=>false));
+			return json_encode(array('exito' => false));
 		}
 	}
 
-	public function comprobarPunto($idimagen,$idusuario){
+	public function comprobarPunto($idimagen, $idusuario)
+	{
 		// montamos la consulta
 		// Comprobamos si hay registro de esta imagen con este usuario
 		$inicio = "SELECT * FROM imagen_punto AS ip";
-		$where = " WHERE ip.idimagen = '".$idimagen."' AND ip.idusuario = '".$idusuario."'";
-		$sql = $inicio.$where;
+		$where = " WHERE ip.idimagen = '" . $idimagen . "' AND ip.idusuario = '" . $idusuario . "'";
+		$sql = $inicio . $where;
 
 		// ejecutamos consulta
 		$result = $this->conn->query($sql);
@@ -98,181 +112,254 @@ class datImagen {
 		// Preparamos array donde iran los resultados
 		$jsondata = array();
 		// Mientras haya resultados, montaremos una row por cada fila, y la transformaremos en un objeto
-		while($row = $result->fetch_object()){
+		while ($row = $result->fetch_object()) {
 			// Añadimos el objeto row al array
-			array_push($jsondata,$row);
+			array_push($jsondata, $row);
 		}
 		// Si el resultado va vacío, significa que el usuario no ha puntuado esta imagen
 		if (empty($jsondata)) {
-			return json_encode(array('punto'=>false));	
-
-		}
-		else {
-			return json_encode(array('punto'=>true));	
+			return json_encode(array('punto' => false));
+		} else {
+			return json_encode(array('punto' => true));
 		}
 	}
 
-	public function eliminarImagen($idusuario,$idimagen,$nombreimagen,$nombrealbum){
+	public function eliminarImagen($idusuario, $idimagen, $nombreimagen, $nombrealbum)
+	{
 		// montamos la consulta
 		$inicio = "DELETE FROM imagen  ";
-		$where = " WHERE id = '".$idimagen."'";
-		$sql = $inicio.$where;
+		$where = " WHERE id = '" . $idimagen . "'";
+		$sql = $inicio . $where;
 
 		// ejecutamos consulta
 		$result = $this->conn->query($sql);
 		// Si el resultado es true está bien
 		if ($result == TRUE) {
-			$ruta = "/home/vol10_2/epizy.com/epiz_33830609/htdocs/picSpace/media/".$idusuario."/".$nombrealbum;
+			$ruta = "/home/vol10_2/epizy.com/epiz_33830609/htdocs/picSpace/media/" . $idusuario . "/" . $nombrealbum;
 			// Cogemos todos los archivos de la ruta
 			$archivos = glob($ruta . '/*');
-			$arrayprueba = array ();
+			$arrayprueba = array();
 			foreach ($archivos as $archivo) {
-				if (explode(".",basename($archivo))[0] == $nombreimagen){
+				if (explode(".", basename($archivo))[0] == $nombreimagen) {
 					unlink($archivo);
 				}
 			}
-			return json_encode(array('exito'=>true));
+			return json_encode(array('exito' => true));
 		}
 		// si no hay ningun resultado
 		else {
-			return json_encode(array('exito'=>false));
+			return json_encode(array('exito' => false));
 		}
 	}
 
-	public function guardarImagenBBDD($idusuario,$idalbum,$nombrealbum,$titulo,$ruta,$descripcion,$tags,$fecha){
+	public function guardarImagenBBDD($idusuario, $idalbum, $nombrealbum, $titulo, $ruta, $descripcion, $tags, $fecha)
+	{
 
-		$ruta = "http://picspace.epizy.com/picSpace/media/".$idusuario."/".$nombrealbum."/".$titulo;
+		$ruta = "http://picspace.epizy.com/picSpace/media/" . $idusuario . "/" . $nombrealbum . "/" . $titulo;
 
 		// No queremos guardar la extensión de la imagen, así que la descartamos
-		$titulo = explode(".",$titulo);
+		$titulo = explode(".", $titulo);
 
 		// montamos la consulta
 		$inicio = "INSERT INTO imagen (`id_album`,`id_usuario`, `titulo`, `fecha`,`descripcion`,`ruta`, `tags`) ";
-		$values = " VALUES ('".$idalbum."','".$idusuario."','".$titulo[0]."','".$fecha."','".$descripcion."','".$ruta."','".$tags."') ";
-		$sql = $inicio.$values;
+		$values = " VALUES ('" . $idalbum . "','" . $idusuario . "','" . $titulo[0] . "','" . $fecha . "','" . $descripcion . "','" . $ruta . "','" . $tags . "') ";
+		$sql = $inicio . $values;
 
 		// ejecutamos consulta
 		$result = $this->conn->query($sql);
 		// Si el resultado es true está bien
 		if ($result == TRUE) {
-			return json_encode(array('exito'=>true));
+			return json_encode(array('exito' => true));
 		}
 		// si no hay ningun resultado
 		else {
-			return json_encode(array('exito'=>false));
+			return json_encode(array('exito' => false));
 		}
 	}
 
-	public function modificarImagen($idimagen,$nombre,$descripcion,$tags){
+	public function modificarImagen($idimagen, $nombre, $descripcion, $tags)
+	{
 		// montamos la consulta
 		$inicio = "UPDATE imagen  ";
-		$values = " SET `titulo` = '".$nombre."', descripcion = '".$descripcion."', tags = '".$tags."' ";
-		$where = " WHERE `id` = '".$idimagen."' ";
-		$sql = $inicio.$values.$where;
+		$values = " SET `titulo` = '" . $nombre . "', descripcion = '" . $descripcion . "', tags = '" . $tags . "' ";
+		$where = " WHERE `id` = '" . $idimagen . "' ";
+		$sql = $inicio . $values . $where;
 
 		// ejecutamos consulta
 		$result = $this->conn->query($sql);
 		// Si el resultado es true está bien
 		if ($result == TRUE) {
-			return json_encode(array('exito'=>true));
+			return json_encode(array('exito' => true));
 		}
 		// si no hay ningun resultado
 		else {
-			return json_encode(array('exito'=>false));
+			return json_encode(array('exito' => false));
 		}
 	}
 
-	public function obtenerComentarios($idimagen){
+	public function obtenerComentarios($idimagen)
+	{
 		// montamos la consulta
 		$inicio = "SELECT ic.id,ic.idimagen,ic.idusuario,ic.texto,ic.fecha,u.nombre,u.ruta FROM imagen_comentario AS ic LEFT JOIN usuario as u ON ic.idusuario=u.id";
-		$where = " WHERE ic.idimagen = '".$idimagen."' ORDER BY ic.fecha ASC";
-		$sql = $inicio.$where;
+		$where = " WHERE ic.idimagen = '" . $idimagen . "' ORDER BY ic.fecha ASC";
+		$sql = $inicio . $where;
 
 		// ejecutamos consulta
 		$result = $this->conn->query($sql);
 		// Preparamos array donde iran los resultados
 		$jsondata = array();
 		// Mientras haya resultados, montaremos una row por cada fila, y la transformaremos en un objeto
-		while($row = $result->fetch_object()){
+		while ($row = $result->fetch_object()) {
 			// Añadimos el objeto row al array
-			array_push($jsondata,$row);
+			array_push($jsondata, $row);
 		}
-		// devolvemos los datos como json
-		return json_encode($jsondata);		
+		// Codificando el array manualmente ya que con json_encode da problemas en el hosting con PHP 7.4.8.......
+		$json = '[';
+		foreach ($jsondata as $key => $valor) {
+			$json .= '{';
+			foreach ($valor as $k => $v) {
+				$json .= "\"$k\":\"" . addslashes($v) . "\",";
+			}
+			$json = rtrim($json, ',');
+			$json .= '},';
+		}
+		$json = rtrim($json, ',');
+		$json .= ']';
 
-
-
+		// Devolvemos ya codificado en JSON
+		return $json;
 	}
 
-	public function obtenerImagen($idimagen){
+	public function obtenerImagen($idimagen)
+	{
 		// montamos la consulta
 		$inicio = "SELECT i.*, u.nombre FROM imagen AS i JOIN usuario u ON u.id = i.id_usuario ";
-		$where = " WHERE i.id = '".$idimagen."'";
-		$sql = $inicio.$where;
+		$where = " WHERE i.id = '" . $idimagen . "'";
+		$sql = $inicio . $where;
 
 		// ejecutamos consulta
 		$result = $this->conn->query($sql);
 		// Preparamos array donde iran los resultados
 		$jsondata = array();
 		// Mientras haya resultados, montaremos una row por cada fila, y la transformaremos en un objeto
-		while($row = $result->fetch_object()){
+		while ($row = $result->fetch_object()) {
 			// Añadimos el objeto row al array
-			array_push($jsondata,$row);
+			array_push($jsondata, $row);
 		}
-		// devolvemos los datos como json
-		return json_encode($jsondata);		
+		// Codificando el array manualmente ya que con json_encode da problemas en el hosting con PHP 7.4.8.......
+		$json = '[';
+		foreach ($jsondata as $key => $valor) {
+			$json .= '{';
+			foreach ($valor as $k => $v) {
+				$json .= "\"$k\":\"" . addslashes($v) . "\",";
+			}
+			$json = rtrim($json, ',');
+			$json .= '},';
+		}
+		$json = rtrim($json, ',');
+		$json .= ']';
 
-
-
+		// Devolvemos ya codificado en JSON
+		return $json;
 	}
 
-	public function obtenerImagenes($idalbum){
+	public function obtenerImagenes($idalbum)
+	{
+		// Queremos saber siempre de quien es el album
+		// montamos la consulta
+		$inicio = "SELECT id_usuario FROM album";
+		$where = " WHERE id = '" . $idalbum . "'";
+		$sql = $inicio . $where;
+
+		// ejecutamos consulta
+		$idusuario = $this->conn->query($sql);
+
+		$idpropietario = mysqli_fetch_array($idusuario)[0];
+
+		$idpropietariodef = '{"idpropietario":"'.$idpropietario.'"},';
+
+
+
 		// montamos la consulta
 		$inicio = "SELECT i.id, i.titulo, i.fecha, i.ruta, a.id_usuario FROM imagen AS i JOIN album AS a ON a.id = i.id_album";
-		$where = " WHERE a.id = '".$idalbum."'";
-		$sql = $inicio.$where;
+		$where = " WHERE a.id = '" . $idalbum . "'";
+		$sql = $inicio . $where;
 
 		// ejecutamos consulta
 		$result = $this->conn->query($sql);
 		// Preparamos array donde iran los resultados
 		$jsondata = array();
+
 		// Mientras haya resultados, montaremos una row por cada fila, y la transformaremos en un objeto
-		while($row = $result->fetch_object()){
+		while ($row = $result->fetch_object()) {
 			// Añadimos el objeto row al array
-			array_push($jsondata,$row);
+			array_push($jsondata, $row);
 		}
-		// devolvemos los datos como json
-		return json_encode($jsondata);		
+
+		
+		// Codificando el array manualmente ya que con json_encode da problemas en el hosting con PHP 7.4.8.......
+		$json = '[';
+		$json .= $idpropietariodef;
+		foreach ($jsondata as $key => $valor) {
+			$json .= '{';
+			foreach ($valor as $k => $v) {
+				$json .= "\"$k\":\"" . addslashes($v) . "\",";
+			}
+			$json = rtrim($json, ',');
+			$json .= '},';
+		}
+		$json = rtrim($json, ',');
+		$json .= ']';
+
+		// Devolvemos ya codificado en JSON
+		return $json;
 	}
 
-	public function obtenerTendencias(){
+	public function obtenerTendencias()
+	{
 		// montamos la consulta
 		$inicio = "SELECT *, i.id as iddelaimagen, a.id as iddelalbum,i.ruta as ruta FROM imagen i JOIN album a ON a.id = i.id_album ";
 		$where = " ORDER BY i.puntos DESC LIMIT 20";
-		$sql = $inicio.$where;
+		$sql = $inicio . $where;
 
 		// ejecutamos consulta
 		$result = $this->conn->query($sql);
 		// Preparamos array donde iran los resultados
 		$jsondata = array();
 		// Mientras haya resultados, montaremos una row por cada fila, y la transformaremos en un objeto
-		while($row = $result->fetch_object()){
+		while ($row = $result->fetch_object()) {
 			// Añadimos el objeto row al array
-			array_push($jsondata,$row);
+			array_push($jsondata, $row);
 		}
-		// devolvemos los datos como json
-		return json_encode($jsondata);		
+
+
+		// Codificando el array manualmente ya que con json_encode da problemas en el hosting con PHP 7.4.8.......
+		$json = '[';
+		foreach ($jsondata as $key => $valor) {
+			$json .= '{';
+			foreach ($valor as $k => $v) {
+				$json .= "\"$k\":\"" . addslashes($v) . "\",";
+			}
+			$json = rtrim($json, ',');
+			$json .= '},';
+		}
+		$json = rtrim($json, ',');
+		$json .= ']';
+
+		// Devolvemos ya codificado en JSON
+		return $json;
 	}
 
-	public function puntuarImagen($idimagen,$idusuario,$identificador = null,$punto){
+	public function puntuarImagen($idimagen, $idusuario, $identificador = null, $punto)
+	{
 
 
-		if ($punto=='quitar'){
+		if ($punto == 'quitar') {
 			// Quitamos el registro de imagen y le bajamos un punto a la imagen
 			// Montamos consulta
 			$inicio = "DELETE FROM imagen_punto";
-			$where = " WHERE idimagen = '".$idimagen."' AND idusuario = '".$idusuario."'";
-			$sql = $inicio.$where;
+			$where = " WHERE idimagen = '" . $idimagen . "' AND idusuario = '" . $idusuario . "'";
+			$sql = $inicio . $where;
 
 			// ejecutamos consulta
 			$result = $this->conn->query($sql);
@@ -280,20 +367,19 @@ class datImagen {
 			// Bajamos el punto a la imagen
 			// montamos la consulta
 			$inicio = "UPDATE imagen SET puntos = puntos - 1";
-			$where = " WHERE id = '".$idimagen."'";
-			$sql = $inicio.$where;
+			$where = " WHERE id = '" . $idimagen . "'";
+			$sql = $inicio . $where;
 
 			// ejecutamos consulta
 			$result = $this->conn->query($sql);
-			return json_encode(array("exito"=>true));
-
+			return json_encode(array("exito" => true));
 		}
 
 		// montamos la consulta
 		// Comprobamos si hay registro de esta imagen con este usuario
 		$inicio = "SELECT * FROM imagen_punto AS ip";
-		$where = " WHERE ip.idimagen = '".$idimagen."' AND ip.idusuario = '".$idusuario."'";
-		$sql = $inicio.$where;
+		$where = " WHERE ip.idimagen = '" . $idimagen . "' AND ip.idusuario = '" . $idusuario . "'";
+		$sql = $inicio . $where;
 
 		// ejecutamos consulta
 		$result = $this->conn->query($sql);
@@ -301,16 +387,16 @@ class datImagen {
 		// Preparamos array donde iran los resultados
 		$jsondata = array();
 		// Mientras haya resultados, montaremos una row por cada fila, y la transformaremos en un objeto
-		while($row = $result->fetch_object()){
+		while ($row = $result->fetch_object()) {
 			// Añadimos el objeto row al array
-			array_push($jsondata,$row);
+			array_push($jsondata, $row);
 		}
 		// Si el resultado va vacío, significa que el usuario no ha puntuado esta imagen, le subimos un punto
 		if (empty($jsondata)) {
 			// montamos la consulta
 			$inicio = "UPDATE imagen SET puntos = puntos + 1";
-			$where = " WHERE id = '".$idimagen."'";
-			$sql = $inicio.$where;
+			$where = " WHERE id = '" . $idimagen . "'";
+			$sql = $inicio . $where;
 
 			// ejecutamos consulta
 			$result = $this->conn->query($sql);
@@ -319,8 +405,8 @@ class datImagen {
 
 			// montamos la consulta
 			$inicio = "INSERT INTO imagen_punto (idimagen, idusuario)";
-			$where = " VALUES ('".$idimagen."','".$idusuario."')";
-			$sql = $inicio.$where;
+			$where = " VALUES ('" . $idimagen . "','" . $idusuario . "')";
+			$sql = $inicio . $where;
 
 			// ejecutamos consulta
 			$result = $this->conn->query($sql);
@@ -332,28 +418,54 @@ class datImagen {
 			$datosImagenDecode = json_decode($datosImagen);
 			$idnotificado = $datosImagenDecode[0]->id_usuario;
 			// Si el idnotificado es igual al idusuario, no guardamos la notificación
-			if ($idnotificado==$idusuario){
-				return json_encode(array('exito'=>true));
+			if ($idnotificado == $idusuario) {
+				return json_encode(array('exito' => true));
 			}
-			
+
 			// Montamos la consulta
 			$inicio = "INSERT INTO notificacion (`idusuario`, `idnotificado`,`imagen`, `texto`) ";
-			$values = " VALUES ('".$idusuario."','".$idnotificado."','".$idimagen."','A $identificador le ha gustado tu ') ";
-			$sql = $inicio.$values;
+			$values = " VALUES ('" . $idusuario . "','" . $idnotificado . "','" . $idimagen . "','A $identificador le ha gustado tu ') ";
+			$sql = $inicio . $values;
 
 			// ejecutamos consulta
 			$result = $this->conn->query($sql);
 
-			// devolvemos los datos como json
-			return json_encode($jsondata);	
+			// Codificando el array manualmente ya que con json_encode da problemas en el hosting con PHP 7.4.8.......
+			$json = '[';
+			foreach ($jsondata as $key => $valor) {
+				$json .= '{';
+				foreach ($valor as $k => $v) {
+					$json .= "\"$k\":\"" . addslashes($v) . "\",";
+				}
+				$json = rtrim($json, ',');
+				$json .= '},';
+			}
+			$json = rtrim($json, ',');
+			$json .= ']';
 
-		} 
+			// Devolvemos ya codificado en JSON
+			return $json;
+		}
 
-		// devolvemos los datos como json
-		return json_encode($jsondata);	
+		// Codificando el array manualmente ya que con json_encode da problemas en el hosting con PHP 7.4.8.......
+		$json = '[';
+		foreach ($jsondata as $key => $valor) {
+			$json .= '{';
+			foreach ($valor as $k => $v) {
+				$json .= "\"$k\":\"" . addslashes($v) . "\",";
+			}
+			$json = rtrim($json, ',');
+			$json .= '},';
+		}
+		$json = rtrim($json, ',');
+		$json .= ']';
+
+		// Devolvemos ya codificado en JSON
+		return $json;
 	}
 
-	public function obtenerInicio($idusuario) {
+	public function obtenerInicio($idusuario)
+	{
 		// montamos la consulta
 		$inicio = "SELECT u2.id as idusuario, u2.identificador, u2.nombre AS nombreusuario, u2.tags as tagsusuario, i.id as idimagen, i.id_album, i.titulo, i.fecha, i.puntos, i.tags AS tagsimagen, i.descripcion, i.ruta, a.nombre as nombrealbum";
 		$where = " 
@@ -365,18 +477,31 @@ class datImagen {
 		WHERE u1.id = $idusuario
 		ORDER BY i.fecha;
 		 ";
-		$sql = $inicio.$where;
+		$sql = $inicio . $where;
 		// ejecutamos consulta
 		$result = $this->conn->query($sql);
 		// Preparamos array donde iran los resultados
 		$jsondata = array();
 		// Mientras haya resultados, montaremos una row por cada fila, y la transformaremos en un objeto
-		while($row = $result->fetch_object()){
+		while ($row = $result->fetch_object()) {
 			// Añadimos el objeto row al array
-			array_push($jsondata,$row);
+			array_push($jsondata, $row);
 		}
-		// devolvemos los datos como json
-		return json_encode($jsondata);	
-	}
 
+		// Codificando el array manualmente ya que con json_encode da problemas en el hosting con PHP 7.4.8.......
+		$json = '[';
+		foreach ($jsondata as $key => $valor) {
+			$json .= '{';
+			foreach ($valor as $k => $v) {
+				$json .= "\"$k\":\"" . addslashes($v) . "\",";
+			}
+			$json = rtrim($json, ',');
+			$json .= '},';
+		}
+		$json = rtrim($json, ',');
+		$json .= ']';
+
+		// Devolvemos ya codificado en JSON
+		return $json;
+	}
 }

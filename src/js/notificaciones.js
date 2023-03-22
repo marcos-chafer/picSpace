@@ -180,6 +180,12 @@ $("#IrAMiPerfil").click(function() {
 	window.location.assign("./perfil.html");
 });
 
+$("#IrAMisAlbumes").click(function() {
+	sessionStorage.removeItem('idAlbum');
+	sessionStorage.removeItem('idPerfil');
+	window.location.assign("./albumes.html");
+})
+
 $("#botonCerrarSesion").click(function () {
 	cerrarSesion();
 });

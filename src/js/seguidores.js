@@ -100,23 +100,27 @@ function iniciarSeguidores() {
 		// Cuando lleguen los datos...
 		success: function (result) {
 			result.forEach(function(seguidor){
-				console.log(seguidor);
 				let seguidorContenedor = document.createElement('div');
-				seguidorContenedor.classList = "flex flex-col items-center border w-full lg:w-1/3 h-1/3";
+				seguidorContenedor.style.height ="10rem";
+				seguidorContenedor.classList = "flex flex-col items-center rounded-3xl bg-blue-600 w-full lg:w-1/6 cursor-pointer";
+				seguidorContenedor.setAttribute('onclick','IrAPerfil('+seguidor.id+')');
 		
 				let seguidorTexto = document.createElement('div');
 		
 				let seguidorTextoIdentificador = document.createElement('span');
-				seguidorTextoIdentificador.classList = "font-semibold cursor-pointer";
-				seguidorTextoIdentificador.setAttribute('onclick','IrAPerfil('+seguidor.id+')');
+				seguidorTextoIdentificador.style.height = "80%";
+				seguidorTextoIdentificador.classList = "font-semibold";
 				seguidorTextoIdentificador.textContent = seguidor.identificador;
-				seguidorContenedor.append(seguidorTextoIdentificador)
+				seguidorContenedor.append(seguidorTextoIdentificador);
 				
 				let seguidorImagen = document.createElement('div');
-				seguidorImagen.classList = "flex flex-row mt-4"
+				seguidorImagen.style.height = "80%";
+				seguidorImagen.style.width = "100%";	
+				seguidorImagen.classList = "flex flex-row mt-2"
 		
 				let seguidorRuta = document.createElement('img');
-				seguidorRuta.classList = "w-20 mb-4";
+				seguidorRuta.style.objectFit = "cover";
+				seguidorRuta.classList = "w-full h-full";
 				if (seguidor.ruta == null) seguidorRuta.setAttribute('src',"../assets/img/iconousuario.svg");
 				else seguidorRuta.setAttribute('src',seguidor.ruta);
 				seguidorImagen.append(seguidorRuta);

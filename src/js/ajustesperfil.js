@@ -228,6 +228,8 @@ function modificarUsuario() {
 		dataType: "text",
 		success: function(result) {
 
+			$("html").addClass("cursor-wait");
+			$("#botonCambiar").addClass("cursor-wait");
 			setTimeout(function(){
 				sessionStorage.setItem('noti','modificarUsuario');
 				window.location.replace('./perfil.html');	
@@ -250,6 +252,12 @@ $("#botonCerrarSesion").click(function () {
 $("#IrAMiPerfil").click(function() {
 	sessionStorage.removeItem('idPerfil');
 	window.location.assign("./perfil.html");
+})
+
+$("#IrAMisAlbumes").click(function() {
+	sessionStorage.removeItem('idAlbum');
+	sessionStorage.removeItem('idPerfil');
+	window.location.assign("./albumes.html");
 })
 
 $("#botonCambiar").click(function () {

@@ -100,21 +100,27 @@ function iniciarSiguiendo() {
 		// Cuando lleguen los datos...
 		success: function (result) {
 			result.forEach(function(seguido){
-				console.log(seguido);
 				let seguidoContenedor = document.createElement('div');
-				seguidoContenedor.classList = "flex flex-col items-center border w-full lg:w-1/3 h-1/3";
-				
+				seguidoContenedor.style.height ="10rem";
+				seguidoContenedor.classList = "flex flex-col items-center rounded-3xl bg-blue-600 w-full lg:w-1/6 cursor-pointer";
+				seguidoContenedor.setAttribute('onclick','IrAPerfil('+seguido.id+')');
+		
+				let seguidoTexto = document.createElement('div');
+		
 				let seguidoTextoIdentificador = document.createElement('span');
-				seguidoTextoIdentificador.classList = "font-semibold cursor-pointer";
-				seguidoTextoIdentificador.setAttribute('onclick','IrAPerfil('+seguido.id+')');
+				seguidoTextoIdentificador.style.height = "80%";
+				seguidoTextoIdentificador.classList = "font-semibold";
 				seguidoTextoIdentificador.textContent = seguido.identificador;
-				seguidoContenedor.append(seguidoTextoIdentificador)
+				seguidoContenedor.append(seguidoTextoIdentificador);
 				
 				let seguidoImagen = document.createElement('div');
-				seguidoImagen.classList = "flex flex-row mt-4"
+				seguidoImagen.style.height = "80%";
+				seguidoImagen.style.width = "100%";	
+				seguidoImagen.classList = "flex flex-row mt-2"
 		
 				let seguidoRuta = document.createElement('img');
-				seguidoRuta.classList = "w-20 mb-4";
+				seguidoRuta.style.objectFit = "cover";
+				seguidoRuta.classList = "w-full h-full";
 				if (seguido.ruta == null) seguidoRuta.setAttribute('src',"../assets/img/iconousuario.svg");
 				else seguidoRuta.setAttribute('src',seguido.ruta);
 				seguidoImagen.append(seguidoRuta);
@@ -155,6 +161,12 @@ $("#IrAMiPerfil").click(function() {
 	sessionStorage.removeItem('idPerfil');
 	window.location.assign("./perfil.html");
 });
+
+$("#IrAMisAlbumes").click(function() {
+	sessionStorage.removeItem('idAlbum');
+	sessionStorage.removeItem('idPerfil');
+	window.location.assign("./albumes.html");
+})
 
 $("#botonCerrarSesion").click(function () {
 	cerrarSesion();

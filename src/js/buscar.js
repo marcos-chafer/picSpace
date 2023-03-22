@@ -116,7 +116,8 @@ function iniciarBuscar() {
 	menuOpcionesHome = "cerrado";
 
 	// Cargamos foto perfil del usuario para el menú lateral
-	$("#usuarioFotoPerfil").prop('src',localStorage.getItem('usuarioRuta'));
+	if (localStorage.getItem('usuarioRuta') != "null") $("#usuarioFotoPerfil").prop('src', localStorage.getItem('usuarioRuta'));
+	else  $("#usuarioFotoPerfil").prop('src', 'http://picspace.epizy.com/picSpace/assets/img/iconousuario.svg');
 
 	// Comprobar notificaciones del usuario
 	$.ajax({
@@ -181,12 +182,24 @@ $("#IrAMiPerfil").click(function() {
 	window.location.assign("./perfil.html");
 });
 
+$("#IrAMisAlbumes").click(function() {
+	sessionStorage.removeItem('idAlbum');
+	sessionStorage.removeItem('idPerfil');
+	window.location.assign("./albumes.html");
+});
+
 $("#botonCerrarSesion").click(function () {
 	cerrarSesion();
 });
 
 $("#botonBuscar").click(function(){
 	buscarTag();
+})
+
+$("#tagsBuscar").on('keypress', function(e){
+	if (e.which == 13){
+		buscarTag();
+	}
 })
 
 $("#tagsBuscar").on('keyup',function(e){

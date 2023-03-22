@@ -100,6 +100,12 @@ $("#IrAMiPerfil").click(function() {
 	window.location.assign("./perfil.html");
 })
 
+$("#IrAMisAlbumes").click(function() {
+	sessionStorage.removeItem('idAlbum');
+	sessionStorage.removeItem('idPerfil');
+	window.location.assign("./albumes.html");
+})
+
 $("#botonContinuar").click(function(){
 	crearAlbum();
 })

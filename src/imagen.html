@@ -29,7 +29,6 @@
 				<a href="./albumes.html" class="p-3 rounded-full mt-4 ml-2 lg:hidden h-fit w-fit hover:bg-blue-400">
 					<i class="fa fa-arrow-left fa-2xl"></i>
 				</a>
-				<!-- TODO  Aqui ira la foto de perfil del usuario -->
 				<img id="usuarioFotoPerfil" src="../assets/img/logo_picspace_nuevo_icono_blanco_relleno.png" class="imagenPerfilLateral " alt="Logo picSpace">
 				<a href="./ajustesalbum.html" class="p-3 rounded-full mt-4 ml-2 lg:hidden h-fit w-fit centrarHorizontal hover:bg-blue-400">
 					<i class="fa fa-gear fa-2xl"></i>
@@ -56,7 +55,7 @@
 					<i class="fa-solid fa-people-arrows"></i>
 					<button>Siguiendo</button>
 				</a>
-				<a href="./albumes.html" class="botonOpciones">
+				<a id="IrAMisAlbumes" class="botonOpciones">
 					<i class="fa-solid fa-book"></i>
 					<button>Mis albumes</button>
 				</a>
@@ -87,7 +86,12 @@
 			<a href="./album.html" class="p-3 hidden lg:block rounded-full mt-2 ml-2 w-fit h-fit hover:bg-blue-400">
 				<i class="fa fa-arrow-left fa-2xl"></i>
 			</a>
-			<div id="imagenRuta" class="flex justify-center mt-[5%] h-[60%] border mx-5  border-gray-300 rounded-3xl overflow-hidden">
+			<h2 id="nombreAlbum" class="text-gray-600 w-full text-center">
+			</h2>
+			<h1 id="nombreImagen" class="font-bold w-full text-center">
+			</h1>
+
+			<div id="imagenRuta" class="flex justify-center mt-[5%] mx-auto h-1/2 w-[60%] border mx-5  border-gray-300 rounded-3xl overflow-hidden">
 			</div>
 			<div id="imagenDatos" class="flex justify-around py-2 mt-5 mx-5 border border-gray-300 rounded-3xl">
 				<div id="imagenInfo" class="flex flex-col gap-1 justify-center">
@@ -109,10 +113,6 @@
 		<!-- Fin IMAGEN -->
 		<!-- Columna info album -->
 		<div class="mt-2 text-center row-start-2 lg:row-start-auto lg:block lg:h-full lg:col-span-2">
-			<h2 id="nombreAlbum" class="text-gray-600">
-			</h2>
-			<h1 id="nombreImagen" class="font-bold">
-			</h1>
 			<button id="botonAjustesImagen" class="p-3 rounded-full mt-4 ml-2 hidden h-fit w-fit centrarHorizontal hover:bg-blue-400">
 				<i class="fa fa-gear fa-2xl hover:scale-105 transition duration-100 ease-in-out"></i>
 			</button>

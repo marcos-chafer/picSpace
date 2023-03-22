@@ -127,7 +127,8 @@ function iniciarAjustes() {
 	$("#nombreAlbum").val(sessionStorage.getItem('nombreAlbum'));
 
 	// Cargamos foto perfil del usuario para el menú lateral
-	$("#usuarioFotoPerfil").prop('src',localStorage.getItem('usuarioRuta'));
+	if (localStorage.getItem('usuarioRuta') != "null") $("#usuarioFotoPerfil").prop('src', localStorage.getItem('usuarioRuta'));
+	else  $("#usuarioFotoPerfil").prop('src', 'http://picspace.epizy.com/picSpace/assets/img/iconousuario.svg');
 
 	// Comprobar notificaciones del usuario
 	$.ajax({
@@ -220,6 +221,12 @@ $("#botonDesplegarMenu").click(function () {
 $("#IrAMiPerfil").click(function() {
 	sessionStorage.removeItem('idPerfil');
 	window.location.assign("./perfil.html");
+})
+
+$("#IrAMisAlbumes").click(function() {
+	sessionStorage.removeItem('idAlbum');
+	sessionStorage.removeItem('idPerfil');
+	window.location.assign("./albumes.html");
 })
 
 $("#botonCerrarSesion").click(function () {

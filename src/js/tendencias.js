@@ -93,6 +93,7 @@ function iniciarAlbum() {
 		data: { funcion: "obtenerTendencias" },
 		// Cuando lleguen los datos...
 		success: function (result) {
+			console.log(result);
 			//Recorremos las imagenes
 			for (let i = 0; i < result.length; i++) {
 				// asignamos variables con los datos
@@ -116,6 +117,7 @@ function iniciarAlbum() {
 				imagen.addEventListener('click',irAImagen);
 
 				let imagenTitulo = document.createElement("div");
+				imagenTitulo.style.height = "10%";
 				imagenTitulo.classList = "";
 				imagenTitulo.textContent = titulo;
 
@@ -124,10 +126,12 @@ function iniciarAlbum() {
 
 
 				let imagenImagen = document.createElement('div');
-				imagenImagen.classList = "w-full overflow-hidden ";
+				imagenImagen.style.height = "80%";
+				imagenImagen.classList = "w-full ";
 
 				let imagenRuta = document.createElement('img')
-				imagenRuta.classList = "w-full min-h-full";
+				imagenRuta.style.objectFit =" cover";
+				imagenRuta.classList = "w-full h-full";
 				imagenRuta.setAttribute('src', ruta)
 
 				imagenImagen.append(imagenRuta);
@@ -164,6 +168,12 @@ $("#botonDesplegarMenu").click(function () {
 $("#IrAMiPerfil").click(function() {
 	sessionStorage.removeItem('idPerfil');
 	window.location.assign("./perfil.html");
+})
+
+$("#IrAMisAlbumes").click(function() {
+	sessionStorage.removeItem('idAlbum');
+	sessionStorage.removeItem('idPerfil');
+	window.location.assign("./albumes.html");
 })
 
 $("#botonCerrarSesion").click(function () {
