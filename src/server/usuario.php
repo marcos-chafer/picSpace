@@ -172,7 +172,6 @@ function eliminarNotificacion($idusuario,$idnotificacion){
 
 function guardarUsuario($nombre,$identificador,$contrasenya,$email,$tags){
 // Registra usuario en BBDD usando los params
-// TODO securizar más esto
 	
 	$objUsuario = new datUsuario();
 	// Guardamos el usuario en BBDD

@@ -88,7 +88,6 @@ switch ($funcion) {
 
 function guardarAlbum($nombre,$idusuario,$tags,$ruta = null){
 // Registra un album en BBDD usando los params
-// TODO securizar más esto
 
 	$fecha = date("Y-m-d");
 	$objAlbum = new datAlbum();
@@ -110,7 +109,6 @@ function eliminarAlbum($idusuario,$idalbum,$nombrealbum){
 
 function modificarAlbum($idalbum,$nombre,$tags){
 // Modifica datos de un album de BBDD utilizando los params
-// TODO securizar más esto
 
 	$objAlbum = new datAlbum();
 	
