@@ -4,7 +4,10 @@ var menuOpcionesHome = "cerrado";
 
 
 function abrirMenu() {
-	$("#opcionesHome").show();
+	// No usaremos jQuery.show() ya que añade display:block, y queremos que sea flex
+	// $("#opcionesHome").show();
+	$("#opcionesHome").removeClass("hidden");
+	$("#opcionesHome").addClass("flex");
 	$("#botonDesplegarMenu i").removeClass();
 	$("#botonDesplegarMenu i").addClass('fa-solid fa-arrow-up');
 	$("#botonDesplegarMenu").addClass('mb-2');
@@ -24,7 +27,10 @@ function cerrarSesion() {
 }
 
 function cerrarMenu() {
-	$("#opcionesHome").hide();
+	// No usaremos jQuery.hide() ya que añade display:none, y queremos que sea flex
+	// $("#opcionesHome").hide();
+	$("#opcionesHome").removeClass("flex");
+	$("#opcionesHome").addClass("hidden");
 	$("#botonDesplegarMenu i").removeClass();
 	$("#botonDesplegarMenu i").addClass('fa-solid fa-arrow-down');
 	$("#botonDesplegarMenu").removeClass('mb-2');
@@ -114,7 +120,7 @@ function iniciarImagen() {
 	sessionStorage.removeItem('noti');
 
 	// Cargamos foto perfil del usuario para el menú lateral
-	if (localStorage.getItem('usuarioRuta') != "null") $("#usuarioFotoPerfil").prop('src', localStorage.getItem('usuarioRuta'));
+	if (localStorage.getItem('usuarioRuta') != null) $("#usuarioFotoPerfil").prop('src', localStorage.getItem('usuarioRuta'));
 	else  $("#usuarioFotoPerfil").prop('src', 'http://picspace.epizy.com/picSpace/assets/img/iconousuario.svg');
 
 	// Limpiamos input de comentario

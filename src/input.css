@@ -60,18 +60,18 @@
 /* menu lateral */
 
 .menuOpciones {
-	@apply flex flex-col gap-y-[10%] lg:col-span-1 lg:h-screen border-r border-blue-800 overflow-x-hidden;
+	@apply flex flex-col items-center lg:gap-y-[10%] lg:col-span-1 lg:h-screen border-r border-blue-800 overflow-x-hidden;
 }
 
 .opcionesHome {
-    @apply hidden lg:flex lg:items-center lg:flex-col lg:h-full lg:gap-y-2 lg:relative lg:row-span-6;
+    @apply  lg:flex lg:items-center w-1/2 lg:w-full flex-col lg:h-full lg:gap-y-2 lg:relative lg:row-span-6;
 }
 
 .botonOpciones {
     @apply flex items-center cursor-pointer mt-2 text-lg rounded-full w-[80%] hover:bg-blue-600 hover:text-white hover:font-semibold hover:scale-110 transition duration-200 ease-in-out;
 }
 .botonOpciones i{
-    @apply ml-2 w-12;
+    @apply ml-2 w-8 lg:w-12;
 }
 
 .botonOpcionesSeleccionado {
@@ -79,22 +79,21 @@
 }
 
 .botonCerrarSesion{
-    @apply w-1/2 self-center mt-auto mb-2;
+    @apply  w-full lg:w-1/2 self-center mt-4 lg:mt-auto mb-2;
 }
 /* cards */
 
 .albumCard {
-    @apply bg-blue-600 pt-2 flex flex-col justify-center items-center rounded-md w-[90%] lg:w-1/5 lg:h-48 text-white font-semibold hover:text-black hover:bg-blue-400 text-center hover:scale-105 transition duration-200 ease-in-out;
+    @apply bg-blue-600 pt-1 flex flex-col justify-center items-center rounded-md w-[90%] lg:w-1/5 lg:h-48 text-white font-semibold hover:text-black hover:bg-blue-400 text-center hover:scale-105 transition duration-200 ease-in-out;
 }
 
 .albumCardImagen{
-    @apply flex;
-    object-fit: cover;
+    @apply flex w-full h-[90%];
 }
 
 .albumCardImagen img{
-    width: 50%;
-    height: 50%;
+    width: 100%;
+    height: 100%;
     object-fit: cover;
 }
 
@@ -103,8 +102,7 @@
 }
 
 .imagenCardImagen {
-    flex: 1;
-    object-fit: cover;
+    @apply flex w-full h-[90%];
 }
 
 .imagenCardImagen img{

@@ -22,19 +22,19 @@
 </head>
 
 <body class="overflow-hidden">
-	<div class="grid lg:grid-cols-6">
+	<div class="flex flex-col lg:grid lg:grid-cols-6">
 		<!-- Perfil y opciones -->
-		<div id="menuOpcionesHome" class="grid lg:col-span-1 lg:h-screen border lg:border-r-blue-800">
+		<div id="menuOpcionesHome" class="menuOpciones w-full">
 			<div class="grid grid-cols-3 lg:grid-cols-1">
-				<a href="./albumes.html" class="p-3 rounded-full mt-4 ml-2 lg:hidden h-fit w-fit hover:bg-blue-400">
+				<a href="./album.html" class="p-3 rounded-full mt-4 ml-2 lg:hidden h-fit w-fit hover:bg-blue-400">
 					<i class="fa fa-arrow-left fa-2xl"></i>
 				</a>
 				<img id="usuarioFotoPerfil" src="../assets/img/logo_picspace_nuevo_icono_blanco_relleno.png" class="imagenPerfilLateral " alt="Logo picSpace">
-				<a href="./ajustesalbum.html" class="p-3 rounded-full mt-4 ml-2 lg:hidden h-fit w-fit centrarHorizontal hover:bg-blue-400">
+				<a href="./ajustesimagen.html" class="p-3 rounded-full mt-4 ml-2 lg:hidden h-fit w-fit centrarHorizontal hover:bg-blue-400">
 					<i class="fa fa-gear fa-2xl"></i>
 				</a>
 			</div>
-			<div id="opcionesHome" class="opcionesHome">
+			<div id="opcionesHome" class="opcionesHome hidden">
 				<a href="./home.html" class="botonOpciones">
 					<i class="fa-solid fa-house"></i>
 					<button class="">Inicio</button>
@@ -91,7 +91,7 @@
 			<h1 id="nombreImagen" class="font-bold w-full text-center">
 			</h1>
 
-			<div id="imagenRuta" class="flex justify-center mt-[5%] mx-auto h-1/2 w-[60%] border mx-5  border-gray-300 rounded-3xl overflow-hidden">
+			<div id="imagenRuta" class="flex justify-center mt-[5%] mx-auto h-1/2 w-[60%] border  border-gray-300 rounded-3xl overflow-hidden">
 			</div>
 			<div id="imagenDatos" class="flex justify-around py-2 mt-5 mx-5 border border-gray-300 rounded-3xl">
 				<div id="imagenInfo" class="flex flex-col gap-1 justify-center">

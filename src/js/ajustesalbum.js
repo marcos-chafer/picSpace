@@ -127,7 +127,7 @@ function iniciarAjustes() {
 	$("#nombreAlbum").val(sessionStorage.getItem('nombreAlbum'));
 
 	// Cargamos foto perfil del usuario para el menú lateral
-	if (localStorage.getItem('usuarioRuta') != "null") $("#usuarioFotoPerfil").prop('src', localStorage.getItem('usuarioRuta'));
+	if (localStorage.getItem('usuarioRuta') != null) $("#usuarioFotoPerfil").prop('src', localStorage.getItem('usuarioRuta'));
 	else  $("#usuarioFotoPerfil").prop('src', 'http://picspace.epizy.com/picSpace/assets/img/iconousuario.svg');
 
 	// Comprobar notificaciones del usuario

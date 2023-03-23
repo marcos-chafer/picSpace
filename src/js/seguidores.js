@@ -61,7 +61,8 @@ function iniciarSeguidores() {
 	menuOpcionesHome = "cerrado";
 
 	// Cargamos foto perfil del usuario para el menú lateral
-	$("#usuarioFotoPerfil").prop('src',localStorage.getItem('usuarioRuta'));
+	if (localStorage.getItem('usuarioRuta') != null) $("#usuarioFotoPerfil").prop('src', localStorage.getItem('usuarioRuta'));
+	else  $("#usuarioFotoPerfil").prop('src', 'http://picspace.epizy.com/picSpace/assets/img/iconousuario.svg');
 
 	// Comprobar notificaciones del usuario
 	$.ajax({
@@ -101,8 +102,7 @@ function iniciarSeguidores() {
 		success: function (result) {
 			result.forEach(function(seguidor){
 				let seguidorContenedor = document.createElement('div');
-				seguidorContenedor.style.height ="10rem";
-				seguidorContenedor.classList = "flex flex-col items-center rounded-3xl bg-blue-600 w-full lg:w-1/6 cursor-pointer";
+				seguidorContenedor.classList = "flex flex-col items-center rounded-3xl bg-blue-600 w-full lg:w-[20%] mx-6 lg:mx-0 h-40 cursor-pointer";
 				seguidorContenedor.setAttribute('onclick','IrAPerfil('+seguidor.id+')');
 		
 				let seguidorTexto = document.createElement('div');

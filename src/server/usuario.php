@@ -64,7 +64,7 @@ switch ($funcion) {
 		$descripcion = $_POST['descripcion'];
 		$tags = $_POST['tags'];
 		// El nombre del archivo será identificador_perfil.extensionarchivo
-		$titulo = $identificador."_perfil.".$nombreexplotado[1];
+		$titulo = "_perfil.".$nombreexplotado[1];
 
 		$ruta = "/home/vol10_2/epizy.com/epiz_33830609/htdocs/picSpace/media/".$idusuario."/".$titulo;
 

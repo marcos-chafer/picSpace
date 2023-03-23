@@ -475,7 +475,7 @@ class datImagen
 		INNER JOIN imagen i ON u2.id = i.id_usuario
 		INNER JOIN album a on i.id_album = a.id
 		WHERE u1.id = $idusuario
-		ORDER BY i.fecha;
+		ORDER BY i.fecha DESC;
 		 ";
 		$sql = $inicio . $where;
 		// ejecutamos consulta

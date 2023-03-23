@@ -59,7 +59,8 @@ function iniciarNotificaciones() {
 	menuOpcionesHome = "cerrado";
 
 	// Cargamos foto perfil del usuario para el menú lateral
-	$("#usuarioFotoPerfil").prop('src',localStorage.getItem('usuarioRuta'));
+	if (localStorage.getItem('usuarioRuta') != null) $("#usuarioFotoPerfil").prop('src', localStorage.getItem('usuarioRuta'));
+	else  $("#usuarioFotoPerfil").prop('src', 'http://picspace.epizy.com/picSpace/assets/img/iconousuario.svg');
 
 	// Comprobar notificaciones del usuario
 	$.ajax({
@@ -99,7 +100,7 @@ function iniciarNotificaciones() {
 		success: function (result) {
 			result.forEach(function(notificacion){
 				let notificacionContenedor = document.createElement('div');
-				notificacionContenedor.classList = "flex";
+				notificacionContenedor.classList = "flex w-full mx-auto";
 
 				let notificacionRuta = document.createElement('img');
 				notificacionRuta.setAttribute('id',notificacion.idusuario)

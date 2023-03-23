@@ -57,10 +57,11 @@ function iniciarAlbum() {
 	menuOpcionesHome = "cerrado";
 
 	// Cargamos foto perfil del usuario para el menú lateral
-	$("#usuarioFotoPerfil").prop('src',localStorage.getItem('usuarioRuta'));
+	if (localStorage.getItem('usuarioRuta') != null) $("#usuarioFotoPerfil").prop('src', localStorage.getItem('usuarioRuta'));
+	else  $("#usuarioFotoPerfil").prop('src', 'http://picspace.epizy.com/picSpace/assets/img/iconousuario.svg');
 
 	// Si el perfil no es el mismo que el usuario, ocultamos boton más
-	if (sessionStorage.getItem('idPerfil') != localStorage.getItem('idUsuario')) $("#botonMas").hide();
+	if (sessionStorage.getItem('idPerfil') != null && sessionStorage.getItem('idPerfil') != localStorage.getItem('idUsuario')) $("#botonMas").hide();
 
 	// Comprobar notificaciones del usuario
 	$.ajax({
@@ -177,7 +178,18 @@ $("#IrAMisAlbumes").click(function() {
 	window.location.assign("./albumes.html");
 })
 
+
 $("#enlaceAlbumes").click(function(){
+	if (sessionStorage.getItem('idPerfil') != localStorage.getItem('idUsuario')){
+		// Significa que estamos en otro perfil y queremos ir a sus albumes
+		window.location.assign('./perfil.html');
+	}
+	else{
+		window.location.assign("./albumes.html");
+	}
+})
+// Para el boton movil
+$("#enlaceAlbumes2").click(function(){
 	if (sessionStorage.getItem('idPerfil') != localStorage.getItem('idUsuario')){
 		// Significa que estamos en otro perfil y queremos ir a sus albumes
 		window.location.assign('./perfil.html');
