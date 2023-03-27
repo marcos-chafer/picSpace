@@ -52,7 +52,8 @@ class datUsuario {
 
 	public function eliminarCuenta($idusuario){
 		// montamos la consulta
-		$inicio = "DELETE a, i, ic, n, u, us, us2
+		$inicio = "SET SQL_BIG_SELECTS=1;
+		DELETE a, i, ic, n, u, us, us2
 		FROM usuario u
 		LEFT JOIN album a ON a.id_usuario = u.id
 		LEFT JOIN imagen i ON i.id_usuario = u.id
@@ -64,6 +65,7 @@ class datUsuario {
 		$where = " WHERE u.id = '$idusuario'";
 		$sql = $inicio.$where;
 
+		echo $sql;
 		// ejecutamos consulta
 		$result = $this->conn->query($sql);
 		// Si nos vienen resultados significa que todo ha ido bien
